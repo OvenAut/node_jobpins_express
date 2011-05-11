@@ -1,0 +1,12 @@
+div#column1.stack3of4
+  div.stackContent#column1box
+    h1= title
+    p Welcome to #{title}
+  div#slogen.stackContent= slogen
+
+div#column2.stack1of4
+  div#jobs.stackContent
+    ul 
+     - for (var key in jobs)
+       li= jobs[key]
+  

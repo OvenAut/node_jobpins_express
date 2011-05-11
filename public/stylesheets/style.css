@@ -1,0 +1,141 @@
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:none}
+ins{background-color:#ff9;color:#000;text-decoration:none}
+mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold}
+del{text-decoration:line-through}
+abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}
+table{border-collapse:collapse;border-spacing:0}
+hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
+input,select{vertical-align:middle}
+body{font:13px/1.231 sans-serif;*font-size:small}
+select,input,textarea,button{font:99% sans-serif}
+pre,code,kbd,samp{font-family:monospace,sans-serif}
+html{overflow-y:scroll}
+a:hover,a:active{outline:none}
+ul,ol{margin-left:0}
+ol{list-style-type:decimal}
+nav ul,nav li{margin:0;list-style:none;list-style-image:none}
+small{font-size:85%}
+strong,th{font-weight:bold}
+td{vertical-align:top}
+sub,sup{font-size:75%;line-height:0;position:relative}
+sup{top:-.5em}
+sub{bottom:-.25em}
+pre{white-space:pre-wrap;word-wrap:break-word;padding:15px}
+textarea{overflow:auto}
+.ie6 legend,.ie7 legend{margin-left:-7px}
+input[type="radio"]{vertical-align:text-bottom}
+input[type="checkbox"]{vertical-align:bottom}
+.ie7 input[type="checkbox"]{vertical-align:baseline}
+.ie6 input{vertical-align:text-bottom}
+label,input[type="button"],input[type="submit"],input[type="image"],button{cursor:pointer}
+button,input,select,textarea{margin:0}
+input:valid,textarea:valid,input:invalid,textarea:invalid{border-radius:1px;-moz-box-shadow:0 0 5px #f00;-webkit-box-shadow:0 0 5px #f00;box-shadow:0 0 5px #f00}
+.no-boxshadow input:invalid,.no-boxshadow textarea:invalid{background-color:#f0dddd}
+::-moz-selection{background:#ff5e99;color:#fff;text-shadow:none}
+::selection{background:#ff5e99;color:#fff;text-shadow:none}
+a:link{-webkit-tap-highlight-color:#ff5e99}
+button{width:auto;overflow:visible}
+.ie7 img{-ms-interpolation-mode:bicubic}
+body,select,input,textarea{color:#444}
+h1,h2,h3,h4,h5,h6{font-weight:bold}
+a,a:active,a:visited{color:#607890}
+a:hover{color:#036}
+.stack,.stack1of2,.stack1of3,.stack2of3,.stack1of4,.stack3of4,.stack1of5,.stack2of5,.stack3of5,.stack4of5,.stackAuto{display:inline-block;font-family:"Courier New",monospace;letter-spacing:-.65em;word-spacing:-.65em;text-align:center;vertical-align:top}
+.stackContent{display:block;letter-spacing:normal;word-spacing:normal;text-align:left}
+.stackContent:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.stackAuto .stackContent{text-align:center}
+.stackAuto{width:auto}
+.stack{width:100%}
+.stack1of2{width:50%}
+.stack1of3{width:33.334%}
+.stack2of3{width:66.667%}
+.stack1of4{width:25%}
+.stack3of4{width:75%}
+.stack1of5{width:20%}
+.stack2of5{width:40%}
+.stack3of5{width:60%}
+.stack4of5{width:80%}
+img{display:block}
+body{font-family:"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif}
+#page{max-width:1100px;margin:0 auto}
+#header{background:#333;text-align:left}
+#title{color:#fff;padding:20px;font-size:3em;font-family:"Permanent Marker";text-shadow:4px 4px 4px #111}
+.titlebox{-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;z-index:999}
+#map_canvas{min-height:400px;height:400px;width:1100px;padding:0;margin:0;white-space:nowrap;width:100%;z-index:-999;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111}
+#column1{position:relative;left:25%}
+#column2{position:relative;left:-75%}
+#column2 ul{list-style-type:none}
+#column2 .stackContent li{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;padding:10px;margin:5px}
+#search-list .search-destroy{position:absolute;right:5px;top:14px;display:none;cursor:pointer;width:20px;height:20px;background:url("images/destroy.png") no-repeat 0 0}
+#search-list li:hover .search-destroy{display:block}
+#search-list .search-destroy:hover{background-position:0 -20px}
+#column1box{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:10px;margin:5px}
+#slogen{background:#ffa500;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:10px;margin:5px}
+#searchColumn{background:#333;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:4px;margin:0;font-size:2em}
+input#new-search{font-family:"Courier New",Courier,mono;color:#ff2545;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}
+#footer{font-size:"0.8em";color:#ccc;background:#333;-box-shadow:0 2 15px #999;-moz-box-shadow:0 2 15px #999;-khtml-box-shadow:0 2 15px #999;-webkit-box-shadow:0 2 15px #999;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}
+#footer .stackAuto{vertical-align:middle;padding:10px 0}
+#footer .stackContent{padding:10px;margin:10px}
+#footer .stackAuto .stackContent{margin:0 10px}
+#footer a,#footer a:visited{text-decoration:none;cursor:pointer;color:#666}
+#footer a:hover,#footer a:focus{color:#fff}
+.top{padding:10px}
+#slogen{border:1px solid #000;center}
+.stackContent{font-family:sans-serif}
+a{color:#00b7ff}
+.ir{display:block;text-indent:-999em;overflow:hidden;background-repeat:no-repeat;text-align:left;direction:ltr}
+.hidden{display:none;visibility:hidden}
+.visuallyhidden{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}
+.visuallyhidden.focusable:active,.visuallyhidden.focusable:focus{clip:auto;height:auto;margin:0;overflow:visible;position:static;width:auto}
+.invisible{visibility:hidden}
+.clearfix:before,.clearfix:after{content:"\0020";display:block;height:0;overflow:hidden}
+.clearfix:after{clear:both}
+.clearfix{zoom:1}
+/**
+	 * Media queries for responsive design.
+	 *
+	 * These follow after primary styles so they will successfully override.
+	 */
+
+	@media all and (orientation:portrait) {
+	  /* Style adjustments for portrait mode goes here */
+
+	}
+
+	@media all and (orientation:landscape) {
+	  /* Style adjustments for landscape mode goes here */
+
+	}
+
+	/* Grade-A Mobile Browsers (Opera Mobile, Mobile Safari, Android Chrome)
+	   consider this: www.cloudfour.com/css-media-query-for-mobile-is-fools-gold/ */
+	@media screen and (max-device-width: 480px) {
+
+
+	  /* Uncomment if you don't want iOS and WinMobile to mobile-optimize the text for you: j.mp/textsizeadjust */
+	  /* html { -webkit-text-size-adjust:none; -ms-text-size-adjust:none; } */
+	}
+
+
+	/**
+	 * Print styles.
+	 *
+	 * Inlined to avoid required HTTP connection: www.phpied.com/delay-loading-your-print-css/
+	 */
+	@media print {
+	  * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important;
+	  -ms-filter: none !important; } /* Black prints faster: sanbeiji.com/archives/953 */
+	  a, a:visited { color: #444 !important; text-decoration: underline; }
+	  a[href]:after { content: " (" attr(href) ")"; }
+	  abbr[title]:after { content: " (" attr(title) ")"; }
+	  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }  /* Don't show links for images, or javascript/internal links */
+	  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+	  thead { display: table-header-group; } /* css-discuss.incutio.com/wiki/Printing_Tables */
+	  tr, img { page-break-inside: avoid; }
+	  @page { margin: 0.5cm; }
+	  p, h2, h3 { orphans: 3; widows: 3; }
+	  h2, h3{ page-break-after: avoid; }
+	}
