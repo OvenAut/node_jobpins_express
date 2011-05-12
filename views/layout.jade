@@ -21,10 +21,12 @@ html
             img(width='88', height='88', src='images/sexy.jpeg', alt='Sexy Title')
         #map_canvas.stackContent
           //map
-        #searchColumn.stackConten
-          input#new-search(placeholder='What you search for?', type='text')
-        #content
-          != body
+        #searchapp
+          #searchColumn.stackContent
+            input#new-search(placeholder='What you search for?', type='text')
+            span.ui-tooltip-top Press Enter to save this task
+          #content
+            != body
         #footer
           .wrapper
             .stackAuto
@@ -34,28 +36,29 @@ html
               a.stackContent(href='#') Imprint
             .stackAuto
               a.stackContent(href='http://www.twitter.com/ovenaut') Follow me on Twitter
+        ul#test
     // Templates 
     script#searchItem-template(type="text/template")
-      <div class="todo <%= done ? 'done' : '' %>">
+      <div class="search <%= done ? 'done' : '' %>">
       <div class="display">
       <input class="check" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
-      <div class="todo-content"></div>
+      <div class="search-content"></div>
       <span class="search-destroy"></span>
       </div>
       <div class="edit">
-      <input class="todo-input" type="text" value="" />
+      <input class="search-input" type="text" value="" />
       </div>
       </div>
       
     script#stats-template(type="text/template")
       <% if (total) { %>
-      <span class="todo-count">
+      <span class="search-count">
       <span class="number"><%= remaining %></span>
       <span class="word"><%= remaining == 1 ? 'item' : 'items' %></span> left.
       </span>
       <% } %>
       <% if (done) { %>
-      <span class="todo-clear">
+      <span class="search-clear"> 
       <a href="#">
       Clear <span class="number-done"><%= done %></span>
       completed <span class="word-done"><%= done == 1 ? 'item' : 'items' %></span>
@@ -69,10 +72,11 @@ html
       script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
       script
         window.attachEvent("onload", function() {CFInstall.check({ mode: "overlay"});});
-    
+    script(src='javascripts/jquery-1.6.min.js')
+    script(src='javascripts/jquery.couch.js')
     script(src='javascripts/json2.min.js')
     script(src='javascripts/underscore-1.1.6.js')
     script(src='javascripts/backbone.js')
     script(src='javascripts/backbone.localStorage.js')
-    script(src='javascripts/jquery-1.6.min.js')
+    //-script(src='javascripts/backbone.couchdb.js')
     script(src='javascripts/myscript.js')

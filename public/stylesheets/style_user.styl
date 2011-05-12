@@ -9,13 +9,19 @@ box-shadow()
   -moz-box-shadow arguments
   -khtml-box-shadow arguments
   -webkit-box-shadow arguments
+transform()
+  -o-transform rotate(arguments)
+  -moz-transform rotate(arguments)
+  -khtml-transform rotate(arguments)
+  -webkit-transform rotate(arguments)
 
 img
   display block
 
 body
   font-family "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif
-
+div
+  display block
 #page
   max-width 1100px
   margin 0 auto
@@ -63,29 +69,74 @@ body
   left -75%
 #column2 ul
   list-style-type none
-#column2 .stackContent li
+#search-list
+  //margin-top 10px
+#search-list li
   background white
   border 1px solid #CCC
   border-radius 5px
   box-shadow 0 0 5px #111
-  padding 10px
-  margin 5px
-
+  padding 10px 20px 10px 0px
+  margin-top 7px
+  position relative
+  font-size 24px
+  line-height 1.5em
+  //height 30px
+#search-line li:after
+  content "\0020"
+  display block
+  height 0
+  clear both
+  overflow hidden
+  visibility hidden
+#search-list li.editing
+  padding 0
+  border 0
+#search-list .search-content
+  cursor pointer
+#search-list .editing .display,
+#search-list .edit
+  display none
+#search-list .editing .edit
+  display block
+#search-list .editing input
+  width 245px
+  font-size 24px
+  font-family inherit
+  margin 100
+  line-height 1em
+  border 0
+  outline none
+  padding 16px 0px 15px 29px
+  border 0px solid #999
+  box-shadow 0 1px 2px 0 rgba(0,0,0,0.2) inset
+#search-list .check
+  position relativ
+  top 15px
+  margin 12px 10px 0 7px
+  float left
+#search-list .done .search-content
+  text-decoration line-through
+  color #777
 #search-list .search-destroy
-   position absolute
-   right 5px
-   top 14px
-   display none
-   cursor pointer
-   width 20px
-   height 20px
-   background url(images/destroy.png) no-repeat 0 0
+  position absolute
+  right 5px
+  top 18px
+  display none
+  cursor pointer
+  width 20px
+  height 20px
+  background url(../images/destroy.png) no-repeat 0 0
 
 #search-list li:hover .search-destroy 
   display block
- 
+  //border 1px solid black
+
 #search-list .search-destroy:hover
   background-position 0 -20px
+
+ul#search-öist li
+  
 #column1box 
   background:#fff
   border:1px solid #ccc
@@ -102,14 +153,6 @@ body
   padding:10px
   margin:5px
 
-#searchColumn
-  background:#333
-  border:1px solid #ccc
-  border-radius:5px
-  box-shadow:0 0 5px #999
-  padding:4px
-  margin:0px
-  font-size:2em
 
 input#new-search
   font-family: "Courier New", Courier, mono
@@ -154,6 +197,78 @@ input#new-search
 
 .stackContent
   font-family sans-serif
-
 a
   color #00B7FF
+#searchColumn
+  background:#333
+  border:1px solid #ccc
+  border-radius:5px
+  box-shadow:0 0 5px #999
+  padding:4px
+  margin:0px
+  font-size:2em
+  text-align center
+
+
+#searchColumn span
+  position absolute
+  z-index 999
+  width 178px
+  left 50%
+  top 530px
+  margin-left -85px
+  background #333
+
+.ui-tooltip, .ui-tooltip-top, .ui-tooltip-right, .ui-tooltip-bottom, .ui-tooltip-left
+  color #ffffff
+  cursor normal
+  display -moz-inline-stack
+  display inline-block
+  font-size 12px
+  font-family arial
+  padding .5em 1em
+  position relative
+  text-align center
+  text-shadow 0 -1px 1px #111111
+  border-radius 4px
+
+.ui-tooltip:after, .ui-tooltip-top:after, .ui-tooltip-right:after, .ui-tooltip-bottom:after, .ui-tooltip-left:after
+  content "\25B8"
+  display block
+  font-size 2em
+  height 0
+  line-height 0
+  position absolute
+.ui-tooltip:after, .ui-tooltip-bottom:after
+  color #2a2a2a
+  bottom 0
+  left 1px
+  text-align center
+  text-shadow 1px 0 2px #000000
+  transform 90deg
+  width 100%
+.ui-tooltip-top:after
+  bottom auto
+  color #4f4f4f
+  left -2px
+  top 0
+  text-align center
+  text-shadow none
+  transform -90deg
+  width 100%
+.ui-tooltip-right:after
+  color #222222
+  right -0.375em
+  top 50%
+  margin-top -.05em
+  text-shadow 0 1px 2px #000000
+  transform 0
+.ui-tooltip-left:after
+  color #222222
+  left -0.375em
+  top 50%
+  margin-top .1em
+  text-shadow 0 -1px 2px #000000
+  transform 180deg
+.ui-tooltip-top
+  display none
