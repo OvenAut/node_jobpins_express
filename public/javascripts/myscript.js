@@ -19,7 +19,7 @@ function initializeMap() {
 $(document).ready(function() {
 	//initializeMap(); //map
 
-  $.getJSON('http://dev.oszko.net/test',function(data) {
+  $.getJSON('http://dev.oszko.net/couchdb/test',function(data) {
 		var item = [];
 		$.each(data, function(key,val) {
 			items.push('li id="' + key +'">' + val + '</li>');
