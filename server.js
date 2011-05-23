@@ -8,7 +8,7 @@ var express    = require('express'),
     app        = module.exports = express.createServer(),
     stylus     = require('stylus'),
     fs         = require('fs'),
-    VERSION    = "0.3.1";
+    VERSION    = "0.3.2";
 
 function compile(str, path) {
       return stylus(str)

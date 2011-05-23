@@ -16,19 +16,25 @@ function initializeMap() {
   }
 
 
-$(document).ready(function() {
-	//initializeMap(); //map
-
-  $.getJSON('http://dev.oszko.net/couchdb/test',function(data) {
-		var item = [];
-		$.each(data, function(key,val) {
-			items.push('li id="' + key +'">' + val + '</li>');
-		});
-		$('#test', {
-		    'class': 'my-new-list',
-		    html: items.join('')
-		  }).appendTo('body');
-	});
+// $(document).ready(function() {
+// 	//initializeMap(); //map
+// 
+//   $db = $.couch.db('test');
+//   $db.allDocs({success: function(doc) {
+// 	console.dir(doc);
+// }});
+  
+	//   $.getJSON('http://dev.oszko.net/couchdb/test',function(data) {
+	// 	var item = [];
+	// 	console.log(data);
+	// 	$.each(data, function(key,val) {
+	// 		items.push('li id="' + key +'">' + val + '</li>');
+	// 	});
+	// 	$('#test', {
+	// 	    'class': 'my-new-list',
+	// 	    html: items.join('')
+	// 	  }).appendTo('body');
+	// });
 
 
 
