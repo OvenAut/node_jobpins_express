@@ -13,10 +13,20 @@ function initializeMap() {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-  }
+  };
 
 
-// $(document).ready(function() {
+	var socket = new io.Socket(location.hostname); 
+	 socket.connect();
+	 socket.send({sid:connect.sid});
+	 socket.on('connect', function(){ 
+		
+		
+		}); 
+	 socket.on('message', function(){ }); 
+	 socket.on('disconnect', function(){ });
+
+$(document).ready(function() {
 // 	//initializeMap(); //map
 // 
 //   $db = $.couch.db('test');
@@ -166,7 +176,7 @@ function initializeMap() {
 		//Delegated events for creating new items, and clearing completed ones.
 		events: {
 			"keypress #new-search": "createOnEnter",
-			"keyup #new-search": "showTooltip",
+			"keyup #new-search":  "getSuggest", // "showTooltip",
 			"click .search-clear a": "clearCompleted"
 		},
 		
@@ -235,6 +245,12 @@ function initializeMap() {
 				});
 			return false;
 		},
+		
+		//Get Suggest by keyup from Couchdb and show tooltip
+		getSuggest: function(e) {
+			this.showTooltip(e);
+		},
+		
 		//Lazily show the tooltip that tells you 
 		//to press enter to save a new todo item, after one second.
 		showTooltip: function(e) {
@@ -243,6 +259,7 @@ function initializeMap() {
 			tooltip.fadeOut();
 			if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
 			if (val == "" || val == this.input.attr('plaaceholder')) return;
+			console.log(val);
 			var show = function() { 
 				tooltip.show().fadeIn();
 			};

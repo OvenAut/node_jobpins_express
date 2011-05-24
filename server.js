@@ -8,7 +8,12 @@ var express    = require('express'),
     app        = module.exports = express.createServer(),
     stylus     = require('stylus'),
     fs         = require('fs'),
-    VERSION    = "0.3.2";
+    VERSION    = "0.3.2",
+    store      = new RedisStore({host:'home.oszko.net'}),
+    connect    = require('connect');
+ 
+var io = require('socket.io');
+//var sws = require("./sws.js"); 
 
 function compile(str, path) {
       return stylus(str)
@@ -27,8 +32,9 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'your keyboard cat secret here',store:new RedisStore({host:'home.oszko.net'}) }));
+  app.use(express.session({ secret: 'your keyboard cat secret here',store:store }));
   app.use(stylus.middleware({ src: __dirname + '/public', compile: compile }));
+//  app.use(sws.http);
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 	//   app.use(require('browserify')({
@@ -57,9 +63,10 @@ app.get('/', function(req, res){
     pageTitle: 'Jobpins ' + VERSION,
     title: 'Jobpins ',
     slogen: 'Find your job near you',
-		jobs: {job1:'Job1',job2:'Job2',job4:'Job3',job4:'Job4',job5:'Job5',job6:'Job6',job7:'Job7'}
+		jobs: {job1:'Job1',job2:'Job2',job4:'Job3',job4:'Job4',job5:'Job5',job6:'Job6',job7:'Job7'},
+    sessionID: req.sessionID
   });
-
+	//console.dir(req)
   //console.log(req.session.user)
   // if ( typeof req.session.user == "undefined") {
   //   req.session.user = "Test";
@@ -88,3 +95,38 @@ if (!module.parent) {
   app.listen(3000);
   console.log("Express server listening on port %d", app.address().port);
 }
+
+var socket = io.listen(app); 
+socket.on('connection', function(client){ 
+  	// … 
+    //console.dir(client);
+		//var cookie_string = client.request.headers.cookie;
+		//var parsed_cookies = connect.utils.parseCookie(cookie_string);
+		client.once('message', function(sid) {
+			//console.log(parsed_cookies);
+			//console.log(cookie_string);
+			//console.log(sid);
+			//var sida = {'connect.sid':sid.sid};
+			//var sida = sid.sid;
+			//console.log(sida)
+			store.get(sid.sid, function(err ,session) {
+				console.dir(session);
+				console.log("store.get");
+				if (err || !session) {
+					console.log(err + " error");
+				  return;
+				}
+				store.length(function(data) {
+					console.dir(data);
+				}); 
+			
+			client.on('message', function(message) {
+				console.dir(session + ' message')
+			});	
+			}); 
+		});
+			// body...
+});
+
+//   	console.log(socket.transport.sessionid);
+// })

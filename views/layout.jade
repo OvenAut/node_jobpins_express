@@ -72,11 +72,15 @@ html
       script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
       script
         window.attachEvent("onload", function() {CFInstall.check({ mode: "overlay"});});
-    script(src='javascripts/jquery-1.6.min.js')
-    script(src='javascripts/jquery.couch.js')
+    script(src='javascripts/jquery-1.6.js')
+    //-script(src='javascripts/jquery.couch.js')
     script(src='javascripts/json2.min.js')
     script(src='javascripts/underscore-1.1.6.js')
     script(src='javascripts/backbone.js')
     script(src='javascripts/backbone.localStorage.js')
+    script(src='../socket.io/socket.io.js')
+    script(src='javascripts/sws.js')
     //-script(src='javascripts/backbone.couchdb.js')
+    script
+      var connect = {sid:'#{sessionID}'};    
     script(src='javascripts/myscript.js')
