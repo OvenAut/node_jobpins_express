@@ -18,8 +18,8 @@ function initializeMap() {
 
 	var socket = new io.Socket(location.hostname); 
 	 socket.connect();
-	 socket.send({sid:connect.sid});
 	 socket.on('connect', function(){ 
+		 socket.send({sid:connect.sid});
 		
 		
 		}); 

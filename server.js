@@ -10,7 +10,8 @@ var express    = require('express'),
     fs         = require('fs'),
     VERSION    = "0.3.2",
     store      = new RedisStore({host:'home.oszko.net'}),
-    connect    = require('connect');
+    connect    = require('connect'),
+    util       = require('util');
  
 var io = require('socket.io');
 //var sws = require("./sws.js"); 
@@ -66,13 +67,15 @@ app.get('/', function(req, res){
 		jobs: {job1:'Job1',job2:'Job2',job4:'Job3',job4:'Job4',job5:'Job5',job6:'Job6',job7:'Job7'},
     sessionID: req.sessionID
   });
-	//console.dir(req)
+  //Datum= " + (new Date()).toString() + "\n
+	util.log("Host= " + (req.headers["x-real-ip"] || req.connection.remoteAddress) +  "\n Url=" + req.url + "\n User-agent=" +req.headers["user-agent"]);
   //console.log(req.session.user)
-  // if ( typeof req.session.user == "undefined") {
-  //   req.session.user = "Test";
-  // 		req.session.save();
-  // }
-  
+  if ( typeof req.session.start == "undefined") {
+     req.session.start = Date.now();
+		 req.session.counter = 0;
+   		req.session.save();
+  }
+	
   //else
 
 });
@@ -96,29 +99,37 @@ if (!module.parent) {
   console.log("Express server listening on port %d", app.address().port);
 }
 
+
 var socket = io.listen(app); 
 socket.on('connection', function(client){ 
   	// … 
     //console.dir(client);
 		//var cookie_string = client.request.headers.cookie;
 		//var parsed_cookies = connect.utils.parseCookie(cookie_string);
-		client.once('message', function(sid) {
+		client.on('message', function(message) {
+			
+			
 			//console.log(parsed_cookies);
 			//console.log(cookie_string);
 			//console.log(sid);
 			//var sida = {'connect.sid':sid.sid};
 			//var sida = sid.sid;
 			//console.log(sida)
-			store.get(sid.sid, function(err ,session) {
-				console.dir(session);
+			store.get(message.sid, function(err ,session) {
 				console.log("store.get");
 				if (err || !session) {
 					console.log(err + " error");
 				  return;
 				}
-				store.length(function(data) {
-					console.dir(data);
-				}); 
+			
+			session.counter+=1;
+			//session.test = {};
+			console.dir(session);				
+			store.set(message.sid, session, function(err) {
+				if (err) throw err;
+				console.log("session saved");
+			});
+			
 			
 			client.on('message', function(message) {
 				console.dir(session + ' message')
