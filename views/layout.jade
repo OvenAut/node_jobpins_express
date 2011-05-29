@@ -16,7 +16,8 @@ html
       .stack
         #header.titlebox
           .stack3of4
-            h1#title.stackContent Jobpins allways for you ❤
+            h1#title.stackContent 
+             | Jobpins allways &#x2764; you
           .stack1of4
             img(width='88', height='88', src='images/sexy.jpeg', alt='Sexy Title')
         #map_canvas.stackContent
@@ -31,7 +32,7 @@ html
           .wrapper
             .stackAuto
               - var year = (new Date).getFullYear()
-              p.stackContent © #{year} Oliver Oszko
+              p.stackContent &copy; #{year} Oliver Oszko
             .stackAuto
               a.stackContent(href='#') Imprint
             .stackAuto
@@ -79,7 +80,7 @@ html
     script(src='javascripts/backbone.js')
     script(src='javascripts/backbone.localStorage.js')
     script(src='../socket.io/socket.io.js')
-    script(src='javascripts/sws.js')
+    //-script(src='javascripts/sws.js')
     //-script(src='javascripts/backbone.couchdb.js')
     script
       var connect = {sid:'#{sessionID}'};    

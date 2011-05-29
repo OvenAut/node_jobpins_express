@@ -3,6 +3,10 @@
 //      BackboneLoad = require('./backbone.min'),
 //      BackboneLocalStorageLoad = require('./backbone.localStorage');
 
+var socket = new io.Socket(location.hostname),
+		data = {},
+		hm = false; 
+
 //query();
 
 function initializeMap() {
@@ -16,17 +20,39 @@ function initializeMap() {
   };
 
 
-	var socket = new io.Socket(location.hostname); 
-	 socket.connect();
-	 socket.on('connect', function(){ 
-		 socket.send({sid:connect.sid});
-		
-		
-		}); 
-	 socket.on('message', function(){ }); 
-	 socket.on('disconnect', function(){ });
+function socketSend(data) {
+  socket.send({
+		sid:  connect.sid,
+		data: data		
+		});	
+}
+
+
+
 
 $(document).ready(function() {
+
+	socket.connect();
+  
+	socket.on('connect', function(){ 
+		Searches.trigger('socket');
+		
+    //Search.trigger('socket');
+    socketSend(data);
+    data = {};
+	}); 
+	socket.on('message', function(){ }); 
+	socket.on('disconnect', function(){ });
+
+
+function socketSuggest (suggest) {
+	data.suggest = suggest;
+	socketSend(data);
+}
+
+function socketSearchData(Searchlist) {
+	socketSend(Searchlist);
+};
 // 	//initializeMap(); //map
 // 
 //   $db = $.couch.db('test');
@@ -194,7 +220,7 @@ $(document).ready(function() {
 			Searches.bind('add',     this.addOne);
 			Searches.bind('refresh', this.addAll);
 			Searches.bind('all',     this.render);
-			
+			Searches.bind('socket',  this.giveName);
 			Searches.fetch();
 		},
 
@@ -212,13 +238,35 @@ $(document).ready(function() {
 		//Add a single todo item to the list by creating a 
 		//view for it, and appending its element to the <ul>.
 		addOne: function(search) {
+			if (hm) console.log("hello");
 			var view = new SearchView({model: search});
+			data[view.model.attributes.id] = view.model.attributes.content;
 			this.$("#search-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
+			if (!hm) socketSearchData(data);
 		},
 		
 		//Add all items in the Todos collection at once.
 		addAll: function() {
+			hm = true;
 			Searches.each(this.addOne);
+			hm = false;
+			socketSearchData(data);
+		},
+		
+		
+		giveName: function() {
+			// Searches.each(function(search) {
+			// 	var view = new SearchView({model: search});
+			// 	//console.log(view.model.attributes.content);
+			// 	data[view.model.attributes.id] = view.model.attributes.content;
+			// //	data.push()
+			// });
+			console.log(data);
+		},
+		addOneRouter: function() {
+
+			this.addOne;
+			this.giveName;
 		},
 		
 		//Generate the attributes for a new Todo item.
@@ -260,6 +308,7 @@ $(document).ready(function() {
 			if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
 			if (val == "" || val == this.input.attr('plaaceholder')) return;
 			console.log(val);
+			socketSuggest(val);
 			var show = function() { 
 				tooltip.show().fadeIn();
 			};

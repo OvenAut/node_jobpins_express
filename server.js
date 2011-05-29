@@ -11,9 +11,10 @@ var express    = require('express'),
     VERSION    = "0.3.2",
     store      = new RedisStore({host:'home.oszko.net'}),
     connect    = require('connect'),
-    util       = require('util');
- 
-var io = require('socket.io');
+    util       = require('util'),
+    io         = require('socket.io'),
+    helper     = require('helper');
+
 //var sws = require("./sws.js"); 
 
 function compile(str, path) {
@@ -53,11 +54,6 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-// app.error(function(err, req, res, next){
-//   res.send(err.message, 500);
-// });
-
-// Routes
 
 app.get('/', function(req, res){
   res.render('index', {
@@ -68,7 +64,7 @@ app.get('/', function(req, res){
     sessionID: req.sessionID
   });
   //Datum= " + (new Date()).toString() + "\n
-	util.log("Host= " + (req.headers["x-real-ip"] || req.connection.remoteAddress) +  "\n Url=" + req.url + "\n User-agent=" +req.headers["user-agent"]);
+	helper.showAgent(req);
   //console.log(req.session.user)
   if ( typeof req.session.start == "undefined") {
      req.session.start = Date.now();
@@ -79,20 +75,11 @@ app.get('/', function(req, res){
   //else
 
 });
-// app.get('/404', function(req, res){
-// 	res.statusCode = 404;
-// 	res.write(fs.readFileSync(__dirname + '/public/404.html', 'utf8'));
-// 	res.end()
-// });
-// 
-// app.error(function(err, req, res, next){
-//     if (err instanceof NotFound) {
-//         res.render('404.jade');
-//     } else {
-//         next(err);
-//     }
-// });
-// Only listen on $ node app.js
+
+
+
+
+
 
 if (!module.parent) {
   app.listen(3000);
@@ -100,44 +87,69 @@ if (!module.parent) {
 }
 
 
+function storeGet(message,cb) {
+	var self = this;
+	
+	store.get(message.sid, function(err ,session) {
+		if (err || !session) {
+ 			throw err;
+		}
+		
+		return cb(session);
+  }); 			
+};
+
+function storeSet(message,session) {
+
+	store.set(message.sid, session, function(err) {
+		if (err) throw err;
+		console.log("session saved");	
+	});			
+};
+
+
+// SOCKET
 var socket = io.listen(app); 
 socket.on('connection', function(client){ 
   	// … 
     //console.dir(client);
 		//var cookie_string = client.request.headers.cookie;
 		//var parsed_cookies = connect.utils.parseCookie(cookie_string);
-		client.on('message', function(message) {
-			
-			
+		client.once('message', function(message) {
 			//console.log(parsed_cookies);
 			//console.log(cookie_string);
 			//console.log(sid);
 			//var sida = {'connect.sid':sid.sid};
 			//var sida = sid.sid;
-			//console.log(sida)
-			store.get(message.sid, function(err ,session) {
-				console.log("store.get");
-				if (err || !session) {
-					console.log(err + " error");
-				  return;
-				}
-			
-			session.counter+=1;
-			//session.test = {};
-			console.dir(session);				
-			store.set(message.sid, session, function(err) {
-				if (err) throw err;
-				console.log("session saved");
+			//console.log(sida)    
+			storeGet(message,function(session) {
+				//console.dir(this);
+				//console.dir(message);
+				session.counter+=1;
+		    session.data = message.data = {search: "vads"};
+				
+				client.sid = message.sid;
+				console.dir(session);
+				
+				storeSet(message,session);
+								
 			});
-			
-			
-			client.on('message', function(message) {
-				console.dir(session + ' message')
-			});	
-			}); 
+		
 		});
-			// body...
+
+		client.on('message', function(message) {
+			console.log('message.on')
+			console.dir(message);
+		});	
+		
 });
 
-//   	console.log(socket.transport.sessionid);
-// })
+
+socket.on('clientDisconnect',function(client) {
+	
+	storeGet(client,function(session) {
+		session.disconnect = Date.now();
+		storeSet(client, session);
+	});
+	
+});
