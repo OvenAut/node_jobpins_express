@@ -13,7 +13,8 @@ var express    = require('express'),
     connect    = require('connect'),
     util       = require('util'),
     io         = require('socket.io'),
-    helper     = require('helper');
+    helper     = require('helper'),
+    couchdb    = require('couchdb');
 
 //var sws = require("./sws.js"); 
 
@@ -109,7 +110,8 @@ function storeSet(message,session) {
 
 
 // SOCKET
-var socket = io.listen(app); 
+var socket = io.listen(app);
+
 socket.on('connection', function(client){ 
   	// … 
     //console.dir(client);
@@ -126,7 +128,7 @@ socket.on('connection', function(client){
 				//console.dir(this);
 				//console.dir(message);
 				session.counter+=1;
-		    session.data = message.data = {search: "vads"};
+		    session.data = message.data;
 				
 				client.sid = message.sid;
 				console.dir(session);
@@ -138,8 +140,15 @@ socket.on('connection', function(client){
 		});
 
 		client.on('message', function(message) {
-			console.log('message.on')
-			console.dir(message);
+		  if (typeof message.data.suggest !== "undefined" && message.data.suggest !== null) {
+				console.log('message.on')
+				console.dir(message);
+				storeGet(message, function() {
+						//console.dir(this);
+					  couchdb.suggest(message.data.suggest);
+					  //data.
+				});
+		  }	
 		});	
 		
 });
