@@ -41,7 +41,15 @@ $(document).ready(function() {
     socketSend(data);
     data = {};
 	}); 
-	socket.on('message', function(){ }); 
+	socket.on('message', function(data){
+
+		if (data.suggest) {
+			window.App.showSuggest(data);
+			//Searches.trigger('showSuggest',data);
+			//console.log(data);
+		} 
+	console.log('incomming');	
+	}); 
 	socket.on('disconnect', function(){ });
 
 
@@ -197,12 +205,13 @@ function socketSearchData(Searchlist) {
 		el: $("#searchapp"),
 		
 		//Our template for the line of statistics at the bottom of the app.
-		statsTemplate: _.template($('#stats-template').html()),
+		//statsTemplate: _.template($('#stats-template').html()),
+		suggestTemplate: _.template($('#suggest-template').html()),
 		
 		//Delegated events for creating new items, and clearing completed ones.
 		events: {
 			"keypress #new-search": "createOnEnter",
-			"keyup #new-search":  "getSuggest", // "showTooltip",
+			"keyup #new-search":  "showTooltip", // "showTooltip",
 			"click .search-clear a": "clearCompleted"
 		},
 		
@@ -221,6 +230,7 @@ function socketSearchData(Searchlist) {
 			Searches.bind('refresh', this.addAll);
 			Searches.bind('all',     this.render);
 			Searches.bind('socket',  this.giveName);
+			//Searches.bind('showSuggest', this.showSuggest)
 			Searches.fetch();
 		},
 
@@ -232,6 +242,12 @@ function socketSearchData(Searchlist) {
 				total:      Searches.length,
 				done:       Searches.active().length,
 				remaining:  Searches.deactive().length
+			}));
+		},
+		renderSuggest: function() {
+			//var done = Searches.done().length;
+			this.$('#suggestColumn').html(this.suggestTemplate({
+				
 			}));
 		},
 		
@@ -261,13 +277,13 @@ function socketSearchData(Searchlist) {
 			// 	data[view.model.attributes.id] = view.model.attributes.content;
 			// //	data.push()
 			// });
-			console.log(data);
+			console.log("giveName");
 		},
-		addOneRouter: function() {
-
-			this.addOne;
-			this.giveName;
-		},
+		// addOneRouter: function() {
+		// 
+		// 	this.addOne;
+		// 	this.giveName;
+		// },
 		
 		//Generate the attributes for a new Todo item.
 		newAttributes: function() {
@@ -294,6 +310,16 @@ function socketSearchData(Searchlist) {
 			return false;
 		},
 		
+		//Show suggest
+		showSuggest: function(data) {
+			//console.log("hallo");
+			console.log(data);
+			var view = new SuggestView({model: search});
+			data[view.model.attributes.id] = view.model.attributes.content;
+			this.$("#search-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
+			
+		},
+		
 		//Get Suggest by keyup from Couchdb and show tooltip
 		getSuggest: function(e) {
 			this.showTooltip(e);
@@ -317,4 +343,5 @@ function socketSearchData(Searchlist) {
 	});
 	
 	window.App = new AppView;
+			
 });

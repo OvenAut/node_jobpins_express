@@ -9,7 +9,7 @@ var express    = require('express'),
     stylus     = require('stylus'),
     fs         = require('fs'),
     VERSION    = "0.3.2",
-    store      = new RedisStore({host:'home.oszko.net'}),
+    store      = new RedisStore({host:'home.oszko.net',pass:'webcat'}),
     connect    = require('connect'),
     util       = require('util'),
     io         = require('socket.io'),
@@ -131,7 +131,7 @@ socket.on('connection', function(client){
 		    session.data = message.data;
 				
 				client.sid = message.sid;
-				console.dir(session);
+				//console.dir(session);
 				
 				storeSet(message,session);
 								
@@ -140,12 +140,19 @@ socket.on('connection', function(client){
 		});
 
 		client.on('message', function(message) {
+			var self = this;
 		  if (typeof message.data.suggest !== "undefined" && message.data.suggest !== null) {
-				console.log('message.on')
-				console.dir(message);
+				//console.log('message.on')
+				//console.dir(this);
 				storeGet(message, function() {
 						//console.dir(this);
-					  couchdb.suggest(message.data.suggest);
+					couchdb.suggest(message.data.suggest, function(data) {
+						var dataSend = {};
+						console.log('sendingdata');
+						dataSend['suggest'] = data;
+						client.send(dataSend);
+					  //console.dir(data);	
+					});
 					  //data.
 				});
 		  }	
