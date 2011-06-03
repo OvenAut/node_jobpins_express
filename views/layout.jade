@@ -26,7 +26,8 @@ html
           #searchColumn.stackContent
             input#new-search(placeholder='What you search for?', type='text')
             span.ui-tooltip-top Press Enter to save this task
-            #suggestColumn
+            #suggestColumn.stackContent
+              ul#suggest-list
           #content
             != body
         #footer
@@ -42,6 +43,7 @@ html
     // Templates 
     script#suggest-template(type="text/template")
       <div class="suggestText">
+      <div class="suggest-content"></div>
       </div>
       
     script#searchItem-template(type="text/template")

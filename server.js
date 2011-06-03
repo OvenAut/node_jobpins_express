@@ -118,6 +118,7 @@ socket.on('connection', function(client){
 		//var cookie_string = client.request.headers.cookie;
 		//var parsed_cookies = connect.utils.parseCookie(cookie_string);
 		client.once('message', function(message) {
+			console.log('once.message')
 			//console.log(parsed_cookies);
 			//console.log(cookie_string);
 			//console.log(sid);
@@ -141,8 +142,11 @@ socket.on('connection', function(client){
 
 		client.on('message', function(message) {
 			var self = this;
+			console.log('on.message')
+			console.dir(message)
+			
 		  if (typeof message.data.suggest !== "undefined" && message.data.suggest !== null) {
-				//console.log('message.on')
+			
 				//console.dir(this);
 				storeGet(message, function() {
 						//console.dir(this);

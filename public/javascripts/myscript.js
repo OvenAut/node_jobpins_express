@@ -5,7 +5,22 @@
 
 var socket = new io.Socket(location.hostname),
 		data = {},
-		hm = false; 
+		hm = false,
+		tmpval; 
+
+
+io.Socket.prototype.socketSend = function(data,name) {
+	var sendData = {};
+	
+	sendData[name] = data;
+  var sending = socket.send({
+		sid:  connect.sid,
+		data: sendData		
+		});
+//	console.dir(sending);
+	//console.log("sending");
+
+}
 
 //query();
 
@@ -20,13 +35,12 @@ function initializeMap() {
   };
 
 
-function socketSend(data) {
-  socket.send({
-		sid:  connect.sid,
-		data: data		
-		});	
-}
-
+// function socketSend(data) {
+//   socket.send({
+// 		sid:  connect.sid,
+// 		data: data		
+// 		});	
+// }
 
 
 
@@ -35,60 +49,52 @@ $(document).ready(function() {
 	socket.connect();
   
 	socket.on('connect', function(){ 
-		Searches.trigger('socket');
-		
+		//Searches.trigger('socket');
+		//window.App.socket
     //Search.trigger('socket');
-    socketSend(data);
-    data = {};
+    //socket.socketSend(data,'connection');
+    //data = {};
 	}); 
 	socket.on('message', function(data){
 
 		if (data.suggest) {
-			window.App.showSuggest(data);
+			
+			if (_.isEmpty(data.suggest)) console.log("no Suggests");
+			window.App.showSuggest(data.suggest);
 			//Searches.trigger('showSuggest',data);
 			//console.log(data);
 		} 
-	console.log('incomming');	
+
+	  //console.log('incomming');		
+	
 	}); 
-	socket.on('disconnect', function(){ });
-
-
-function socketSuggest (suggest) {
-	data.suggest = suggest;
-	socketSend(data);
-}
-
-function socketSearchData(Searchlist) {
-	socketSend(Searchlist);
-};
-// 	//initializeMap(); //map
-// 
-//   $db = $.couch.db('test');
-//   $db.allDocs({success: function(doc) {
-// 	console.dir(doc);
-// }});
-  
-	//   $.getJSON('http://dev.oszko.net/couchdb/test',function(data) {
-	// 	var item = [];
-	// 	console.log(data);
-	// 	$.each(data, function(key,val) {
-	// 		items.push('li id="' + key +'">' + val + '</li>');
-	// 	});
-	// 	$('#test', {
-	// 	    'class': 'my-new-list',
-	// 	    html: items.join('')
-	// 	  }).appendTo('body');
-	// });
+	socket.on('disconnect', function(){ 
+		console.log('disconnected');
+	});
 
 
 
 
+/**
+	Google Map
+**/	
 
+//  initializeMap(); //map
+ 
+
+
+
+/**
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  	Backbone Model Search
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+**/
 	window.Search = Backbone.Model.extend({
 
 		// If you don't provide a todo, one will be provided for you.		
 		EMPTY: "empty todo...",
-		
+		// http://paulirish.com/2009/memorable-hex-colors/
+		colors: {'#bada55':true,"#accede":true,"affec7":true,"baff1e":true},
 		// Ensure that each todo created has content.
 		initialize: function() {
 			if (!this.get("content")) {
@@ -108,6 +114,16 @@ function socketSearchData(Searchlist) {
 		}
 		
 	});
+
+
+
+
+	
+/**
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Backbone Collection SearchList
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+**/
 	
 	window.SearchList = Backbone.Collection.extend({
 		/*
@@ -137,7 +153,29 @@ function socketSearchData(Searchlist) {
 	});
 	
 	window.Searches = new SearchList;
+
+
+
+	/**
+		+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	    Backbone Collection Suggest                                          ++++
+		+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	**/
+
+		window.SuggestList = new Backbone.Collection([]);
+
+
+
+
+
 	
+	
+/**
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
+	  Backbone View SearchView
+  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+**/
+
 	window.SearchView = Backbone.View.extend({
 		
 		tagName: "li",
@@ -164,6 +202,8 @@ function socketSearchData(Searchlist) {
 		},
 		
 		setContent: function() {
+			// console.log("model");
+			// console.log(this);
 			var content = this.model.get('content');
 			this.$('.search-content').text(content);
 			this.input = this.$('.search-input');
@@ -195,18 +235,96 @@ function socketSearchData(Searchlist) {
 		
 		
 	});
+
+
+	/**	
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		Backbone View SuggestView
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	**/
+
+		window.SuggestView = Backbone.View.extend({
+
+			tagName: "li",
+
+			template: _.template($('#suggest-template').html()),
+
+			events: {
+				// "click .check"     : "toggleDone",
+				// "dblclick div.search-content" : "edit",
+				// "click span.search-destroy" : "clear",
+				"keypress #new-search": "updateOnEnter"
+				
+				// "keypress .search-input"    : "updateOnEnter"
+			},
+
+			initialize: function() {
+				_.bindAll(this, 'render');
+				
+				//this.model.view = this;
+			},
+
+			render: function() {
+				$(this.el).html(this.template());
+//				console.log(this.data);
+				this.setContent();
+				return this;
+			},
+
+			setContent: function() {
+				//console.log(this);
+				var content = this.model.get('key');
+				//console.log(content);
+				this.$('.suggest-content').text(content);
+				//this.input = this.$('.search-input');
+				//this.input.bind('blur', this.close);
+				//this.input.val(content);
+			},
+
+			updateOnEnter: function(e) {
+				console.log("update");
+				if (e.keyCode == 40) this.down();
+				// http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
+				switch (e.keyCode) {
+				  case 40:
+				    this.down() 
+					  breake;
+					case 38:
+					  this.up()
+					  breake;
+			  }
+			},
+			up: function() {
+				console.log('up');
+			},
+			
+			
+			down: function() {
+				console.log('down');
+			}
+			
+
+		});
+
 	
+/**
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  	Backbone View AppView
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+**/
+
+
   // The Application
 	// Our overall AppView is the top-level piece of UI.
 	window.AppView = Backbone.View.extend({
-		
+		hm:false,
 		//Instead of generating a new element, 
 		//bind to the existing skeleton of the App already present in the HTML.
 		el: $("#searchapp"),
 		
 		//Our template for the line of statistics at the bottom of the app.
-		//statsTemplate: _.template($('#stats-template').html()),
-		suggestTemplate: _.template($('#suggest-template').html()),
+		statsTemplate: _.template($('#stats-template').html()),
+		//suggestTemplate: _.template($('#suggest-template').html()),
 		
 		//Delegated events for creating new items, and clearing completed ones.
 		events: {
@@ -228,9 +346,10 @@ function socketSearchData(Searchlist) {
 			
 			Searches.bind('add',     this.addOne);
 			Searches.bind('refresh', this.addAll);
-			Searches.bind('all',     this.render);
-			Searches.bind('socket',  this.giveName);
+			//Searches.bind('all',     this.render);
+			//Searches.bind('socket',  this.giveName);
 			//Searches.bind('showSuggest', this.showSuggest)
+			//SuggestList.bind('add', this.renderSuggestList);
 			Searches.fetch();
 		},
 
@@ -244,41 +363,46 @@ function socketSearchData(Searchlist) {
 				remaining:  Searches.deactive().length
 			}));
 		},
-		renderSuggest: function() {
-			//var done = Searches.done().length;
-			this.$('#suggestColumn').html(this.suggestTemplate({
-				
-			}));
+		// renderSuggest: function() {
+		// 			//var done = Searches.done().length;
+		// 			this.$('#suggestColumn').html(this.suggestTemplate({
+		// 				
+		// 			}));
+		//},
+		socketSearchData: function(Searchlist) {
+			socket.socketSend(Searchlist,'searchlist');
 		},
 		
 		//Add a single todo item to the list by creating a 
 		//view for it, and appending its element to the <ul>.
 		addOne: function(search) {
-			if (hm) console.log("hello");
+			//console.log(bla);
+			//console.log("hallo");
+			//if (this.hm) console.log("hello");
 			var view = new SearchView({model: search});
 			data[view.model.attributes.id] = view.model.attributes.content;
-			this.$("#search-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
-			if (!hm) socketSearchData(data);
+			this.$("#search-list").append(view.render().el) // .render().elappend -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
+			if (!this.hm) this.socketSearchData(data);
 		},
 		
 		//Add all items in the Todos collection at once.
 		addAll: function() {
-			hm = true;
+			this.hm = true;
 			Searches.each(this.addOne);
-			hm = false;
-			socketSearchData(data);
+			this.hm = false;
+			this.socketSearchData(data);
 		},
 		
 		
-		giveName: function() {
+		//giveName: function() {
 			// Searches.each(function(search) {
 			// 	var view = new SearchView({model: search});
 			// 	//console.log(view.model.attributes.content);
 			// 	data[view.model.attributes.id] = view.model.attributes.content;
 			// //	data.push()
 			// });
-			console.log("giveName");
-		},
+		//	console.log("giveName");
+		//},
 		// addOneRouter: function() {
 		// 
 		// 	this.addOne;
@@ -310,21 +434,72 @@ function socketSearchData(Searchlist) {
 			return false;
 		},
 		
+		
+		
+		
+		
+		renderSuggest: function(data) {
+			//console.log("renderSuggest");
+			//console.log(data);
+			var view = new SuggestView({model: data});
+			//data[view.model.attributes.id] = view.model.attributes.content;
+			this.$("#suggest-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements			
+		},
+		renderSuggestList: function() {
+			//console.log("renderSuggestList");
+			//console.log(SuggestList);
+			
+			SuggestList.each(this.renderSuggest);
+		},
+		
 		//Show suggest
 		showSuggest: function(data) {
 			//console.log("hallo");
-			console.log(data);
-			var view = new SuggestView({model: search});
-			data[view.model.attributes.id] = view.model.attributes.content;
-			this.$("#search-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
+			//console.log(data);
+			//SuggestList.add(data);
+			//this.clearSuggest();
+			this.$("#suggest-list").empty();
 			
+			var j = 1;
+			var datain = [];				
+			
+			for (i in  data) {
+				//console.log("lop");
+				//console.log(data[i].key);
+				datain.push({id:(j++),key:data[i].key,couchid:data[i].value});
+			 	//SuggestList.add(datain);
+			};
+			//console.log(datain);
+			SuggestList.refresh(datain);
+			this.renderSuggestList();
+			//data.each(this.renderSuggest);
 		},
+		// removeSuggest: function(data) {
+		// 	console.log("clear");
+		// 	
+		// 	data.clear();
+		// },
+		// 
+		// clearSuggest: function() {
+		// 	var j =1;
+		// 	console.log(SuggestList);
+		// 	///SuggestList.each(this.removeSuggest);
+		// 	
+		// 	// for (var i = 0 ;i<SuggestList.length;i++) {
+		// 	// 	console.log("removed id " + j++);
+		// 	// 	SuggestList.remove({id:j});
+		// 	// }
+		// 	console.log("removed");
+		// 	console.log(SuggestList);
+		// 	this.$("#suggest-list").empty();
+		// },
+		
 		
 		//Get Suggest by keyup from Couchdb and show tooltip
-		getSuggest: function(e) {
-			this.showTooltip(e);
-		},
-		
+		// getSuggest: function(e) {
+		// 	this.showTooltip(e);
+		// },
+				
 		//Lazily show the tooltip that tells you 
 		//to press enter to save a new todo item, after one second.
 		showTooltip: function(e) {
@@ -332,9 +507,18 @@ function socketSearchData(Searchlist) {
 			var val = this.input.val();
 			tooltip.fadeOut();
 			if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
-			if (val == "" || val == this.input.attr('plaaceholder')) return;
-			console.log(val);
-			socketSuggest(val);
+			if (val !== tmpval) {
+			if (val == "" || val == this.input.attr('plaaceholder')) {
+				
+			  this.showSuggest();
+				return;
+			}
+			//console.log(val);
+			//this.clearSuggest();
+			
+			socket.socketSend(val,'suggest');
+		  };
+			tmpval = val;
 			var show = function() { 
 				tooltip.show().fadeIn();
 			};
