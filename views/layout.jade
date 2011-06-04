@@ -6,9 +6,10 @@ html
     //-meta(http-equiv="X-UA-Compatible" content="chrome=1")
     //-meta(http-equiv="X-UA-Compatible", content="IE=Edge,chrome=1")
     title= pageTitle
-    meta(name="description", content="")
+    meta(name="description", content="Jobpins zeigt ")
     meta(name="author", content="Oliver Oszko")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="content-language", content="de")
     link(rel='stylesheet', href='stylesheets/style.css')
 
   body
@@ -24,10 +25,10 @@ html
           //map
         #searchapp
           #searchColumn.stackContent
+            span.ui-tooltip-bottom Press Enter to save this task
             input#new-search(placeholder='What you search for?', type='text')
-            span.ui-tooltip-top Press Enter to save this task
-            #suggestColumn.stackContent
-              ul#suggest-list
+            //-#suggestColumn.stackContent
+            ul#suggest-list
           #content
             != body
         #footer
@@ -42,10 +43,8 @@ html
         ul#test
     // Templates 
     script#suggest-template(type="text/template")
-      <div class="suggestText">
       <div class="suggest-content"></div>
-      </div>
-      
+            
     script#searchItem-template(type="text/template")
       <div class="search <%= done ? 'done' : '' %>">
       <div class="display">
@@ -86,6 +85,9 @@ html
     script(src='javascripts/underscore-1.1.6.js')
     script(src='javascripts/backbone.js')
     script(src='javascripts/backbone.localStorage.js')
+    script(src='javascripts/backbone.suggest.js')
+    script(src='javascripts/backbone.search.js')
+    
     script(src='../socket.io/socket.io.js')
     //-script(src='javascripts/sws.js')
     //-script(src='javascripts/backbone.couchdb.js')

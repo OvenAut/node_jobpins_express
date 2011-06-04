@@ -1,3 +1,5 @@
+/* @override http://localhost:3000/stylesheets/style.css */
+
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
 blockquote,q{quotes:none}
@@ -114,7 +116,13 @@ a{color:#00b7ff}
 ul#suggest-list{text-align:left;list-style-type:none;float:none;clear:none;display:block;position:absolute;z-index:3;color:#979797;background-color:#fff;width:324px;margin-left:16px;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px}
 div#suggestColumn.stackContent{text-align:center;float:none}
 #suggest-list li{border:1px solid #000;border-top-style:none}
-#suggest-list li.selected div.suggest-content{background-color:#6efdfe;color:#841700}
-#suggest-list li.selected:nth-last-child(1) div.suggest-content{-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px}
+
+#suggest-list li.selected div.suggest-content {
+	background-color: #6efdfe;
+	color: #841700;
+}
+#suggest-list li.selected:nth-last-child(1) div.suggest-content {
+-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px
+}
 #suggest-list li:nth-last-child(1){-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px}
 #suggest-list li:hover{background-color:#00f}

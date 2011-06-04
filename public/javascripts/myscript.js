@@ -6,7 +6,8 @@
 var socket = new io.Socket(location.hostname),
 		data = {},
 		hm = false,
-		tmpval; 
+		tmpval= "",
+		nodata=false; 
 
 
 io.Socket.prototype.socketSend = function(data,name) {
@@ -18,7 +19,7 @@ io.Socket.prototype.socketSend = function(data,name) {
 		data: sendData		
 		});
 //	console.dir(sending);
-	//console.log("sending");
+//	console.log("sending");
 
 }
 
@@ -59,7 +60,12 @@ $(document).ready(function() {
 
 		if (data.suggest) {
 			
-			if (_.isEmpty(data.suggest)) console.log("no Suggests");
+			if (_.isEmpty(data.suggest)) {
+				console.log("no Suggests");
+				nodata = true;
+			} else {
+				nodata = false;
+			}
 			window.App.showSuggest(data.suggest);
 			//Searches.trigger('showSuggest',data);
 			//console.log(data);
@@ -84,227 +90,6 @@ $(document).ready(function() {
 
 
 
-/**
-	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  	Backbone Model Search
-	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-**/
-	window.Search = Backbone.Model.extend({
-
-		// If you don't provide a todo, one will be provided for you.		
-		EMPTY: "empty todo...",
-		// http://paulirish.com/2009/memorable-hex-colors/
-		colors: {'#bada55':true,"#accede":true,"affec7":true,"baff1e":true},
-		// Ensure that each todo created has content.
-		initialize: function() {
-			if (!this.get("content")) {
-				this.set({"content": this.EMPTY});
-			}
-		},
-		
-		// Toggle the done state of this todo
-		toggle: function() {
-			this.save({done: !this.get("done")});
-		},
-		
-		//Remove this Todo from localStorage and delete its view.
-		clear: function() {
-			this.destroy();
-			this.view.remove();
-		}
-		
-	});
-
-
-
-
-	
-/**
-	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    Backbone Collection SearchList
-	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-**/
-	
-	window.SearchList = Backbone.Collection.extend({
-		/*
-		query = {}
-		deactiv
-		color
-		order
-		*/
-		model:Search,
-		
-		localStorage: new Store("search"),
-		
-		active: function() {
-			return this.filter(function(searchparam) {  //filter => array.filter(callback) 
-				return searchparam.get('active');
-			});
-		},
-		deactive: function() {
-			return this.without.apply(this, this.active());
-		},
-		
-		nextOrder: function() {
-		  if (!this.length) return 1;
-		  return this.last().get('order') + 1;
-		},
-		
-	});
-	
-	window.Searches = new SearchList;
-
-
-
-	/**
-		+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	    Backbone Collection Suggest                                          ++++
-		+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	**/
-
-		window.SuggestList = new Backbone.Collection([]);
-
-
-
-
-
-	
-	
-/**
-	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
-	  Backbone View SearchView
-  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-**/
-
-	window.SearchView = Backbone.View.extend({
-		
-		tagName: "li",
-		
-		template: _.template($('#searchItem-template').html()),
-		
-		events: {
-			"click .check"     : "toggleDone",
-			"dblclick div.search-content" : "edit",
-			"click span.search-destroy" : "clear",
-			"keypress .search-input"    : "updateOnEnter"
-		},
-		
-		initialize: function() {
-			_.bindAll(this, 'render', 'close');
-			this.model.bind('change', this.render);
-			this.model.view = this;
-		},
-		
-		render: function() {
-			$(this.el).html(this.template(this.model.toJSON()));
-			this.setContent();
-			return this;
-		},
-		
-		setContent: function() {
-			// console.log("model");
-			// console.log(this);
-			var content = this.model.get('content');
-			this.$('.search-content').text(content);
-			this.input = this.$('.search-input');
-			this.input.bind('blur', this.close);
-			this.input.val(content);
-		},
-		
-		toggleDone: function() {
-			this.model.toggle();
-		},
-		
-		edit: function() {
-			$(this.el).addClass('editing');
-			this.input.focus();
-		},
-		
-		close: function() {
-			this.model.save({content: this.input.val()});
-			$(this.el).removeClass('editing');
-		},
-		
-		updateOnEnter: function(e) {
-			if (e.keyCode == 13) this.close();
-		},
-		
-		clear: function() {
-			this.model.clear();
-		}
-		
-		
-	});
-
-
-	/**	
-	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		Backbone View SuggestView
-	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	**/
-
-		window.SuggestView = Backbone.View.extend({
-
-			tagName: "li",
-
-			template: _.template($('#suggest-template').html()),
-
-			events: {
-				// "click .check"     : "toggleDone",
-				// "dblclick div.search-content" : "edit",
-				// "click span.search-destroy" : "clear",
-				"keypress #new-search": "updateOnEnter"
-				
-				// "keypress .search-input"    : "updateOnEnter"
-			},
-
-			initialize: function() {
-				_.bindAll(this, 'render');
-				
-				//this.model.view = this;
-			},
-
-			render: function() {
-				$(this.el).html(this.template());
-//				console.log(this.data);
-				this.setContent();
-				return this;
-			},
-
-			setContent: function() {
-				//console.log(this);
-				var content = this.model.get('key');
-				//console.log(content);
-				this.$('.suggest-content').text(content);
-				//this.input = this.$('.search-input');
-				//this.input.bind('blur', this.close);
-				//this.input.val(content);
-			},
-
-			updateOnEnter: function(e) {
-				console.log("update");
-				if (e.keyCode == 40) this.down();
-				// http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
-				switch (e.keyCode) {
-				  case 40:
-				    this.down() 
-					  breake;
-					case 38:
-					  this.up()
-					  breake;
-			  }
-			},
-			up: function() {
-				console.log('up');
-			},
-			
-			
-			down: function() {
-				console.log('down');
-			}
-			
-
-		});
 
 	
 /**
@@ -329,8 +114,8 @@ $(document).ready(function() {
 		//Delegated events for creating new items, and clearing completed ones.
 		events: {
 			"keypress #new-search": "createOnEnter",
-			"keyup #new-search":  "showTooltip", // "showTooltip",
-			"click .search-clear a": "clearCompleted"
+			"keyup #new-search":  "checkSuggest", // "showTooltip",
+			//"click .search-clear a": "clearCompleted"
 		},
 		
 		//At initialization we bind to the relevant events on the Todos collection, 
@@ -411,31 +196,54 @@ $(document).ready(function() {
 		
 		//Generate the attributes for a new Todo item.
 		newAttributes: function() {
+			var data = Suggests.getSelected();
 			return {
-				content: this.input.val(),
+				content: data.attributes.name,
 				order:   Searches.nextOrder(),
-				done:    false
+				done:    false,
+				couchids : data.attributes.couchids
 			};
 		},
 		
 		//If you hit return in the main input field, 
 		//create new Todo model, persisting it to localStorage.
 		createOnEnter: function(e) {
-			if (e.keyCode != 13) return;
+			if (e.keyCode != 13 || !this.suggestPresent()) return;
 			Searches.create(this.newAttributes());
-			this.input.val('');
+			var self = this;
+			this.clearSuggest(function() {
+				self.input.val('');
+				self.showTooltip();
+			});
+
+			
 		},
 		
 		//Clear all done todo items, destroying their models.
-		clearCompleted: function() {
-			_.each(Searches.done(), function(todo) { 
-				todo.clear();
-				});
-			return false;
+		// clearCompleted: function() {
+		// 	_.each(Searches.done(), function(todo) { 
+		// 		todo.clear();
+		// 		});
+		// 	return false;
+		// },
+		
+		
+		
+		
+		selectFirstSuggest: function() {
+			Suggests.selectfirst();
+			//console.log(Suggests);
+			//console.log(_.first(Suggests));
 		},
 		
-		
-		
+		clearSuggest: function(cb) {
+			//console.log(Suggests);
+			_.each(Suggests.models, function(data) { 
+				data.clearModel();
+				});
+			Suggests.clear();
+			return cb();
+		},
 		
 		
 		renderSuggest: function(data) {
@@ -443,37 +251,88 @@ $(document).ready(function() {
 			//console.log(data);
 			var view = new SuggestView({model: data});
 			//data[view.model.attributes.id] = view.model.attributes.content;
-			this.$("#suggest-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements			
+			this.$("#suggest-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
 		},
+		
 		renderSuggestList: function() {
-			//console.log("renderSuggestList");
-			//console.log(SuggestList);
+			Suggests.each(this.renderSuggest);
+			//this.selectFirstSuggest();			
 			
-			SuggestList.each(this.renderSuggest);
+		},
+		
+		suggestAttributes: function(data,i) {
+			//console.log(data[i]);
+			return {
+				id:          i,
+				name:        data[i].key,
+				couchids:    data[i].value,
+				selected:    false
+			};
+		},
+		suggestPresent: function() {
+			if (Suggests.models.length >= 1) return true;
 		},
 		
 		//Show suggest
 		showSuggest: function(data) {
-			//console.log("hallo");
-			//console.log(data);
-			//SuggestList.add(data);
-			//this.clearSuggest();
-			this.$("#suggest-list").empty();
-			
-			var j = 1;
+			//this.$("#suggest-list").empty();
 			var datain = [];				
+			if (this.suggestPresent()) this.clearSuggest(function() {
+				
+			});
 			
 			for (i in  data) {
-				//console.log("lop");
-				//console.log(data[i].key);
-				datain.push({id:(j++),key:data[i].key,couchid:data[i].value});
-			 	//SuggestList.add(datain);
+				//datain.push(this.suggestAttributes(data,i));
+				Suggests.add(this.suggestAttributes(data,i));
 			};
 			//console.log(datain);
-			SuggestList.refresh(datain);
+			//Suggests.refresh(datain);
 			this.renderSuggestList();
+			if (this.suggestPresent()) this.selectFirstSuggest();
+			this.showTooltip("showSuggest");
+			
 			//data.each(this.renderSuggest);
 		},
+		
+		checkSuggest: function(e) {
+			if (e.keyCode == 40 && Suggests.models.length > 1) {
+				//console.log("down");
+				Suggests.selectDown();
+				return;
+			} else if (e.keyCode == 38 && Suggests.models.length >1) {
+				//console.log("up");
+				Suggests.selectUp();
+				return;
+			} else if (e.keyCode < 48 && e.keyCode != 8 || e.keyCode > 90 ) {
+				return;
+			};
+			
+			
+			//console.log(e.keyCode);
+			var val = this.input.val();
+			if ((val.length < tmpval.length || !nodata) && (val !== tmpval) || val == "") {
+				//console.log(tmpval.length+ " tmpval");
+			  //console.log("nodata " + (nodata?"true":"false"));
+				if (val == "" || val == this.input.attr('plaaceholder')) {
+					tmpval = "";
+				  //this.showSuggest(); //clearing Suggest
+				  //Suggests.clear();
+				  this.clearSuggest(function() {
+						
+						App.showTooltip("checkSuggest");
+					});
+				  //this.$("#suggest-list").empty();
+					
+					
+					//return;
+					nodata = false;
+				} else {
+					tmpval = val;
+					socket.socketSend(val,'suggest');
+				}			
+		  };
+		},
+		
 		// removeSuggest: function(data) {
 		// 	console.log("clear");
 		// 	
@@ -502,25 +361,16 @@ $(document).ready(function() {
 				
 		//Lazily show the tooltip that tells you 
 		//to press enter to save a new todo item, after one second.
-		showTooltip: function(e) {
-			var tooltip = this.$(".ui-tooltip-top");
-			var val = this.input.val();
+		showTooltip: function(text) {
+			var tooltip = this.$(".ui-tooltip-bottom");
+			//var val = this.input.val();
 			tooltip.fadeOut();
+		  if (!this.suggestPresent()) return;
+			if (this.suggestPresent()) console.log("this.suggestPresent");
+		  console.log(Suggests.models.length);
 			if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
-			if (val !== tmpval) {
-			if (val == "" || val == this.input.attr('plaaceholder')) {
-				
-			  this.showSuggest();
-				return;
-			}
-			//console.log(val);
-			//this.clearSuggest();
-			
-			socket.socketSend(val,'suggest');
-		  };
-			tmpval = val;
 			var show = function() { 
-				tooltip.show().fadeIn();
+				tooltip.show().fadeIn().text(text);
 			};
 			this.tooltipTimeout = _.delay(show, 1000);
 		}
