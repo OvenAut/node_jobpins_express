@@ -1,6 +1,6 @@
 /**
 	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    Backbone Collection Suggest                                          ++++
+    Backbone Model Suggest                                               ++++
 	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 **/
 
@@ -21,6 +21,13 @@
 	
 	
 });
+
+/**
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Backbone Collection Suggest                                          ++++
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+**/
+
 
 window.SuggestList = Backbone.Collection.extend({
 	
@@ -104,7 +111,7 @@ window.SuggestView = Backbone.View.extend({
 		"click div.suggest-content"     : "selectThis",
 		// "dblclick div.search-content" : "edit",
 		// "click span.search-destroy" : "clear",
-		"keydown inpute#new-search": "updateOnEnter"
+		//"keydown inpute#new-search": "updateOnEnter"
 
 		// "keypress .search-input"    : "updateOnEnter"
 	},
@@ -152,19 +159,19 @@ window.SuggestView = Backbone.View.extend({
 		//this.input.val(content);
 	},
 
-	updateOnEnter: function(e) {
-		console.log("update KEY");
-		if (e.keyCode == 40) this.down();
-		// http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
-		switch (e.keyCode) {
-		  case 40:
-		    this.down() 
-			  breake;
-			case 38:
-			  this.up()
-			  breake;
-	  }
-	},
+	// updateOnEnter: function(e) {
+	// 	console.log("update KEY");
+	// 	if (e.keyCode == 40) this.down();
+	// 	// http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
+	// 	switch (e.keyCode) {
+	// 	  case 40:
+	// 	    this.down() 
+	// 		  breake;
+	// 		case 38:
+	// 		  this.up()
+	// 		  breake;
+	//   }
+	// },
 	
 
 

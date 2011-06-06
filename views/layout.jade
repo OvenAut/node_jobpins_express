@@ -11,7 +11,6 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="content-language", content="de")
     link(rel='stylesheet', href='stylesheets/style.css')
-
   body
     #page
       .stack
@@ -79,18 +78,20 @@ html
       script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
       script
         window.attachEvent("onload", function() {CFInstall.check({ mode: "overlay"});});
-    script(src='javascripts/jquery-1.5.1.min.js')
+    script(src='javascripts/vendor/jquery-1.5.1.min.js')
     //-script(src='javascripts/jquery.couch.js')
-    script(src='javascripts/json2.min.js')
-    script(src='javascripts/underscore-1.1.6.js')
-    script(src='javascripts/backbone.js')
-    script(src='javascripts/backbone.localStorage.js')
-    script(src='javascripts/backbone.suggest.js')
-    script(src='javascripts/backbone.search.js')
-    
+    script(src='javascripts/vendor/json2.min.js')
+    script(src='javascripts/vendor/underscore-1.1.6.js')
+    script(src='javascripts/vendor/backbone.js')
+    script(src='javascripts/vendor/backbone.localStorage.js')
+    script(src='javascripts/lib/backbone.suggest.js')
+    script(src='javascripts/lib/backbone.search.js')
+    script(src='javascripts/lib/backbone.document.js')
+    script(src='javascripts/lib/backbone.app.js')
     script(src='../socket.io/socket.io.js')
-    //-script(src='javascripts/sws.js')
+    script(src='javascripts/lib/myscript.socket.js')
+        //-script(src='javascripts/sws.js')
     //-script(src='javascripts/backbone.couchdb.js')
     script
       var connect = {sid:'#{sessionID}'};    
-    script(src='javascripts/myscript.js')
+    script(src='javascripts/lib/myscript.js')

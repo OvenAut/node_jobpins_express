@@ -1,97 +1,3 @@
-// var query = require('./jquery-1.6.min');
-//      undercore = require('./underscore'),
-//      BackboneLoad = require('./backbone.min'),
-//      BackboneLocalStorageLoad = require('./backbone.localStorage');
-
-var socket = new io.Socket(location.hostname),
-		data = {},
-		hm = false,
-		tmpval= "",
-		nodata=false; 
-
-
-io.Socket.prototype.socketSend = function(data,name) {
-	var sendData = {};
-	
-	sendData[name] = data;
-  var sending = socket.send({
-		sid:  connect.sid,
-		data: sendData		
-		});
-//	console.dir(sending);
-//	console.log("sending");
-
-}
-
-//query();
-
-function initializeMap() {
-    var latlng = new google.maps.LatLng(48.208174,16.373819);
-    var myOptions = {
-      zoom: 11,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-  };
-
-
-// function socketSend(data) {
-//   socket.send({
-// 		sid:  connect.sid,
-// 		data: data		
-// 		});	
-// }
-
-
-
-$(document).ready(function() {
-
-	socket.connect();
-  
-	socket.on('connect', function(){ 
-		//Searches.trigger('socket');
-		//window.App.socket
-    //Search.trigger('socket');
-    //socket.socketSend(data,'connection');
-    //data = {};
-	}); 
-	socket.on('message', function(data){
-
-		if (data.suggest) {
-			
-			if (_.isEmpty(data.suggest)) {
-				console.log("no Suggests");
-				nodata = true;
-			} else {
-				nodata = false;
-			}
-			window.App.showSuggest(data.suggest);
-			//Searches.trigger('showSuggest',data);
-			//console.log(data);
-		} 
-
-	  //console.log('incomming');		
-	
-	}); 
-	socket.on('disconnect', function(){ 
-		console.log('disconnected');
-	});
-
-
-
-
-/**
-	Google Map
-**/	
-
-//  initializeMap(); //map
- 
-
-
-
-
-	
 /**
 	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   	Backbone View AppView
@@ -108,13 +14,14 @@ $(document).ready(function() {
 		el: $("#searchapp"),
 		
 		//Our template for the line of statistics at the bottom of the app.
-		statsTemplate: _.template($('#stats-template').html()),
+		//statsTemplate: _.template($('#stats-template').html()),
 		//suggestTemplate: _.template($('#suggest-template').html()),
 		
 		//Delegated events for creating new items, and clearing completed ones.
 		events: {
 			"keypress #new-search": "createOnEnter",
 			"keyup #new-search":  "checkSuggest", // "showTooltip",
+			"dblclick div.suggest-content": "createOnEnter",
 			//"click .search-clear a": "clearCompleted"
 		},
 		
@@ -136,17 +43,19 @@ $(document).ready(function() {
 			//Searches.bind('showSuggest', this.showSuggest)
 			//SuggestList.bind('add', this.renderSuggestList);
 			Searches.fetch();
+			//this.render();
 		},
 
 		// Re-rendering the App just means refreshing 
 		// the statistics -- the rest of the app doesn't change.
 		render: function() {
 			//var done = Searches.done().length;
-			this.$('#search-stats').html(this.statsTemplate({
-				total:      Searches.length,
-				done:       Searches.active().length,
-				remaining:  Searches.deactive().length
-			}));
+			// this.$('#search-stats').html(this.statsTemplate({
+			// 	total:      Searches.length,
+			// 	done:       Searches.active().length,
+			// 	remaining:  Searches.deactive().length
+			// }));
+			console.log("render");
 		},
 		// renderSuggest: function() {
 		// 			//var done = Searches.done().length;
@@ -193,6 +102,14 @@ $(document).ready(function() {
 		// 	this.addOne;
 		// 	this.giveName;
 		// },
+		searchesFindValue: function(value) {
+			return _.detect(Searches.models, function(data) {
+				//console.log(data.get("content")==value);
+				if ((data.get("content")) == value) {
+					return true;
+					} 
+			});
+		},
 		
 		//Generate the attributes for a new Todo item.
 		newAttributes: function() {
@@ -208,14 +125,16 @@ $(document).ready(function() {
 		//If you hit return in the main input field, 
 		//create new Todo model, persisting it to localStorage.
 		createOnEnter: function(e) {
-			if (e.keyCode != 13 || !this.suggestPresent()) return;
+			if ((e.keyCode != 13 && e.type != "dblclick") || !this.suggestPresent()) return;
+			
 			Searches.create(this.newAttributes());
-			var self = this;
-			this.clearSuggest(function() {
-				self.input.val('');
-				self.showTooltip();
-			});
-
+			// var self = this;
+			// this.clearSuggest(function() {
+			// 	self.input.val('');
+			// 	self.showTooltip();
+			// });
+      this.clearSuggestInpute();
+			this.input.val('');
 			
 		},
 		
@@ -283,16 +202,40 @@ $(document).ready(function() {
 			
 			for (i in  data) {
 				//datain.push(this.suggestAttributes(data,i));
+				// data present ?
+				if (this.searchesFindValue(data[i].key)) continue;
+				//console.log(this.searchesFindValue(data[i].key));
+				//if (Searches.get({content:data[i].key})) continue; 
 				Suggests.add(this.suggestAttributes(data,i));
+				//console.log(Searches.get({content:data[i].key}));
 			};
 			//console.log(datain);
 			//Suggests.refresh(datain);
 			this.renderSuggestList();
-			if (this.suggestPresent()) this.selectFirstSuggest();
-			this.showTooltip("showSuggest");
-			
+			if (this.suggestPresent()) {
+				this.selectFirstSuggest();
+				this.showTooltip("showSuggest");
+		  }
 			//data.each(this.renderSuggest);
 		},
+		
+		clearSuggestInpute: function() {
+			tmpval = "";
+		  //this.showSuggest(); //clearing Suggest
+		  //Suggests.clear();
+			var self = this;
+		  this.clearSuggest(function() {
+				
+				self.showTooltip("clearSuggestInpute");
+			});
+		  //this.$("#suggest-list").empty();
+			
+			
+			//return;
+			nodata = false;
+			
+		},
+		
 		
 		checkSuggest: function(e) {
 			if (e.keyCode == 40 && Suggests.models.length > 1) {
@@ -314,18 +257,8 @@ $(document).ready(function() {
 				//console.log(tmpval.length+ " tmpval");
 			  //console.log("nodata " + (nodata?"true":"false"));
 				if (val == "" || val == this.input.attr('plaaceholder')) {
-					tmpval = "";
-				  //this.showSuggest(); //clearing Suggest
-				  //Suggests.clear();
-				  this.clearSuggest(function() {
-						
-						App.showTooltip("checkSuggest");
-					});
-				  //this.$("#suggest-list").empty();
 					
-					
-					//return;
-					nodata = false;
+					this.clearSuggestInpute();
 				} else {
 					tmpval = val;
 					socket.socketSend(val,'suggest');
@@ -366,8 +299,8 @@ $(document).ready(function() {
 			//var val = this.input.val();
 			tooltip.fadeOut();
 		  if (!this.suggestPresent()) return;
-			if (this.suggestPresent()) console.log("this.suggestPresent");
-		  console.log(Suggests.models.length);
+			//if (this.suggestPresent()) console.log("this.suggestPresent");
+		  //console.log(Suggests.models.length);
 			if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
 			var show = function() { 
 				tooltip.show().fadeIn().text(text);
@@ -375,7 +308,3 @@ $(document).ready(function() {
 			this.tooltipTimeout = _.delay(show, 1000);
 		}
 	});
-	
-	window.App = new AppView;
-			
-});
