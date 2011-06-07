@@ -57,6 +57,7 @@ app.configure('production', function(){
 
 
 app.get('/', function(req, res){
+	helper.time.start();
   res.render('index', {
     pageTitle: 'Jobpins ' + VERSION,
     title: 'Jobpins ',
@@ -74,7 +75,7 @@ app.get('/', function(req, res){
   }
 	
   //else
-
+  console.log(helper.time.stop());
 });
 
 
@@ -142,9 +143,9 @@ socket.on('connection', function(client){
 
 		client.on('message', function(message) {
 			var self = this;
-			console.log('on.message')
-			console.dir(message)
-			
+			console.time('on.message');
+		//	console.dir(message)
+			helper.time.start();
 		  if (typeof message.data.suggest !== "undefined" && message.data.suggest !== null) {
 			
 				//console.dir(this);
@@ -152,10 +153,12 @@ socket.on('connection', function(client){
 						//console.dir(this);
 					couchdb.suggest(message.data.suggest, function(data) {
 						var dataSend = {};
-						console.log('sendingdata');
+					//	console.log('sendingdata');
 						dataSend['suggest'] = data;
 						client.send(dataSend);
-					  //console.dir(data);	
+					 // console.dir(dataSend);
+					//console.log(helper.time.stop() + "socket.message");
+				 console.timeEnd('on.message');
 					});
 					  //data.
 				});

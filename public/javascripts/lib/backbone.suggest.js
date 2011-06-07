@@ -16,6 +16,7 @@
 		//console.log(this);
 		this.clear({silent:true});
 		this.view.remove();
+		this.set();
 		console.log("clear");
 	}
 	
@@ -53,6 +54,7 @@ window.SuggestList = Backbone.Collection.extend({
 		});
 	},
 	selectDown: function() {
+		log(this);
 		var selectedId = this.getSelected().id;
 		selectedId++;
 		this.selectWitheId(selectedId);		
@@ -76,13 +78,14 @@ window.SuggestList = Backbone.Collection.extend({
 		this.get({id:id}).toggle();
 	},
 	clear: function() {
-
-		this.models = [];
-		//console.log(this);
+		
+		this.refresh([]);
+		log(this);
 		//_.each(this, function() {
 		//	this.clear
 		//console.log("clearing");
 		//});
+		//SuggestView.remove();
 	},
 	
 	// all: function() {
@@ -119,9 +122,9 @@ window.SuggestView = Backbone.View.extend({
 	initialize: function() {
 		_.bindAll(this, 'render');
 		this.model.bind('change', this.update);
-    //this.model.bind('refresh', this.update);
+    //this.model.bind('refresh', this.remove);
     //this.model.bind('add', this.update);
-
+    //log(this);
 		this.model.view = this;
 	},
 	selectThis: function() {

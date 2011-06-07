@@ -157,10 +157,12 @@
 		
 		clearSuggest: function(cb) {
 			//console.log(Suggests);
-			_.each(Suggests.models, function(data) { 
-				data.clearModel();
-				});
+			
+			// _.each(Suggests.models, function(data) { 
+			// 	data.clearModel();
+			// 	});
 			Suggests.clear();
+			this.$('#suggest-list').empty();
 			return cb();
 		},
 		
@@ -179,12 +181,12 @@
 			
 		},
 		
-		suggestAttributes: function(data,i) {
+		suggestAttributes: function(data,j,i) {
 			//console.log(data[i]);
 			return {
-				id:          i,
-				name:        data[i].key,
-				couchids:    data[i].value,
+				id:          j,
+				name:        i,
+				couchids:    data[i],
 				selected:    false
 			};
 		},
@@ -195,18 +197,25 @@
 		//Show suggest
 		showSuggest: function(data) {
 			//this.$("#suggest-list").empty();
+			if (data.noData) return;
+			//log(data);
+			console.log(data);
+			
 			var datain = [];				
 			if (this.suggestPresent()) this.clearSuggest(function() {
 				
 			});
-			
+			var j =0;
+			//for (var i = j = 0,j<5,i++) {
 			for (i in  data) {
 				//datain.push(this.suggestAttributes(data,i));
 				// data present ?
-				if (this.searchesFindValue(data[i].key)) continue;
+				console.log(i);
+				if (this.searchesFindValue(i)) continue;
 				//console.log(this.searchesFindValue(data[i].key));
 				//if (Searches.get({content:data[i].key})) continue; 
-				Suggests.add(this.suggestAttributes(data,i));
+				Suggests.add(this.suggestAttributes(data,j++,i));
+				//if (j==5) break;
 				//console.log(Searches.get({content:data[i].key}));
 			};
 			//console.log(datain);
