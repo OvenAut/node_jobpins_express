@@ -25,7 +25,7 @@ html
         #searchapp
           #searchColumn.stackContent
             span.ui-tooltip-bottom Press Enter to save this task
-            input#new-search(placeholder='What you search for?', type='text')
+            input#new-search(placeholder='Loading', type='text')
             //-#suggestColumn.stackContent
             ul#suggest-list
           #content
@@ -42,8 +42,10 @@ html
         ul#test
     // Templates 
     script#suggest-template(type="text/template")
+      <div class="display">
       <div class="suggest-content"></div>
-            
+      <span class="gui">&#x20;</span>
+      </div>
     script#searchItem-template(type="text/template")
       <div class="search <%= done ? 'done' : '' %>">
       <div class="display">
@@ -85,6 +87,7 @@ html
     script(src='javascripts/vendor/backbone.js')
     script(src='javascripts/vendor/backbone.localStorage.js')
     script(src='javascripts/lib/backbone.suggest.js')
+    script(src='javascripts/lib/backbone.suggest.list.js')
     script(src='javascripts/lib/backbone.search.js')
     script(src='javascripts/lib/backbone.document.js')
     script(src='javascripts/lib/backbone.app.js')
@@ -92,6 +95,6 @@ html
     script(src='javascripts/lib/myscript.socket.js')
         //-script(src='javascripts/sws.js')
     //-script(src='javascripts/backbone.couchdb.js')
-    script
-      var connect = {sid:'#{sessionID}'};    
+    //-script
+    //-  var connect = {sid:'#{sessionID}'};    
     script(src='javascripts/lib/myscript.js')

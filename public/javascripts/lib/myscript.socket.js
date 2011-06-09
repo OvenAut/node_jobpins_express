@@ -2,10 +2,9 @@ var socket = new io.Socket(location.hostname);
 
 io.Socket.prototype.socketSend = function(data,name) {
 	var sendData = {};
-	
+	//console.log("socketSend");
 	sendData[name] = data;
   var sending = socket.send({
-		sid:  connect.sid,
 		data: sendData		
 		});
 };
@@ -21,19 +20,23 @@ socket.on('connect', function(){
 
 
 socket.on('message', function(data){
-
-	if (data.suggest) {
-		
-		if (_.isEmpty(data.suggest)) {
-			console.log("no Suggests");
-			nodata = true;
-		} else {
-			nodata = false;
-		}
-		window.App.showSuggest(data.suggest);
-		//Searches.trigger('showSuggest',data);
-		//console.log(data);
-	} 
+	if (data.suggestList) {
+		//console.dir("data.suggestList");
+		window.SuggestList.newList(data.suggestList);
+	};
+	
+	// if (data.suggest) {
+	// 	
+	// 	if (_.isEmpty(data.suggest)) {
+	// 		console.log("no Suggests");
+	// 		nodata = true;
+	// 	} else {
+	// 		nodata = false;
+	// 	}
+	// 	window.App.showSuggest(data.suggest);
+	// 	//Searches.trigger('showSuggest',data);
+	// 	//console.log(data);
+	// } 
 
   //console.log('incomming');		
 

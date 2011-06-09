@@ -222,11 +222,15 @@ a:hover
 .stack4of5
   width: 80%
 
+.stackContent
+  font-family: sans-serif
+
 img
   display: block
 
 body
-  font-family: "Helvetica Neue",Arial,Helvetica,Geneva,sans-serif
+  font-family: sans-serif,"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif
+  margin-top: 5px
 
 div
   display: block
@@ -234,17 +238,28 @@ div
 #page
   max-width: 1100px
   margin: 0 auto
+  width: 1100px
+  height: auto
 
 #header
   background: #333
   text-align: left
+  border: 1px solid
+  -webkit-border-radius: 50px 5px 5px 5px
+  -moz-border-radius: 50px 5px 5px 5px
+  border-radius: 50px 5px 5px 5px
 
 #title
   color: #fff
-  padding: 20px
-  font-size: 3em
+  font-size: 4em
   font-family: "Permanent Marker"
   text-shadow: 4px 4px 4px #111
+  padding-left: 20px
+  padding-top: 10px
+
+#header div.stack1of4
+  width: 88px
+  margin-left: 170px
 
 .titlebox
   -box-shadow: 0 0 5px #111
@@ -256,7 +271,7 @@ div
 #map_canvas
   min-height: 400px
   height: 400px
-  width: 100%
+  width: 1100px
   padding: 0
   margin: 0
   white-space: nowrap
@@ -274,9 +289,6 @@ div
   position: relative
   left: -75%
 
-#column2 ul
-  list-style-type: none
-
 #search-list li
   background: #fff
   border: 1px solid #ccc
@@ -287,13 +299,14 @@ div
   -moz-box-shadow: 0 0 5px #111
   -khtml-box-shadow: 0 0 5px #111
   -webkit-box-shadow: 0 0 5px #111
-  padding: 10px 20px 10px 0
-  margin-top: 7px
   position: relative
   font-size: 24px
   line-height: 1.5em
+  list-style-type: none
+  margin-top: 6px
+  margin-left: 3px
 
-#search-line li:after
+#search-line li:aifter
   content: "\0020"
   display: block
   height: 0
@@ -334,19 +347,19 @@ div
   margin: 12px 10px 0 7px
   float: left
 
-#search-list .done .search-content
+#search-list .done
   text-decoration: line-through
   color: #777
 
 #search-list .search-destroy
   position: absolute
   right: 5px
-  top: 18px
   display: none
   cursor: pointer
   width: 20px
   height: 20px
   background: url("../images/destroy.png") no-repeat 0 0
+  top: 8px
 
 #search-list li:hover .search-destroy
   display: block
@@ -369,7 +382,7 @@ ul#search-öist li,#column1box
 
 #slogen
   background: #ffa500
-  border: 1px solid #ccc
+  border: 1px solid #000
   -webkit-border-radius: 5px
   -moz-border-radius: 5px
   border-radius: 5px
@@ -389,17 +402,101 @@ input#new-search
   width: 330px
   padding-left: 5px
 
+a
+  color: #00b7ff
+
+#searchColumn
+  background: #333
+  border: 1px solid #ccc
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px
+  border-radius: 5px
+  -box-shadow: 0 0 5px #999
+  -moz-box-shadow: 0 0 5px #999
+  -khtml-box-shadow: 0 0 5px #999
+  -webkit-box-shadow: 0 0 5px #999
+  margin: 0
+  font-size: 2em
+  text-align: center
+  padding: 5px 370px
+
+#searchColumn span.ui-tooltip-bottom
+  position: absolute
+  z-index: 999
+  width: 178px
+  left: 50%
+  top: 460px
+  margin-left: -85px
+  background: #333
+  float: none
+  clear: none
+
+ul#suggest-list
+  text-align: left
+  list-style-type: none
+  display: block
+  position: absolute
+  z-index: 3
+  color: #979797
+  background-color: #fff
+  width: 324px
+  margin-left: 16px
+  -webkit-border-radius: 0 0 5px 5px
+  -moz-border-radius: 0 0 5px 5px
+  border-radius: 0 0 5px 5px
+
+#suggest-list li
+  border: 1px solid #000
+  border-top-style: none
+  float: none
+  clear: none
+  position: relative
+
+#suggest-list li .down
+  position: absolute
+  display: block
+  cursor: pointer
+  height: 30px
+  background: url(../../images/down.gif) no-repeat 0 0
+  width: 30px
+  clear: left
+  left: 291px
+  bottom: 1px
+
+#suggest-list li .selected
+  background-color: #eaeaea
+  color: #ff221b
+
+#ssuggest-list li .selected :nth-last-child(1)
+  -webkit-border-radius: 0 0 5px 5px
+  -moz-border-radius: 0 0 5px 5px
+  border-radius: 0 0 5px 5px
+
+#suggest-list li :hover
+  background-color: #333
+  color: #eaeaea
+
+#suggest-list li .selected:hover
+  background-color: #333
+  color: #ff221b
+
+#suggest-list li:nth-last-child(1) , #suggest-list li:nth-last-child(1) :hover,#suggest-list li:nth-last-child(1) .selected
+  -webkit-border-radius: 0 0 5px 5px
+  -moz-border-radius: 0 0 5px 5px
+  border-radius: 0 0 5px 5px
+
 #footer
   font-size: "0.8em"
   color: #ccc
   background: #333
-  -box-shadow: 0 2 15px #999
-  -moz-box-shadow: 0 2 15px #999
-  -khtml-box-shadow: 0 2 15px #999
-  -webkit-box-shadow: 0 2 15px #999
+  -box-shadow: 0 0 5px #999
+  -moz-box-shadow: 0 0 5px #999
+  -khtml-box-shadow: 0 0 5px #999
+  -webkit-box-shadow: 0 0 5px #999
   -webkit-border-radius: 5px
   -moz-border-radius: 5px
   border-radius: 5px
+  margin-top: 5px
 
 #footer .stackAuto
   vertical-align: middle
@@ -419,44 +516,6 @@ input#new-search
 
 #footer a:hover,#footer a:focus
   color: #fff
-
-.top
-  padding: 10px
-
-#slogen
-  border: 1px solid #000
-
-.stackContent
-  font-family: sans-serif
-
-a
-  color: #00b7ff
-
-#searchColumn
-  background: #333
-  border: 1px solid #ccc
-  -webkit-border-radius: 5px
-  -moz-border-radius: 5px
-  border-radius: 5px
-  -box-shadow: 0 0 5px #999
-  -moz-box-shadow: 0 0 5px #999
-  -khtml-box-shadow: 0 0 5px #999
-  -webkit-box-shadow: 0 0 5px #999
-  margin: 0
-  font-size: 2em
-  text-align: center
-  padding: 5px 370px
-
-#searchColumn span
-  position: absolute
-  z-index: 999
-  width: 178px
-  left: 50%
-  top: 460px
-  margin-left: -85px
-  background: #333
-  float: none
-  clear: none
 
 .ui-tooltip,.ui-tooltip-top,.ui-tooltip-right,.ui-tooltip-bottom,.ui-tooltip-left
   color: #fff
@@ -574,45 +633,4 @@ a
 
 .clearfix
   zoom: 1
-
-ul#suggest-list
-  text-align: left
-  list-style-type: none
-  float: none
-  clear: none
-  display: block
-  position: absolute
-  z-index: 3
-  color: #979797
-  background-color: #fff
-  width: 324px
-  margin-left: 16px
-  -webkit-border-radius: 0 0 5px 5px
-  -moz-border-radius: 0 0 5px 5px
-  border-radius: 0 0 5px 5px
-
-div#suggestColumn.stackContent
-  text-align: center
-  float: none
-
-#suggest-list li
-  border: 1px solid #000
-  border-top-style: none
-
-#suggest-list li.selected div.suggest-content
-  background-color: #6efdfe
-  color: #841700
-
-#suggest-list li.selected:nth-last-child(1) div.suggest-content
-  -webkit-border-radius: 0 0 5px 5px
-  -moz-border-radius: 0 0 5px 5px
-  border-radius: 0 0 5px 5px
-
-#suggest-list li:nth-last-child(1)
-  -webkit-border-radius: 0 0 5px 5px
-  -moz-border-radius: 0 0 5px 5px
-  border-radius: 0 0 5px 5px
-
-#suggest-list li:hover
-  background-color: #00f
 

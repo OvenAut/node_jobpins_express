@@ -33,9 +33,9 @@ function initializeMap() {
 // 		});	
 // }
 
-function log() {
-	return console.log(arguments);
-}
+// function log() {
+// 	return console.log(arguments);
+// }
 
 $(document).ready(function() {
   //initialSocket();

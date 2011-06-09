@@ -8,7 +8,7 @@
   // The Application
 	// Our overall AppView is the top-level piece of UI.
 	window.AppView = Backbone.View.extend({
-		hm:false,
+		//hm:false,
 		//Instead of generating a new element, 
 		//bind to the existing skeleton of the App already present in the HTML.
 		el: $("#searchapp"),
@@ -20,7 +20,7 @@
 		//Delegated events for creating new items, and clearing completed ones.
 		events: {
 			"keypress #new-search": "createOnEnter",
-			"keyup #new-search":  "checkSuggest", // "showTooltip",
+			"keyup #new-search":  "enterVal", // "showTooltip",
 			"dblclick div.suggest-content": "createOnEnter",
 			//"click .search-clear a": "clearCompleted"
 		},
@@ -32,12 +32,15 @@
 		// window.blabla = ({
 		
 		initialize: function() {
-			_.bindAll(this, 'addOne', 'addAll', 'render');
+			
+			_.bindAll(this, 'addOne', 'addAll', 'renderSuggestList','enterVal');
 			
 			this.input = this.$("#new-search");
 			
 			Searches.bind('add',     this.addOne);
 			Searches.bind('refresh', this.addAll);
+			Suggests.bind('all', this.renderSuggestList);
+			//SuggestSelected.bind('all',this.clearSuggest)
 			//Searches.bind('all',     this.render);
 			//Searches.bind('socket',  this.giveName);
 			//Searches.bind('showSuggest', this.showSuggest)
@@ -63,9 +66,9 @@
 		// 				
 		// 			}));
 		//},
-		socketSearchData: function(Searchlist) {
-			socket.socketSend(Searchlist,'searchlist');
-		},
+		// socketSearchData: function(Searchlist) {
+		// 	socket.socketSend(Searchlist,'searchlist');
+		// },
 		
 		//Add a single todo item to the list by creating a 
 		//view for it, and appending its element to the <ul>.
@@ -74,17 +77,17 @@
 			//console.log("hallo");
 			//if (this.hm) console.log("hello");
 			var view = new SearchView({model: search});
-			data[view.model.attributes.id] = view.model.attributes.content;
+			//data[view.model.attributes.id] = view.model.attributes.content;
 			this.$("#search-list").append(view.render().el) // .render().elappend -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
-			if (!this.hm) this.socketSearchData(data);
+			//if (!this.hm) this.socketSearchData(data);
 		},
 		
 		//Add all items in the Todos collection at once.
 		addAll: function() {
-			this.hm = true;
+			//this.hm = true;
 			Searches.each(this.addOne);
-			this.hm = false;
-			this.socketSearchData(data);
+			//this.hm = false;
+			//this.socketSearchData(data);
 		},
 		
 		
@@ -102,6 +105,107 @@
 		// 	this.addOne;
 		// 	this.giveName;
 		// },
+		
+		
+		
+		enterVal: function(e) {
+			
+			if (e.keyCode == 40 && Suggests.models.length > 1) {
+				//console.log("down");
+				Suggests.selectDown();
+				return;
+			} else if (e.keyCode == 38 && Suggests.models.length >1) {
+				//console.log("up");
+				Suggests.selectUp();
+				return;
+			} else if (e.keyCode < 48 && e.keyCode != 8 || e.keyCode > 90 ) {
+				//return;
+			};
+			
+			//clear old Suggests
+			//Suggests.clear();
+			//this.$('#suggest-list').empty();
+			
+			
+			//console.log(e.keyCode);
+			var val = this.input.val();
+			//if ((val.length < tmpval.length || !nodata) && (val !== tmpval) || val == "") {
+				//console.log(tmpval.length+ " tmpval");
+			  //console.log("nodata " + (nodata?"true":"false"));
+				if (val == "" || val == this.input.attr('plaaceholder')) {
+					//this.clearSuggestInpute();
+					
+					this.$('#suggest-list').empty();
+					
+				} else {
+					tmpval = val;
+					//console.log(val);
+					//socket.socketSend(val,'suggest');
+					
+					Suggests.getval(val);
+					//this.renderSuggestList();
+					
+				}			
+		  
+		},
+
+		
+		// <-- this.enterVal
+		renderSuggest: function(data) {
+			//console.log("renderSuggest");
+			//console.log(data);
+			//moreSuggest = true;
+			//if (selectMax-- <= 0 || !data.get('visible')) return;
+			//console.log(data);
+			//moreSuggest = false;
+			if (this.$("#suggest-list").children().length > 4) return;
+			var view = new SuggestView({model: data});
+			//data[view.model.attributes.id] = view.model.attributes.content;
+			//this.renderData += view.render().el
+			this.$("#suggest-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
+			
+		},
+		
+		renderSuggestList: function() {
+			
+			//console.dir(Suggests);
+			//clear old Suggests
+			//Suggests.clear();
+			this.$('#suggest-list').empty();
+			//var selectMax=5
+			//var renderd = 0;
+			
+			// var SuggestsFilter = Suggests.filter(function(data) {
+			// 	return data.get('visible') && selectMax-- >= 0
+			// 	//data.get('selected') = false;
+			// });
+			//console.dir(SuggestsFilter);
+			// var testarray = new Array([1,2,3,4,5]);
+			// testarray.forEach(this.renderSuggest);
+			
+			Suggests.each(this.renderSuggest);
+			//console.dir(this.renderData);
+			//if (Suggests.length > 0) Suggests.each(this.renderSuggest);
+			//this.selectFirstSuggest();			
+			
+		},
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		searchesFindValue: function(value) {
 			return _.detect(Searches.models, function(data) {
 				//console.log(data.get("content")==value);
@@ -150,7 +254,7 @@
 		
 		
 		selectFirstSuggest: function() {
-			Suggests.selectfirst();
+			SuggestSelected.selectfirst();
 			//console.log(Suggests);
 			//console.log(_.first(Suggests));
 		},
@@ -161,35 +265,24 @@
 			// _.each(Suggests.models, function(data) { 
 			// 	data.clearModel();
 			// 	});
-			Suggests.clear();
+			SuggestSelected.clear();
 			this.$('#suggest-list').empty();
 			return cb();
 		},
 		
 		
-		renderSuggest: function(data) {
-			//console.log("renderSuggest");
-			//console.log(data);
-			var view = new SuggestView({model: data});
-			//data[view.model.attributes.id] = view.model.attributes.content;
-			this.$("#suggest-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
-		},
 		
-		renderSuggestList: function() {
-			Suggests.each(this.renderSuggest);
-			//this.selectFirstSuggest();			
-			
-		},
 		
-		suggestAttributes: function(data,j,i) {
-			//console.log(data[i]);
-			return {
-				id:          j,
-				name:        i,
-				couchids:    data[i],
-				selected:    false
-			};
-		},
+		// suggestAttributesold: function(data,j,i) {
+		// 	//console.log(data[i]);
+		// 	return {
+		// 		id:          j,
+		// 		name:        i,
+		// 		couchids:    data[i],
+		// 		selected:    false,
+		// 		visible:     true
+		// 	};
+		// },
 		suggestPresent: function() {
 			if (Suggests.models.length >= 1) return true;
 		},
@@ -207,17 +300,17 @@
 			});
 			var j =0;
 			//for (var i = j = 0,j<5,i++) {
-			for (i in  data) {
-				//datain.push(this.suggestAttributes(data,i));
-				// data present ?
-				console.log(i);
-				if (this.searchesFindValue(i)) continue;
-				//console.log(this.searchesFindValue(data[i].key));
-				//if (Searches.get({content:data[i].key})) continue; 
-				Suggests.add(this.suggestAttributes(data,j++,i));
-				//if (j==5) break;
-				//console.log(Searches.get({content:data[i].key}));
-			};
+			// for (i in  data) {
+			// 	//datain.push(this.suggestAttributes(data,i));
+			// 	// data present ?
+			// 	//console.log(i);
+			// 	if (this.searchesFindValue(i)) continue;
+			// 	//console.log(this.searchesFindValue(data[i].key));
+			// 	//if (Searches.get({content:data[i].key})) continue; 
+			// 	Suggests.add(this.suggestAttributes(data,j++,i));
+			// 	//if (j==5) break;
+			// 	//console.log(Searches.get({content:data[i].key}));
+			// };
 			//console.log(datain);
 			//Suggests.refresh(datain);
 			this.renderSuggestList();
@@ -246,34 +339,6 @@
 		},
 		
 		
-		checkSuggest: function(e) {
-			if (e.keyCode == 40 && Suggests.models.length > 1) {
-				//console.log("down");
-				Suggests.selectDown();
-				return;
-			} else if (e.keyCode == 38 && Suggests.models.length >1) {
-				//console.log("up");
-				Suggests.selectUp();
-				return;
-			} else if (e.keyCode < 48 && e.keyCode != 8 || e.keyCode > 90 ) {
-				return;
-			};
-			
-			
-			//console.log(e.keyCode);
-			var val = this.input.val();
-			if ((val.length < tmpval.length || !nodata) && (val !== tmpval) || val == "") {
-				//console.log(tmpval.length+ " tmpval");
-			  //console.log("nodata " + (nodata?"true":"false"));
-				if (val == "" || val == this.input.attr('plaaceholder')) {
-					
-					this.clearSuggestInpute();
-				} else {
-					tmpval = val;
-					socket.socketSend(val,'suggest');
-				}			
-		  };
-		},
 		
 		// removeSuggest: function(data) {
 		// 	console.log("clear");
