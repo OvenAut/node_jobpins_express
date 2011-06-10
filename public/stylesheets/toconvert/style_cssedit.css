@@ -418,8 +418,10 @@ span.edition:hover {
 	list-style-type: none;
 	margin-top: 6px;
 	margin-left: 3px;
-}
+	cursor: pointer;
 
+}
+/*
 #search-line li:aifter {
 	content: "\0020";
 	display: block;
@@ -474,7 +476,7 @@ span.edition:hover {
 	text-decoration: line-through;
 	color: #777
 }
-
+*/
 #search-list .search-destroy {
 	position: absolute;
 	right: 5px;

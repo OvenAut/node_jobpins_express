@@ -13,10 +13,10 @@
 
 	},
 	clearModel: function() {
-		//console.log(this);
+		console.log(this);
 		this.clear({silent:true});
-		this.view.remove();
-		this.set();
+		//this.view.remove();
+		this.set({},{silent:true});
 		console.log("clear");
 	}
 	
@@ -44,22 +44,29 @@ window.SuggestCollection = Backbone.Collection.extend({
 	
 	clear: function() {
 		
-		this.refresh();
-		console.log("clear 48")
-		//_.each(this, function() {
-		//	this.clear
+		//console.log("clear 48")
+		this.refresh({},{silent:true});
+		this.each(function(model) {	
+			//console.log(this);
+		   model.clear();
 		//console.log("clearing");
-		//});
+		});
+		this.remove({});
+		
 		//SuggestView.remove();
+		console.log("clear Suggests.length = " + Suggests.length);
+		
 	},
 	selectDown: function() {
 		//console.log(this);
+		console.log("selectDown");
 		var selectedId = this.getSelected().id;
 		//console.log(selectedId);
 		selectedId++;
 		this.selectWitheId(selectedId);		
 	},
 	selectUp: function() {
+		console.log("selectUp");
 		//console.log(this.getSelected());
 		var selectedId = this.getSelected().id;
 		selectedId--;
@@ -73,8 +80,9 @@ window.SuggestCollection = Backbone.Collection.extend({
 	},
 	
 	selectfirst: function() {
-		console.log("select first");
-		console.log(this.first());
+		
+   console.log("select first");
+//		console.log(this.first());
 		this.first().toggle();
 	  //console.log(data);
 	  // data.toggle();
@@ -92,7 +100,7 @@ window.SuggestCollection = Backbone.Collection.extend({
 		});
 	},
 	selectWitheId: function(id) {
-		//console.log(id);
+		console.log(id);
 		if (id < 0 || id >= this.models.length) return
 		this.unselect();
 		//console.log(this.get({id:id}));
@@ -119,6 +127,10 @@ window.SuggestCollection = Backbone.Collection.extend({
 	// <-- app.enterVal
 	getval: function(val) {
 		//Make a virtual group from val
+		if (Suggests.length>0) {
+			this.clear();
+			this.refresh({},{silent:true});
+		};
 		var rep = new RegExp("\\.*\\**\\+*\\?*");
 		val =  val.replace(rep,"");
 		//var rep = new RegExp("[u]+",i);
@@ -138,12 +150,26 @@ window.SuggestCollection = Backbone.Collection.extend({
 		
 		//window.SuggestSelected = new SuggestSelectedList(data);
 		//console.dir(SuggestSelected);
+		//console.log(data);
+		var dataSet = [];
+		for (i in data) {
+			dataSet.push({
+				id:i,
+				inuse:data[i].attributes.inuse,
+				name:data[i].attributes.name,
+				selected:data[i].attributes.selected,
+				visible:data[i].attributes.visible,
+				});
+		};
+		
+		//console.log(dataSet);
+		
+		this.refresh(dataSet);
 		
 		
-		this.refresh(data);
-		console.log(Suggests);
+		console.log(Suggests.length);
 		
-		this.selectfirst();
+		if (Suggests.length >= 1) this.selectfirst();
 		//console.dir(this);
 		
 	},
@@ -204,7 +230,7 @@ window.SuggestView = Backbone.View.extend({
 
 	initialize: function() {
 		_.bindAll(this, 'render');
-		this.model.bind('change', this.update);
+		this.model.bind('add', this.update);
     //this.model.bind('all', this.removeSuggest);
     //this.model.bind('add', this.update);
     //log(this);
@@ -224,7 +250,7 @@ window.SuggestView = Backbone.View.extend({
 	
 	update: function() {
 		this.get("selected")?$(this.view.el).addClass("selected"):$(this.view.el).removeClass("selected");
-		//console.log(this);
+		console.log(this);
 		console.log("update");
 	},
 
@@ -269,7 +295,7 @@ window.SuggestView = Backbone.View.extend({
 		var list = 		this.$('.suggest-content');
 		//console.log(list);
 		this.model.get("selected")?list.addClass("selected"):list.removeClass("selected");
-		console.log(this.model.get("selected"));
+		//console.log(this.model.get("selected"));
 		
 		//.suggest-content
 		//this.input = this.$('.search-input');

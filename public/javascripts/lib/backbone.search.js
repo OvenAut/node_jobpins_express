@@ -17,9 +17,9 @@
 		},
 		
 		// Toggle the done state of this todo
-		toggle: function() {
-			this.save({done: !this.get("done")});
-		},
+		// toggle: function() {
+		// 	this.save({done: !this.get("done")});
+		// },
 		
 		//Remove this Todo from localStorage and delete its view.
 		clear: function() {
@@ -50,14 +50,14 @@
 		
 		localStorage: new Store("search"),
 		
-		active: function() {
-			return this.filter(function(searchparam) {  //filter => array.filter(callback) 
-				return searchparam.get('active');
-			});
-		},
-		deactive: function() {
-			return this.without.apply(this, this.active());
-		},
+		// active: function() {
+		// 	return this.filter(function(searchparam) {  //filter => array.filter(callback) 
+		// 		return searchparam.get('active');
+		// 	});
+		// },
+		// deactive: function() {
+		// 	return this.without.apply(this, this.active());
+		// },
 		
 		nextOrder: function() {
 		  if (!this.length) return 1;
@@ -85,14 +85,14 @@
 		template: _.template($('#searchItem-template').html()),
 		
 		events: {
-			"click .check"     : "toggleDone",
-			"dblclick div.search-content" : "edit",
+			//"click .check"     : "toggleDone",
+			//"dblclick div.search-content" : "edit",
 			"click span.search-destroy" : "clear",
-			"keypress .search-input"    : "updateOnEnter"
+			//"keypress .search-input"    : "updateOnEnter"
 		},
 		
 		initialize: function() {
-			_.bindAll(this, 'render', 'close');
+			_.bindAll(this, 'render');
 			this.model.bind('change', this.render);
 			this.model.view = this;
 		},
@@ -109,28 +109,28 @@
 			// console.log(this);
 			var content = this.model.get('content');
 			this.$('.search-content').text(content);
-			this.input = this.$('.search-input');
-			this.input.bind('blur', this.close);
-			this.input.val(content);
+			//this.input = this.$('.search-input');
+			//this.input.bind('blur', this.close);
+			//this.input.val(content);
 		},
 		
-		toggleDone: function() {
-			this.model.toggle();
-		},
-		
-		edit: function() {
-			$(this.el).addClass('editing');
-			this.input.focus();
-		},
-		
-		close: function() {
-			this.model.save({content: this.input.val()});
-			$(this.el).removeClass('editing');
-		},
-		
-		updateOnEnter: function(e) {
-			if (e.keyCode == 13) this.close();
-		},
+		// toggleDone: function() {
+		// 	this.model.toggle();
+		// },
+		// 
+		// edit: function() {
+		// 	$(this.el).addClass('editing');
+		// 	this.input.focus();
+		// },
+		// 
+		// close: function() {
+		// 	this.model.save({content: this.input.val()});
+		// 	$(this.el).removeClass('editing');
+		// },
+		// 
+		// updateOnEnter: function(e) {
+		// 	if (e.keyCode == 13) this.close();
+		// },
 		
 		clear: function() {
 			this.model.clear();

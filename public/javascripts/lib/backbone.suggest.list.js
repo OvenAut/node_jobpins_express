@@ -6,7 +6,7 @@
 
 
 window.SuggestListCollection = Backbone.Collection.extend({
-	model: Suggest,
+	//model: Suggest,
 
 	Attributes: function(name,id) {
 		//console.log(data[i]);

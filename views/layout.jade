@@ -50,6 +50,11 @@ html
       <span class="gui">&#x20;</span>
       </div>
     script#searchItem-template(type="text/template")
+      <div class="display">
+      <div class="search-content"></div>
+      <span class="search-destroy"></span>
+      </div>
+    script#searchItemOld-template(type="text/template")
       <div class="search <%= done ? 'done' : '' %>">
       <div class="display">
       <input class="check" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
@@ -101,3 +106,4 @@ html
     //-script
     //-  var connect = {sid:'#{sessionID}'};    
     script(src='javascripts/lib/myscript.js')
+    

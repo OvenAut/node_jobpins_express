@@ -109,7 +109,12 @@
 		
 		
 		enterVal: function(e) {
-			
+			if (SuggestList.length <= 0) {
+				//console.log(this.input.val());
+				this.input.val("");
+				this.input.blur();
+				return;
+			  }
 			if (e.keyCode == 40 && Suggests.models.length > 1) {
 				//console.log("down");
 				Suggests.selectDown();
@@ -121,9 +126,12 @@
 			} else if (e.keyCode < 48 && e.keyCode != 8 || e.keyCode > 90 ) {
 				//return;
 			};
+			if (e.keyCode == 37 || e.keyCode == 39) {
+				return
+			};
 			
 			//clear old Suggests
-			//Suggests.clear();
+			Suggests.clear();
 			//this.$('#suggest-list').empty();
 			
 			
@@ -265,7 +273,7 @@
 			// _.each(Suggests.models, function(data) { 
 			// 	data.clearModel();
 			// 	});
-			SuggestSelected.clear();
+			Suggests.clear();
 			this.$('#suggest-list').empty();
 			return cb();
 		},
@@ -315,7 +323,7 @@
 			//Suggests.refresh(datain);
 			this.renderSuggestList();
 			if (this.suggestPresent()) {
-				this.selectFirstSuggest();
+				//this.selectFirstSuggest();
 				this.showTooltip("showSuggest");
 		  }
 			//data.each(this.renderSuggest);

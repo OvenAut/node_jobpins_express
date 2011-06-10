@@ -72,15 +72,7 @@ span.edition:hover{text-shadow:4px 4px 14px #111}
 #map_canvas{min-height:400px;height:400px;width:1100px;padding:0;margin:0;white-space:nowrap;z-index:-999;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111}
 #column1{position:relative;left:25%}
 #column2{position:relative;left:-75%}
-#search-list li{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;position:relative;font-size:24px;line-height:1.5em;list-style-type:none;margin-top:6px;margin-left:3px}
-#search-line li:aifter{content:"\0020";display:block;height:0;clear:both;overflow:hidden;visibility:hidden}
-#search-list li.editing{padding:0;border:0}
-#search-list .search-content{cursor:pointer}
-#search-list .editing .display,#search-list .edit{display:none}
-#search-list .editing .edit{display:block}
-#search-list .editing input{width:245px;font-size:24px;font-family:inherit;margin:100;line-height:1em;border:0 solid #999;outline:none;padding:16px 0 15px 29px;-box-shadow:0 1px 2px 0 rgba(0,0,0,0.2) inset;-moz-box-shadow:0 1px 2px 0 rgba(0,0,0,0.2) inset;-khtml-box-shadow:0 1px 2px 0 rgba(0,0,0,0.2) inset;-webkit-box-shadow:0 1px 2px 0 rgba(0,0,0,0.2) inset}
-#search-list .check{position:relativ;top:15px;margin:12px 10px 0 7px;float:left}
-#search-list .done{text-decoration:line-through;color:#777}
+#search-list li{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;position:relative;font-size:24px;line-height:1.5em;list-style-type:none;margin-top:6px;margin-left:3px;cursor:pointer}
 #search-list .search-destroy{position:absolute;right:5px;display:none;cursor:pointer;width:20px;height:20px;background:url("../images/destroy.png") no-repeat 0 0;top:8px}
 #search-list li:hover .search-destroy{display:block}
 #search-list .search-destroy:hover{background-position:0 -20px}
