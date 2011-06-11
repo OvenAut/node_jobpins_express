@@ -39,7 +39,9 @@
 			
 			Searches.bind('add',     this.addOne);
 			Searches.bind('refresh', this.addAll);
-			Suggests.bind('all', this.renderSuggestList);
+			Suggests.bind('refresh', this.renderSuggestList);
+			Suggests.bind('change', this.renderSuggestList);
+			
 			//SuggestSelected.bind('all',this.clearSuggest)
 			//Searches.bind('all',     this.render);
 			//Searches.bind('socket',  this.giveName);
@@ -74,8 +76,12 @@
 		//view for it, and appending its element to the <ul>.
 		addOne: function(search) {
 			//console.log(bla);
-			//console.log("hallo");
+			if (SuggestList.length>0) {
+				SuggestList.get(search.attributes.listId).toggle();
+				console.log(search.attributes.listId);
+			}
 			//if (this.hm) console.log("hello");
+			
 			var view = new SearchView({model: search});
 			//data[view.model.attributes.id] = view.model.attributes.content;
 			this.$("#search-list").append(view.render().el) // .render().elappend -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
@@ -117,11 +123,11 @@
 			  }
 			if (e.keyCode == 40 && Suggests.models.length > 1) {
 				//console.log("down");
-				Suggests.selectDown();
+				Suggests.selectUpDown(true);
 				return;
 			} else if (e.keyCode == 38 && Suggests.models.length >1) {
 				//console.log("up");
-				Suggests.selectUp();
+				Suggests.selectUpDown(false);
 				return;
 			} else if (e.keyCode < 48 && e.keyCode != 8 || e.keyCode > 90 ) {
 				//return;
@@ -131,7 +137,7 @@
 			};
 			
 			//clear old Suggests
-			Suggests.clear();
+			if (Suggests.length >0)Suggests.clear();
 			//this.$('#suggest-list').empty();
 			
 			
@@ -147,7 +153,7 @@
 					
 				} else {
 					tmpval = val;
-					//console.log(val);
+					console.log("enterVal->getval");
 					//socket.socketSend(val,'suggest');
 					
 					Suggests.getval(val);
@@ -166,12 +172,12 @@
 			//if (selectMax-- <= 0 || !data.get('visible')) return;
 			//console.log(data);
 			//moreSuggest = false;
-			if (this.$("#suggest-list").children().length > 4) return;
+			if (this.$("#suggest-list").children().length > 4 || !data.get('visible')) return;
 			var view = new SuggestView({model: data});
 			//data[view.model.attributes.id] = view.model.attributes.content;
 			//this.renderData += view.render().el
 			this.$("#suggest-list").append(view.render().el) // append -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
-			
+			//console.log("renderSuggest");
 		},
 		
 		renderSuggestList: function() {
@@ -190,7 +196,8 @@
 			//console.dir(SuggestsFilter);
 			// var testarray = new Array([1,2,3,4,5]);
 			// testarray.forEach(this.renderSuggest);
-			
+			console.log("renderSuggestList");
+			//console.log(Suggests);
 			Suggests.each(this.renderSuggest);
 			//console.dir(this.renderData);
 			//if (Suggests.length > 0) Suggests.each(this.renderSuggest);
@@ -229,8 +236,8 @@
 			return {
 				content: data.attributes.name,
 				order:   Searches.nextOrder(),
-				done:    false,
-				couchids : data.attributes.couchids
+				couchids : data.attributes.couchids,
+				listId: data.attributes.listId,
 			};
 		},
 		
@@ -321,7 +328,7 @@
 			// };
 			//console.log(datain);
 			//Suggests.refresh(datain);
-			this.renderSuggestList();
+			//this.renderSuggestList();
 			if (this.suggestPresent()) {
 				//this.selectFirstSuggest();
 				this.showTooltip("showSuggest");

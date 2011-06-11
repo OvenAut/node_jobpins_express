@@ -63,11 +63,20 @@
 		  if (!this.length) return 1;
 		  return this.last().get('order') + 1;
 		},
+		getName: function(name) {
+				var getName = Searches.detect(function(data) {
+					return (data.get("content") == name);
+				});
+			if (getName) return true;
+			return false;
+		},
+		//getNameCached: this.getName.cached(),
+		//getName: SearchList.getName.cachedTrac(),
 		
 	});
 	
 	window.Searches = new SearchList;
-
+	//Searches.getName = Searches.getName.cachedTrac();
 
 
 
@@ -94,6 +103,7 @@
 		initialize: function() {
 			_.bindAll(this, 'render');
 			this.model.bind('change', this.render);
+			//this.model.bind('add', this.listupdate);
 			this.model.view = this;
 		},
 		
@@ -108,11 +118,13 @@
 			// console.log("model");
 			// console.log(this);
 			var content = this.model.get('content');
+			//Searches.getName(content);
 			this.$('.search-content').text(content);
 			//this.input = this.$('.search-input');
 			//this.input.bind('blur', this.close);
 			//this.input.val(content);
 		},
+		
 		
 		// toggleDone: function() {
 		// 	this.model.toggle();
@@ -133,6 +145,11 @@
 		// },
 		
 		clear: function() {
+			// if (SuggestList.length>0) {
+			SuggestList.get(this.model.attributes.listId).toggle();
+			// 	console.log(search.attributes.listId);
+			// }
+			//console.log(this.model.attributes.listId);
 			this.model.clear();
 		}
 		

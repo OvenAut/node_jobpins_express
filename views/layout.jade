@@ -2,7 +2,7 @@
 html
   head
     //-link(rel='stylesheet',href='http://fonts.googleapis.com/css?family=Permanent+Marker',type='text/plain')
-    //-link(rel='stylesheet',href='http://fonts.googleapis.com/css?family=Paytone+One',type='text/plain')
+    link(rel='stylesheet',href='http://fonts.googleapis.com/css?family=Paytone+One',type='text/plain')
     meta(charset='utf-8')
     //-meta(http-equiv="X-UA-Compatible" content="chrome=1")
     //-meta(http-equiv="X-UA-Compatible", content="IE=Edge,chrome=1")
@@ -46,8 +46,8 @@ html
     // Templates 
     script#suggest-template(type="text/template")
       <div class="display">
-      <div class="suggest-content"></div>
-      <span class="gui">&#x20;</span>
+      <div class="suggest-content <%= selected ? 'selected' : '' %>"><%= content %></div>
+      <span class="gui <%= up ? 'up' : '' %><%= down ? 'down' : '' %>">&#x20;</span>
       </div>
     script#searchItem-template(type="text/template")
       <div class="display">
@@ -82,7 +82,7 @@ html
       </span>
       <% } %>
     
-    //-script(src="http://maps.google.com/maps/api/js?sensor=false")
+    script(src="http://maps.google.com/maps/api/js?sensor=false")
     //-script(src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
     /if IE
       script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")

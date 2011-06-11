@@ -7,6 +7,30 @@ var	data = {},
 		hm = false,
 		tmpval= "",
 		nodata=false; 
+// Solution to Part 1.
+
+// Function.prototype.cached = function(){
+//   var self = this, cache = {};
+//   return function(arg){
+//     if(arg in cache) return cache[arg];
+//     return cache[arg] = self(arg);
+//   }
+// }
+// 
+// // A tracing version:
+// 
+// Function.prototype.cachedTrac = function(){
+//   var self = this, cache = {};
+//   return function(arg){
+//     if(arg in cache) {
+//       console.log('Cache hit for '+arg);
+//       return cache[arg];
+//     } else {
+//       console.log('Cache miss for '+arg);
+//       return cache[arg] = self(arg);
+//     }
+//   }
+// }
 
 
 //	console.dir(sending);
@@ -45,7 +69,7 @@ $(document).ready(function() {
 	Google Map
 **/	
 
-  //initializeMap(); //map	
+  initializeMap(); //map	
 
 	window.App = new AppView;
 			

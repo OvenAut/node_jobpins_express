@@ -239,7 +239,11 @@ div
   max-width: 1100px
   margin: 0 auto
   width: 1100px
-  height: auto
+  position: relative
+  bottom: -1px
+
+#searchapp
+  padding-bottom: 40px
 
 #header
   background: #333
@@ -313,6 +317,19 @@ span.edition:hover
   position: relative
   left: -75%
 
+#column1box
+  background: #fff
+  border: 1px solid #ccc
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px
+  border-radius: 5px
+  -box-shadow: 0 0 5px #999
+  -moz-box-shadow: 0 0 5px #999
+  -khtml-box-shadow: 0 0 5px #999
+  -webkit-box-shadow: 0 0 5px #999
+  padding: 10px
+  margin: 5px 0 5px 5px
+
 #search-list li
   background: #fff
   border: 1px solid #ccc
@@ -327,9 +344,9 @@ span.edition:hover
   font-size: 24px
   line-height: 1.5em
   list-style-type: none
-  margin-top: 6px
-  margin-left: 3px
   cursor: pointer
+  margin-bottom: 5px
+  margin-top: 5px
 
 #search-list .search-destroy
   position: absolute
@@ -347,19 +364,6 @@ span.edition:hover
 #search-list .search-destroy:hover
   background-position: 0 -20px
 
-ul#search-öist li,#column1box
-  background: #fff
-  border: 1px solid #ccc
-  -webkit-border-radius: 5px
-  -moz-border-radius: 5px
-  border-radius: 5px
-  -box-shadow: 0 0 5px #999
-  -moz-box-shadow: 0 0 5px #999
-  -khtml-box-shadow: 0 0 5px #999
-  -webkit-box-shadow: 0 0 5px #999
-  padding: 10px
-  margin: 5px
-
 #slogen
   background: #ffa500
   border: 1px solid #000
@@ -370,8 +374,12 @@ ul#search-öist li,#column1box
   -moz-box-shadow: 0 0 5px #999
   -khtml-box-shadow: 0 0 5px #999
   -webkit-box-shadow: 0 0 5px #999
-  padding: 10px
-  margin: 5px
+  padding: 5px
+  margin: 5px 0 5px 5px
+  font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif
+  font-weight: bold
+  font-variant: small-caps
+  text-align: center
 
 input#new-search
   color: #ff2545
@@ -387,7 +395,7 @@ a
 
 #searchColumn
   background: #333
-  border: 1px solid #ccc
+  border: 1px solid #333
   -webkit-border-radius: 5px
   -moz-border-radius: 5px
   border-radius: 5px
@@ -395,7 +403,6 @@ a
   -moz-box-shadow: 0 0 5px #999
   -khtml-box-shadow: 0 0 5px #999
   -webkit-box-shadow: 0 0 5px #999
-  margin: 0
   font-size: 2em
   text-align: center
   padding: 5px 370px
@@ -433,6 +440,17 @@ ul#suggest-list
   position: relative
   cursor: pointer
 
+#suggest-list li .up
+  position: absolute
+  display: block
+  cursor: pointer
+  height: 30px
+  background: url(../../images/up.gif) no-repeat 0 0
+  width: 30px
+  clear: left
+  left: 291px
+  bottom: 1px
+
 #suggest-list li .down
   position: absolute
   display: block
@@ -467,25 +485,29 @@ ul#suggest-list
   border-radius: 0 0 5px 5px
 
 #footer
-  font-size: "0.8em"
   color: #ccc
   background: #333
   -box-shadow: 0 0 5px #999
   -moz-box-shadow: 0 0 5px #999
   -khtml-box-shadow: 0 0 5px #999
   -webkit-box-shadow: 0 0 5px #999
-  -webkit-border-radius: 5px
-  -moz-border-radius: 5px
-  border-radius: 5px
-  margin-top: 5px
+  -webkit-border-radius: 5px 5px 35px 5px
+  -moz-border-radius: 5px 5px 35px 5px
+  border-radius: 5px 5px 35px 5px
+  margin-top: 0px
+  width: 1100px
+  font-size: 15px
+  z-index: -999
+  height: 40px
+  position: absolute
+  bottom: 0
 
 #footer .stackAuto
   vertical-align: middle
   padding: 10px 0
 
 #footer .stackContent
-  padding: 10px
-  margin: 10px
+  padding: 0 50px
 
 #footer .stackAuto .stackContent
   margin: 0 10px
