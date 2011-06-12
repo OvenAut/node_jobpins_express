@@ -42,17 +42,19 @@ html
               a.stackContent(href='#') Imprint
             .stackAuto
               a.stackContent(href='http://www.twitter.com/ovenaut') Follow me on Twitter
-        ul#test
-    // Templates 
+    // Templates <%= counter? '<span class="search-counter">' + counter + '</span>' : '' %>
     script#suggest-template(type="text/template")
       <div class="display">
       <div class="suggest-content <%= selected ? 'selected' : '' %>"><%= content %></div>
       <span class="gui <%= up ? 'up' : '' %><%= down ? 'down' : '' %>">&#x20;</span>
       </div>
     script#searchItem-template(type="text/template")
-      <div class="display">
-      <div class="search-content"></div>
+      <div class="display" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));
+      background: -moz-linear-gradient(top, <%= color %>, #fff);
+      ">
+      <div class="search-content"><%= content %></div>
       <span class="search-destroy"></span>
+      <span class="search-counter"><%= counter? counter : 'loading' %>
       </div>
     script#searchItemOld-template(type="text/template")
       <div class="search <%= done ? 'done' : '' %>">

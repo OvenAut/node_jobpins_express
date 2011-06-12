@@ -63,9 +63,9 @@ img{display:block}
 body{font-family:sans-serif,"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;margin-top:5px}
 div{display:block}
 #page{max-width:1100px;margin:0 auto;width:1100px;position:relative;bottom:-1px}
-#searchapp{padding-bottom:40px}
-#header{background:#333;text-align:left;border:1px solid;-webkit-border-radius:50px 5px 5px 5px;-moz-border-radius:50px 5px 5px 5px;border-radius:50px 5px 5px 5px;width:1100px;height:88px}
-#title{color:#fff;font-size:4em;font-family:"Paytone One","Permanent Marker";text-shadow:4px 4px 4px #111;padding-left:20px;padding-top:10px}
+#searchapp{padding-bottom:0}
+#header{background:#333;text-align:left;border:1px solid;-webkit-border-radius:50px 5px 5px 5px;-moz-border-radius:50px 5px 5px 5px;border-radius:50px 5px 5px 5px;width:1100px;height:88px;background:-webkit-gradient(linear,left top,left bottom,from(#555),to(#333));background:-moz-linear-gradient(top,#555,#333)}
+#title{color:#fff;font-size:4em;font-family:"Paytone One","Permanent Marker";text-shadow:1px 1px 1px #000,1px 1px 6px #999;padding-left:20px;padding-top:10px}
 #header div.stack1of4{width:88px;margin-left:170px}
 span.edition{-webkit-transform:rotate(10deg);-moz-transform:rotate(10deg);-o-transform:rotate(10deg);transform:rotate(10deg);right:auto;position:relative;color:#800000;left:600px;font:bold 30px Geneva,sans-serif;top:-50px;text-shadow:4px 4px 4px #111;border:1px dashed #ff221b;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;width:230px;float:none}
 span.edition:hover{text-shadow:4px 4px 14px #111}
@@ -74,9 +74,11 @@ span.edition:hover{text-shadow:4px 4px 14px #111}
 #column1{position:relative;left:25%}
 #column2{position:relative;left:-75%}
 #column1box{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:10px;margin:5px 0 5px 5px}
-#search-list li{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;position:relative;font-size:24px;line-height:1.5em;list-style-type:none;cursor:pointer;margin-bottom:5px;margin-top:5px}
+#search-list li{list-style-type:none}
+#search-list .display{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;position:relative;font-size:24px;line-height:1.5em;cursor:pointer;margin-bottom:5px;margin-top:5px;text-shadow:0 0 3px #fff}
+span.search-counter{position:absolute;font-size:15px;background-color:#ff221b;color:#fffeff;line-height:20px;border:1px solid #212121;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;padding-right:2px;padding-left:2px;bottom:13px;z-index:0;right:1px}
 #search-list .search-destroy{position:absolute;right:5px;display:none;cursor:pointer;width:20px;height:20px;background:url("../images/destroy.png") no-repeat 0 0;top:8px}
-#search-list li:hover .search-destroy{display:block}
+#search-list .display:hover .search-destroy{display:block;z-index:23}
 #search-list .search-destroy:hover{background-position:0 -20px}
 #slogen{background:#ffa500;border:1px solid #000;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:5px;margin:5px 0 5px 5px;font-family:"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;font-weight:bold;font-variant:small-caps;text-align:center}
 input#new-search{color:#ff2545;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;width:330px;padding-left:5px}
@@ -92,7 +94,7 @@ ul#suggest-list{text-align:left;list-style-type:none;display:block;position:abso
 #suggest-list li :hover{background-color:#333;color:#eaeaea}
 #suggest-list li .selected:hover{background-color:#333;color:#ff221b}
 #suggest-list li:nth-last-child(1),#suggest-list li:nth-last-child(1) :hover,#suggest-list li:nth-last-child(1) .selected{-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px}
-#footer{color:#ccc;background:#333;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;-webkit-border-radius:5px 5px 35px 5px;-moz-border-radius:5px 5px 35px 5px;border-radius:5px 5px 35px 5px;margin-top:0;width:1100px;font-size:15px;z-index:-999;height:40px;position:absolute;bottom:0}
+#footer{color:#ccc;background:#333;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;-webkit-border-radius:5px 5px 35px 5px;-moz-border-radius:5px 5px 35px 5px;border-radius:5px 5px 35px 5px;margin-top:0;width:1100px;font-size:15px;z-index:-999;height:40px;position:absolute;bottom:-40}
 #footer .stackAuto{vertical-align:middle;padding:10px 0}
 #footer .stackContent{padding:0 50px}
 #footer .stackAuto .stackContent{margin:0 10px}

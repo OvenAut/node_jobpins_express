@@ -24,7 +24,15 @@ socket.on('message', function(data){
 		//console.dir("data.suggestList");
 		window.SuggestList.newList(data.suggestList);
 	};
-	
+	if (data.searchData) {
+		console.log(data.searchData.data.couchid);
+		var tmpData = Searches.get(data.searchData.id);
+		
+		tmpData.set({
+			couchids:data.searchData.data.couchid,
+		});
+		tmpData.save();
+	}
 	// if (data.suggest) {
 	// 	
 	// 	if (_.isEmpty(data.suggest)) {

@@ -243,7 +243,7 @@ div
   bottom: -1px
 
 #searchapp
-  padding-bottom: 40px
+  padding-bottom: 0px
 
 #header
   background: #333
@@ -254,12 +254,14 @@ div
   border-radius: 50px 5px 5px 5px
   width: 1100px
   height: 88px
+  background: -webkit-gradient(linear, left top, left bottom, from(#555), to(#333))
+  background: -moz-linear-gradient(top, #555, #333)
 
 #title
   color: #fff
   font-size: 4em
   font-family: 'Paytone One','Permanent Marker'
-  text-shadow: 4px 4px 4px #111
+  text-shadow:  1px 1px 1px #000, 1px 1px 6px #999
   padding-left: 20px
   padding-top: 10px
 
@@ -331,6 +333,9 @@ span.edition:hover
   margin: 5px 0 5px 5px
 
 #search-list li
+  list-style-type: none
+
+#search-list .display
   background: #fff
   border: 1px solid #ccc
   -webkit-border-radius: 5px
@@ -343,10 +348,26 @@ span.edition:hover
   position: relative
   font-size: 24px
   line-height: 1.5em
-  list-style-type: none
   cursor: pointer
   margin-bottom: 5px
   margin-top: 5px
+  text-shadow:  0px 0px 3px #fff
+
+span.search-counter
+    position: absolute
+    font-size: 15px
+    background-color: #ff221b
+    color: #fffeff
+    line-height: 20px
+    border: 1px solid #212121
+    -webkit-border-radius: 5px 5px 5px 5px
+    -moz-border-radius: 5px 5px 5px 5px
+    border-radius: 5px 5px 5px 5px
+    padding-right: 2px
+    padding-left: 2px
+    bottom: 13px
+    z-index: 0
+    right: 1px
 
 #search-list .search-destroy
   position: absolute
@@ -358,8 +379,9 @@ span.edition:hover
   background: url("../images/destroy.png") no-repeat 0 0
   top: 8px
 
-#search-list li:hover .search-destroy
+#search-list .display:hover .search-destroy
   display: block
+  z-index: 23
 
 #search-list .search-destroy:hover
   background-position: 0 -20px
@@ -500,7 +522,11 @@ ul#suggest-list
   z-index: -999
   height: 40px
   position: absolute
-  bottom: 0
+  bottom: -40
+
+//-#footer p
+//.  color #000
+//.  text-shadow: 0px 1px 1px #fff;
 
 #footer .stackAuto
   vertical-align: middle
@@ -517,8 +543,10 @@ ul#suggest-list
   cursor: pointer
   color: #666
 
+
 #footer a:hover,#footer a:focus
   color: #fff
+  //-text-shadow 0 0 4px #ccc, 0 -5px 4px #ff3, 2px -8px 6px #fd3, -2px -11px 11px #f80, 2px -14px 18px #f20
 
 .ui-tooltip,.ui-tooltip-top,.ui-tooltip-right,.ui-tooltip-bottom,.ui-tooltip-left
   color: #fff

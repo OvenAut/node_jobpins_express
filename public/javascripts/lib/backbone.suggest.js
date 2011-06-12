@@ -84,7 +84,7 @@ window.SuggestCollection = Backbone.Collection.extend({
 	// },
 	selectUpDown: function(dirplus) {
 		//console.log(this);
-		console.log("selectUpDown");
+		//console.log("selectUpDown");
 		var selectedSug = this.getSelected();
 		//console.log(selectedSug);
 		var selectedId = selectedSug.id;

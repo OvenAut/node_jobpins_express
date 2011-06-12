@@ -99,7 +99,7 @@ app.get('/test', function(req,res) {
 
 
 if (!module.parent) {
-  app.listen(3000);
+  app.listen(80);
   console.log("Express server listening on port %d", app.address().port);
 }
 
@@ -133,51 +133,66 @@ socket.on('connection', function(client){
     //console.dir(client);
 		//var cookie_string = client.request.headers.cookie;
 		//var parsed_cookies = connect.utils.parseCookie(cookie_string);
-		client.once('message', function(message) {
-			console.log('once.message')
-			//console.log(parsed_cookies);
-			//console.log(cookie_string);
-			//console.log(sid);
-			//var sida = {'connect.sid':sid.sid};
-			//var sida = sid.sid;
-			//console.log(sida)    
-			// storeGet(message,function(session) {
-			// 	//console.dir(this);
-			// 	//console.dir(message);
-			// 	session.counter+=1;
-			// 		    session.data = message.data;
-			// 	
-			// 	client.sid = message.sid;
-			// 	//console.dir(session);
-			// 	
-			// 	storeSet(message,session);
-			// 					
-			// });
-		
-		});
+		// client.once('message', function(message) {
+		// 	console.log('once.message')
+		// 	//console.log(parsed_cookies);
+		// 	//console.log(cookie_string);
+		// 	//console.log(sid);
+		// 	//var sida = {'connect.sid':sid.sid};
+		// 	//var sida = sid.sid;
+		// 	//console.log(sida)    
+		// 	// storeGet(message,function(session) {
+		// 	// 	//console.dir(this);
+		// 	// 	//console.dir(message);
+		// 	// 	session.counter+=1;
+		// 	// 		    session.data = message.data;
+		// 	// 	
+		// 	// 	client.sid = message.sid;
+		// 	// 	//console.dir(session);
+		// 	// 	
+		// 	// 	storeSet(message,session);
+		// 	// 					
+		// 	// });
+		// 
+		// });
 
 		client.on('message', function(message) {
 			var self = this;
 			console.time('on.message');
 		  //console.dir(message)
-			helper.time.start();
+			//helper.time.start();
+			function dataSend(name,data,id) {
+						var dataSend = {};
+					//	console.log('sendingdata');
+						dataSend[name] = {data:data,id:id};
+						client.send(dataSend);
+					 //console.dir(dataSend);
+					//console.log(helper.time.stop() + "socket.message");
+				 console.timeEnd('on.message');
+
+				
+			};
+			
+			
 		  if (typeof message.data.suggest !== "undefined" && message.data.suggest !== null) {
 			
 				//console.dir(this);
 				//storeGet(message, function() {
 						//console.dir(this);
 					couchdb.suggest(message.data.suggest, function(data) {
-						var dataSend = {};
-					//	console.log('sendingdata');
-						dataSend['suggest'] = data;
-						client.send(dataSend);
-					 // console.dir(dataSend);
-					//console.log(helper.time.stop() + "socket.message");
-				 console.timeEnd('on.message');
-					});
+						//console.dir(data);
+					dataSend("suggest",data);
+					});					
+				
 					  //data.
 				//});
-		  }	
+		  }
+			if (typeof message.data.getSearchData !== "undefined" && message.data.getSearchData !== null) {
+				couchdb.getSearchData(message.data.getSearchData.key,function(data) {
+					dataSend("searchData",data,message.data.getSearchData.id);
+				});
+			}
+			
 		});	
 		
 });

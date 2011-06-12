@@ -8,7 +8,7 @@
 		// If you don't provide a todo, one will be provided for you.		
 		EMPTY: "empty todo...",
 		// http://paulirish.com/2009/memorable-hex-colors/
-		colors: {'#bada55':true,"#accede":true,"affec7":true,"baff1e":true},
+		//colors: {'#bada55':true,"#accede":true,"affec7":true,"baff1e":true},
 		// Ensure that each todo created has content.
 		initialize: function() {
 			if (!this.get("content")) {
@@ -63,13 +63,13 @@
 		  if (!this.length) return 1;
 		  return this.last().get('order') + 1;
 		},
-		getName: function(name) {
-				var getName = Searches.detect(function(data) {
-					return (data.get("content") == name);
-				});
-			if (getName) return true;
-			return false;
-		},
+		// getNameX: function(name) {
+		// 		var getName = Searches.detect(function(data) {
+		// 			return (data.get("content") == name);
+		// 		});
+		// 	if (getName) return true;
+		// 	return false;
+		// },
 		//getNameCached: this.getName.cached(),
 		//getName: SearchList.getName.cachedTrac(),
 		
@@ -108,22 +108,30 @@
 		},
 		
 		render: function() {
-			$(this.el).html(this.template(this.model.toJSON()));
-			this.setContent();
+			$(this.el).html(this.template(this.renderAttributes(this.model.attributes)));
+			//this.setContent();
 			
 			return this;
 		},
-		
-		setContent: function() {
-			// console.log("model");
-			// console.log(this);
-			var content = this.model.get('content');
-			//Searches.getName(content);
-			this.$('.search-content').text(content);
-			//this.input = this.$('.search-input');
-			//this.input.bind('blur', this.close);
-			//this.input.val(content);
+		renderAttributes: function(data) {
+			//console.log(data);
+			return {
+				content:data.content,
+				color:data.color,
+				counter:data.couchids.length,
+			}
 		},
+		
+		// setContent: function() {
+		// 	// console.log("model");
+		// 	// console.log(this);
+		// 	var content = this.model.get('content');
+		// 	//Searches.getName(content);
+		// 	this.$('.search-content').text(content);
+		// 	//this.input = this.$('.search-input');
+		// 	//this.input.bind('blur', this.close);
+		// 	//this.input.val(content);
+		// },
 		
 		
 		// toggleDone: function() {

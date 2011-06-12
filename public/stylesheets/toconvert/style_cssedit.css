@@ -324,7 +324,7 @@ div {
 }
 
 #searchapp {
-	padding-bottom: 40px;
+	padding-bottom: 0px;
 }
 
 #header {
@@ -336,13 +336,15 @@ div {
 	border-radius: 50px 5px 5px 5px;
 	width: 1100px;
 	height: 88px;
+	background: -webkit-gradient(linear, left top, left bottom, from(darkGray), to(#333));
+  background: -moz-linear-gradient(top, darkGray, #333);
 }
 
 #title {
 	color: #fff;
 	font-size: 4em;
 	font-family: 'Paytone One','Permanent Marker';
-	text-shadow: 4px 4px 4px #111;
+	text-shadow: 1px 1px 1px #000, 1px 1px 6px #999;
 	padding-left: 20px;
 	padding-top: 10px;
 }
@@ -421,6 +423,10 @@ span.edition:hover {
 	margin: 5px 0 5px 5px}
 
 #search-list li {
+	list-style-type: none;
+}
+
+#search-list .display {
 	background: #fff;
 	border: 1px solid #ccc;
 	-webkit-border-radius: 5px;
@@ -433,10 +439,10 @@ span.edition:hover {
 	position: relative;
 	font-size: 24px;
 	line-height: 1.5em;
-	list-style-type: none;
 	cursor: pointer;
 	margin-bottom: 5px;
 	margin-top: 5px;
+	text-shadow:  0px 0px 3px #fff;  
 }
 /*
 #search-line li:aifter {
@@ -494,6 +500,24 @@ span.edition:hover {
 	color: #777
 }
 */
+
+span.search-counter {
+	position: absolute;
+	font-size: 15px;
+	background-color: #ff221b;
+	color: #fffeff;
+	line-height: 20px;
+	border: 1px solid #212121;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	padding-right: 2px;
+	padding-left: 2px;
+	bottom: 13px;
+	z-index: 0;
+	right: 1px;
+}
+
 #search-list .search-destroy {
 	position: absolute;
 	right: 5px;
@@ -506,7 +530,8 @@ span.edition:hover {
 }
 
 #search-list li:hover .search-destroy {
-	display: block
+	display: block;
+	z-index: 23;
 }
 
 #search-list .search-destroy:hover {
@@ -677,17 +702,22 @@ div#suggestColumn.stackContent {
 	font-size: 15px;
 	z-index: -999;
 	height: 40px;
-	position: absolute;
-	bottom: 0;
+	position: static;
+	bottom: 0px;
 }
-
+/*
+#footer p {
+  color: #000;
+  text-shadow: 0px 1px 1px #fff
+}
+*/
 #footer .stackAuto {
 	vertical-align: middle;
 	padding: 10px 0
 }
 
 #footer .stackContent {
-	padding: 0 50px;
+	padding: 0 50px
 }
 
 #footer .stackAuto .stackContent {
@@ -702,6 +732,7 @@ div#suggestColumn.stackContent {
 
 #footer a:hover,#footer a:focus {
 	color: #fff
+/*text-shadow: 0 0 4px #ccc, 0 -5px 4px #ff3, 2px -8px 6px #fd3, -2px -11px 11px #f80, 2px -14px 18px #f20/*
 }
 
 /* @end */

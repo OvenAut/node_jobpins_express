@@ -78,7 +78,7 @@
 			//console.log(bla);
 			if (SuggestList.length>0) {
 				SuggestList.get(search.attributes.listId).toggle();
-				console.log(search.attributes.listId);
+				//console.log(search.attributes.listId);
 			}
 			//if (this.hm) console.log("hello");
 			
@@ -153,7 +153,7 @@
 					
 				} else {
 					tmpval = val;
-					console.log("enterVal->getval");
+					//console.log("enterVal->getval");
 					//socket.socketSend(val,'suggest');
 					
 					Suggests.getval(val);
@@ -236,8 +236,9 @@
 			return {
 				content: data.attributes.name,
 				order:   Searches.nextOrder(),
-				couchids : data.attributes.couchids,
+				couchids: {},
 				listId: data.attributes.listId,
+				color: this.newColor(),
 			};
 		},
 		
@@ -245,16 +246,25 @@
 		//create new Todo model, persisting it to localStorage.
 		createOnEnter: function(e) {
 			if ((e.keyCode != 13 && e.type != "dblclick") || !this.suggestPresent()) return;
-			
-			Searches.create(this.newAttributes());
+			var contener = this.newAttributes()
+			Searches.create(contener);
 			// var self = this;
 			// this.clearSuggest(function() {
 			// 	self.input.val('');
 			// 	self.showTooltip();
 			// });
+			var lastId = Searches.last().id;
+			socket.socketSend({key:contener.content, id:lastId},"getSearchData");
       this.clearSuggestInpute();
 			this.input.val('');
 			
+		},
+		newColor: function() {
+			//var color = Math.round((Math.random() * 16)).toString(16);
+			function color() {
+				return Math.round((Math.random() * 15)).toString(16);
+			}
+			return "#" + color() + color() + color() 
 		},
 		
 		//Clear all done todo items, destroying their models.
