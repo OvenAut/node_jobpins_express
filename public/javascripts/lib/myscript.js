@@ -18,7 +18,7 @@ function initializeMap() {
 	Google Map
 **/	
 
-  initializeMap(); //map	
+  //initializeMap(); //map	
 
 	window.App = new AppView;
 			

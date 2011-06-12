@@ -94,7 +94,6 @@
 		template: _.template($('#searchItem-template').html()),
 		
 		events: {
-			//"click .check"     : "toggleDone",
 			//"dblclick div.search-content" : "edit",
 			"click span.search-destroy" : "clear",
 			//"keypress .search-input"    : "updateOnEnter"
@@ -121,6 +120,7 @@
 				counter:data.couchids.length,
 			}
 		},
+		
 		
 		// setContent: function() {
 		// 	// console.log("model");

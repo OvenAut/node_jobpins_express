@@ -22,6 +22,7 @@
 			"keypress #new-search": "createOnEnter",
 			"keyup #new-search":  "enterVal", // "showTooltip",
 			"dblclick div.suggest-content": "createOnEnter",
+				"click div.search-content"     : "activateDocument",
 			//"click .search-clear a": "clearCompleted"
 		},
 		
@@ -405,5 +406,13 @@
 				tooltip.show().fadeIn().text(text);
 			};
 			this.tooltipTimeout = _.delay(show, 1000);
-		}
+		},
+		
+		
+		activateDocument: function() {
+			console.log(this.model);
+		},
+		
+		
+		
 	});

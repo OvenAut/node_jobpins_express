@@ -37,7 +37,7 @@
 		color
 		order
 		*/
-		model:Search,
+		model:Document,
 		
 		localStorage: new Store("search"),
 		
@@ -56,6 +56,9 @@
 		},
 		
 	});
+	
+	
+	
 	
 	window.Documents = new DocumentList;
 
