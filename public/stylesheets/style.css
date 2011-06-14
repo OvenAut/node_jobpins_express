@@ -76,6 +76,7 @@ span.edition:hover{text-shadow:4px 4px 14px #111}
 #column1box{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:10px;margin:5px 0 5px 5px}
 #search-list li{list-style-type:none}
 #search-list .display{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;position:relative;font-size:24px;line-height:1.5em;cursor:pointer;margin-bottom:5px;margin-top:5px;text-shadow:0 0 3px #fff}
+.search-content.activ{color:#008000}
 span.search-counter{position:absolute;font-size:15px;background-color:#ff221b;color:#fffeff;line-height:20px;border:1px solid #212121;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;padding-right:2px;padding-left:2px;bottom:13px;z-index:0;right:1px}
 #search-list .search-destroy{position:absolute;right:5px;display:none;cursor:pointer;width:20px;height:20px;background:url("../images/destroy.png") no-repeat 0 0;top:8px}
 #search-list .display:hover .search-destroy{display:block;z-index:23}

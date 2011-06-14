@@ -2,7 +2,7 @@ var socket = new io.Socket(location.hostname);
 
 io.Socket.prototype.socketSend = function(data,name) {
 	var sendData = {};
-	//console.log("socketSend");
+	console.log("socketSend");
 	sendData[name] = data;
   var sending = socket.send({
 		data: sendData		
@@ -25,14 +25,28 @@ socket.on('message', function(data){
 		window.SuggestList.newList(data.suggestList);
 	};
 	if (data.searchData) {
-		console.log(data.searchData.data.couchid);
+		//console.log(data.searchData.data.couchid);
 		var tmpData = Searches.get(data.searchData.id);
-		
+		//console.log(_.keys(data.searchData.data.couchid)[0]);
 		tmpData.set({
 			couchids:data.searchData.data.couchid,
+			docOpen:_.keys(data.searchData.data.couchid)[0],
 		});
 		tmpData.save();
 	}
+	if (data.docData) {
+		//console.log(data.docData);
+		var tmpData = Searches.get(data.docData.id);
+		for (key in data.docData.data) {
+			//console.log(tmpData.attributes.couchids[key]);
+			
+			tmpData.attributes.couchids[key] = data.docData.data[key];
+		}
+		tmpData.save();
+		console.log(tmpData);
+	}
+	
+	
 	// if (data.suggest) {
 	// 	
 	// 	if (_.isEmpty(data.suggest)) {

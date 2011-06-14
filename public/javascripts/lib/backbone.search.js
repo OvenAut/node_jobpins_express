@@ -17,9 +17,9 @@
 		},
 		
 		// Toggle the done state of this todo
-		// toggle: function() {
-		// 	this.save({done: !this.get("done")});
-		// },
+		toggle: function(silent) {
+			this.save({docActiv: !this.get("docActiv")},silent);
+		},
 		
 		//Remove this Todo from localStorage and delete its view.
 		clear: function() {
@@ -72,6 +72,13 @@
 		// },
 		//getNameCached: this.getName.cached(),
 		//getName: SearchList.getName.cachedTrac(),
+		isActiv: function(id) {
+			detected = this.detect(function(data) {
+				return data.get("docActiv");
+			});
+			if (detected) detected.toggle();
+			this.get(id).toggle();
+		},
 		
 	});
 	
@@ -97,6 +104,7 @@
 			//"dblclick div.search-content" : "edit",
 			"click span.search-destroy" : "clear",
 			//"keypress .search-input"    : "updateOnEnter"
+				"click div.search-content"     : "activateDocument",
 		},
 		
 		initialize: function() {
@@ -114,11 +122,26 @@
 		},
 		renderAttributes: function(data) {
 			//console.log(data);
-			return {
-				content:data.content,
-				color:data.color,
-				counter:data.couchids.length,
+			var altText = "";
+			var text = data.content;
+			if (text.length > 24) {
+				altText = text;
+				//var text = data.content.replace(/.{21}(.*)/,"...");
+				text = text.slice(0,22);
+			  text = text + "...";
 			}
+			return {
+				content:text,
+				color:data.color,
+				counter:_.size(data.couchids),
+				altText:altText,
+				activ:data.docActiv,
+			}
+		},
+		activateDocument: function() {
+			//console.log(this);
+			DocumentList.prepare(this.model.id);
+			//this.model
 		},
 		
 		

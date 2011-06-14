@@ -193,6 +193,13 @@ socket.on('connection', function(client){
 				});
 			}
 			
+			if (typeof message.data.getDocData !== "undefined" && message.data.getDocData !== null) {
+				//console.dir(message.data.getDocData);
+				couchdb.getDocData(message.data.getDocData.key,function(data) {
+					dataSend("docData",data,message.data.getDocData.id);
+				});
+			}
+			
 		});	
 		
 });

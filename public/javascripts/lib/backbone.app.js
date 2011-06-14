@@ -22,7 +22,7 @@
 			"keypress #new-search": "createOnEnter",
 			"keyup #new-search":  "enterVal", // "showTooltip",
 			"dblclick div.suggest-content": "createOnEnter",
-				"click div.search-content"     : "activateDocument",
+			//
 			//"click .search-clear a": "clearCompleted"
 		},
 		
@@ -49,9 +49,18 @@
 			//Searches.bind('showSuggest', this.showSuggest)
 			//SuggestList.bind('add', this.renderSuggestList);
 			Searches.fetch();
+			window.DocumentList = new DocumentListCollection;
+			this.showDoc();
 			//this.render();
 		},
+		showDoc: function() {
+			var activDocData = Searches.detect(function (data) {
+				return data.get("docActiv")
+			});
 
+			if (activDocData) DocumentList.prepare(activDocData.id);
+		},
+		
 		// Re-rendering the App just means refreshing 
 		// the statistics -- the rest of the app doesn't change.
 		render: function() {
@@ -76,7 +85,7 @@
 		//Add a single todo item to the list by creating a 
 		//view for it, and appending its element to the <ul>.
 		addOne: function(search) {
-			//console.log(bla);
+			console.log("addOne");
 			if (SuggestList.length>0) {
 				SuggestList.get(search.attributes.listId).toggle();
 				//console.log(search.attributes.listId);
@@ -240,6 +249,7 @@
 				couchids: {},
 				listId: data.attributes.listId,
 				color: this.newColor(),
+				docActiv:false
 			};
 		},
 		
@@ -409,9 +419,6 @@
 		},
 		
 		
-		activateDocument: function() {
-			console.log(this.model);
-		},
 		
 		
 		

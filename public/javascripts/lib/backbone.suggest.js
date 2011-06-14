@@ -341,12 +341,18 @@ window.SuggestView = Backbone.View.extend({
 		// console.log(childrens);
 		// console.log(nodeIndex+1);
 		// console.log(Suggests.length);
+		var text = this.model.get('name')
+		if (text.length > 24) {
+			//var text = data.content.replace(/.{21}(.*)/,"...");
+			text = text.slice(0,22);
+		  text = text + "...";
+		}
 		
 		$(this.el).html(this.template({
 			up: childrens == 0 && nodeIndex > 0,
 			down: childrens >= 4 && nodeIndex+1 < Suggests.length,
 			selected: this.model.get("selected"),
-			content: content = this.model.get('name'),
+			content: content = text,
 		}));
 //		console.log(this.data);
 		//this.setContent();
