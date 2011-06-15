@@ -1,16 +1,5 @@
 $(document).ready(function() {
 	
-function initializeMap() {
-    var latlng = new google.maps.LatLng(48.208174,16.373819);
-    var myOptions = {
-      zoom: 11,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-  };
-
-	
   //initialSocket();
 	socket.connect();
 
@@ -19,9 +8,13 @@ function initializeMap() {
 **/	
 
   //initializeMap(); //map	
-
+  //window.Map = new MapView;
 	window.App = new AppView;
-			
+	window.Controller = new restfulApp;
+		//Initiate a new history and controller class
+		Backbone.emulateHTTP = true;
+		Backbone.emulateJSON = true 
+		Backbone.history.start();
 });
 
 // var query = require('./jquery-1.6.min');

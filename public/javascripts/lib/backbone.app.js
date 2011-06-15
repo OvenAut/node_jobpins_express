@@ -49,17 +49,17 @@
 			//Searches.bind('showSuggest', this.showSuggest)
 			//SuggestList.bind('add', this.renderSuggestList);
 			Searches.fetch();
-			window.DocumentList = new DocumentListCollection;
-			this.showDoc();
+			//window.DocumentList = new DocumentListCollection;
+			//this.showDoc();
 			//this.render();
 		},
-		showDoc: function() {
-			var activDocData = Searches.detect(function (data) {
-				return data.get("docActiv")
-			});
-
-			if (activDocData) DocumentList.prepare(activDocData.id);
-		},
+		// showDoc: function() {
+		// 	var activDocData = Searches.detect(function (data) {
+		// 		return data.get("docActiv")
+		// 	});
+		// 
+		// 	if (activDocData) Documents.prepare(activDocData.id);
+		// },
 		
 		// Re-rendering the App just means refreshing 
 		// the statistics -- the rest of the app doesn't change.

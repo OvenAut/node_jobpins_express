@@ -49,12 +49,21 @@ html
       <span class="gui <%= up ? 'up' : '' %><%= down ? 'down' : '' %>">&#x20;</span>
       </div>
     script#searchItem-template(type="text/template")
-      <div class="display" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));
-      background: -moz-linear-gradient(top, <%= color %>, #fff);
-      ">
-      <div class="search-content <%= activ? ' activ':''%>"><%= content %></div>
+      <div class="display" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);">
+      <div class="search-content <%= activ? ' activ':''%>"><a href="#categories/<%= encodeURIComponent(content) %>"><%= content %></a></div>
       <span class="search-destroy"></span>
       <span class="search-counter"><%= counter? counter : 'loading' %>
+      </div>
+    script#document-template(type="text/template")
+      <div class="display">
+      <div id="navigation">
+      <div class="back"><%= index!=last? '<a href="' + urlname + '/' + last + '">back</a>': ''%></div>
+      <div class="forword"><%= index!=next? '<a href="' + urlname + '/' + next + '">forword</a>': ''%></div>
+      </div>
+      <div id="body"><%= body %></div>
+      <div id="company"><%= company %></div>
+      <div id="location"><%= formatted_address %></div>
+      
       </div>
     script#searchItemOld-template(type="text/template")
       <div class="search <%= done ? 'done' : '' %>">
@@ -102,6 +111,8 @@ html
     script(src='javascripts/lib/backbone.document.js')
     script(src='javascripts/lib/backbone.document.list.js')
     script(src='javascripts/lib/backbone.app.js')
+    script(src='javascripts/lib/backbone.map.js')
+    script(src='javascripts/lib/backbone.controller.js')
     script(src='../socket.io/socket.io.js')
     script(src='javascripts/lib/myscript.socket.js')
         //-script(src='javascripts/sws.js')

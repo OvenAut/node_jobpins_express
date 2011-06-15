@@ -58,6 +58,12 @@
 		// deactive: function() {
 		// 	return this.without.apply(this, this.active());
 		// },
+		getId: function(content) {
+			var model = this.detect(function (data) {
+				return data.get("content") == content;
+			})
+			return model.id;
+		},
 		
 		nextOrder: function() {
 		  if (!this.length) return 1;
@@ -74,7 +80,7 @@
 		//getName: SearchList.getName.cachedTrac(),
 		isActiv: function(id) {
 			detected = this.detect(function(data) {
-				return data.get("docActiv");
+				return data.get("docActiv")==true;
 			});
 			if (detected) detected.toggle();
 			this.get(id).toggle();
@@ -104,7 +110,7 @@
 			//"dblclick div.search-content" : "edit",
 			"click span.search-destroy" : "clear",
 			//"keypress .search-input"    : "updateOnEnter"
-				"click div.search-content"     : "activateDocument",
+			//	"click div.search-content"     : "activateDocument",
 		},
 		
 		initialize: function() {
@@ -115,6 +121,7 @@
 		},
 		
 		render: function() {
+			console.log("render Searches " + this.model.id);
 			$(this.el).html(this.template(this.renderAttributes(this.model.attributes)));
 			//this.setContent();
 			
@@ -136,13 +143,15 @@
 				counter:_.size(data.couchids),
 				altText:altText,
 				activ:data.docActiv,
+				id:data.id,
 			}
 		},
-		activateDocument: function() {
-			//console.log(this);
-			DocumentList.prepare(this.model.id);
-			//this.model
-		},
+		// activateDocument: function() {
+		// 	//console.log(this);
+		// 	DocumentList.prepare(this.model.id);
+		// 	//window.location.href = "#"+this.model.id;
+		// 	//this.model
+		// },
 		
 		
 		// setContent: function() {

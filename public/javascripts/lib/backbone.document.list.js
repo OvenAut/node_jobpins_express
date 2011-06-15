@@ -36,38 +36,39 @@ window.DocumentListCollection = Backbone.Collection.extend({
 
 	},
 	
-	prepare: function(id) {
+	eprepare: function(id) {
 		console.log("prepare Docs");
-		console.log(id);
+		//console.log(id);
 		Searches.isActiv(id);
 		var documentList = Searches.get(id);
 		var firstPage = documentList.attributes.docOpen;
 		var Arraydocuments = _.keys(documentList.attributes.couchids);
 
-		console.log(firstPage);
+		//console.log(firstPage);
 		//documentList.attributes.couchids.body = "bala";
-		console.log(_.indexOf(Arraydocuments,firstPage));
+		//console.log(_.indexOf(Arraydocuments,firstPage));
 		// documentList.set({
-		console.log(Arraydocuments);
+		//console.log(Arraydocuments);
 		// 	couchids[0]: {body:blabla},
 		// 	
 		// });
-		console.log(documentList);
+		//console.log(documentList);
 		var start = _.indexOf(Arraydocuments,firstPage);
-		var end = start +3;
+		//var end = start +3;
 		var pageGet = [];
-		for (var i = start; i< end ;i++) {
+		for (var i = start; i< start+3 ;i++) {
 			if (Arraydocuments[i]) {
 				var page = Arraydocuments[i];
 				if (documentList.attributes.couchids[page].updated_at) {
 					console.log("data");
+					Documents.renderDoc(documentList.attributes.couchids[page]);
 				} else {
 					console.log("no data");
 					pageGet.push(page);
 				}
 			}
 		}
-		console.log(pageGet);
+		//console.log(pageGet);
 		if (pageGet.length>0) {
 			console.log("sending getDocData " + id);
 			socket.socketSend({key:pageGet,id:id},"getDocData");
