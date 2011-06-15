@@ -25,7 +25,12 @@
 		clear: function() {
 			this.destroy();
 			this.view.remove();
-		}
+		},
+		pageNummber: function(page) {
+			//console.log(this);
+			var pages = _.keys(this.attributes.couchids);
+			return _.indexOf(pages,page);
+		},
 		
 	});
 
@@ -62,6 +67,7 @@
 			var model = this.detect(function (data) {
 				return data.get("content") == content;
 			})
+			if (typeof model != "undefined")
 			return model.id;
 		},
 		
@@ -85,6 +91,7 @@
 			if (detected) detected.toggle();
 			this.get(id).toggle();
 		},
+		
 		
 	});
 	
@@ -121,6 +128,7 @@
 		},
 		
 		render: function() {
+			
 			console.log("render Searches " + this.model.id);
 			$(this.el).html(this.template(this.renderAttributes(this.model.attributes)));
 			//this.setContent();
@@ -144,6 +152,8 @@
 				altText:altText,
 				activ:data.docActiv,
 				id:data.id,
+				urlname:encodeURIComponent(data.content),
+				page:this.model.pageNummber(data.docOpen),
 			}
 		},
 		// activateDocument: function() {

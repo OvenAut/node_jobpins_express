@@ -50,11 +50,12 @@ html
       </div>
     script#searchItem-template(type="text/template")
       <div class="display" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);">
-      <div class="search-content <%= activ? ' activ':''%>"><a href="#categories/<%= encodeURIComponent(content) %>"><%= content %></a></div>
+      <div class="search-content <%= activ? ' activ':''%>"><a href="#!/categories/<%= urlname %>/<%= page %>"><%= content %></a></div>
       <span class="search-destroy"></span>
       <span class="search-counter"><%= counter? counter : 'loading' %>
       </div>
     script#document-template(type="text/template")
+      <div class="sidecolor">
       <div class="display">
       <div id="navigation">
       <div class="back"><%= index!=last? '<a href="' + urlname + '/' + last + '">back</a>': ''%></div>
@@ -63,7 +64,7 @@ html
       <div id="body"><%= body %></div>
       <div id="company"><%= company %></div>
       <div id="location"><%= formatted_address %></div>
-      
+      </div>
       </div>
     script#searchItemOld-template(type="text/template")
       <div class="search <%= done ? 'done' : '' %>">

@@ -61,7 +61,7 @@
 			Document.renderData.index = Document.index;
 			Document.renderData.next = Document.index<Document.keys.length-1? Document.index+1:Document.keys.length-1;
 			Document.renderData.last = Document.index>0? (Document.index-1) : 0 ;
-			Document.renderData.urlname = "#categories/" + encodeURIComponent(Document.list.attributes.content);
+			Document.renderData.urlname = "#!/categories/" + encodeURIComponent(Document.list.attributes.content);
 			console.log("render");
 			//console.log(Document.renderData);
 			var view = new DocumentView({model: Document.renderData});
@@ -104,7 +104,7 @@
 			}
 			//console.log(pageGet);
 			if (pageGet.length>0) {
-				console.log("sending getDocData " + Document.id);
+				console.log("sending getDocData " + Document.id + " page:" + pageGet);
 				socket.socketSend({key:pageGet,id:Document.id},"getDocData");
 
 			}
@@ -164,6 +164,7 @@
 			_.bindAll(this, 'render');
 //			this.model.bind('change', this.render);
 //			this.model.view = this;
+			
 		},
 		// 
 		render: function() {
@@ -177,7 +178,7 @@
 			//console.log(data);
 			if(!data.body) {
 				var data = {
-					body:"sorry no Data !!!",
+					body:"Loading",
 					company:"",
 					last:"",
 					next:"",

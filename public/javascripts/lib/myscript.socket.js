@@ -39,11 +39,14 @@ socket.on('message', function(data){
 		var tmpData = Searches.get(data.docData.id);
 		for (key in data.docData.data) {
 			//console.log(tmpData.attributes.couchids[key]);
-			
+
 			tmpData.attributes.couchids[key] = data.docData.data[key];
 		}
 		tmpData.save();
-		console.log(tmpData);
+		console.log(data.docData.data);
+		console.log(data.docData.data[tmpData.attributes.docOpen]);
+	  if (data.docData.data[tmpData.attributes.docOpen]) Documents.render(data.docData.id)		
+		//console.log(tmpData);
 	}
 	
 	
