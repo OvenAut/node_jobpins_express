@@ -37,7 +37,7 @@
 		color
 		order
 		*/
-		//model:Searche,
+		//model:Search,
 		
 		render: function(document) {
 			
@@ -62,6 +62,7 @@
 			Document.renderData.next = Document.index<Document.keys.length-1? Document.index+1:Document.keys.length-1;
 			Document.renderData.last = Document.index>0? (Document.index-1) : 0 ;
 			Document.renderData.urlname = "#!/categories/" + encodeURIComponent(Document.list.attributes.content);
+			Document.renderData.color = Document.list.attributes.color;
 			console.log("render");
 			//console.log(Document.renderData);
 			var view = new DocumentView({model: Document.renderData});
@@ -184,10 +185,11 @@
 					next:"",
 					index:"",
 					urlname:"",
-					formatted_address:"",					
+					formatted_address:"",
+					color:"#fff",	
 				};
 				}
-				console.log(data);
+				console.log(this);
 			return {
 				body:data.body.replace(/\n/g,"<br>"),
 				company:data.company,
@@ -196,6 +198,7 @@
 				index:data.index,
 				urlname:data.urlname,
 				formatted_address:data.formatted_address,
+				color:data.color,
 			}
 		},
 		

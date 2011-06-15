@@ -74,6 +74,7 @@ span.edition:hover{text-shadow:4px 4px 14px #111}
 #column1{position:relative;left:25%}
 #column2{position:relative;left:-75%}
 #column1box{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:10px;margin:5px 0 5px 5px}
+#navigation .back{color:#f00}
 #search-list li{list-style-type:none}
 #search-list .display{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;position:relative;font-size:24px;line-height:1.5em;cursor:pointer;margin-bottom:5px;margin-top:5px}
 .search-content a,.search-content a:active,.search-content a:visited{display:block;color:#607890;text-shadow:0 0 3px #fff;text-decoration:none}

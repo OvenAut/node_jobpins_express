@@ -31,6 +31,10 @@
 			var pages = _.keys(this.attributes.couchids);
 			return _.indexOf(pages,page);
 		},
+		// getColor: function() {
+		// 	coneole.log(this);
+		// 	coneole.log("getColor");
+		// },
 		
 	});
 
