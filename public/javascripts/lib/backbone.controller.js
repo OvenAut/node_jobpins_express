@@ -33,8 +33,10 @@ var restfulApp = Backbone.Controller.extend({
 		console.log(Document);
 		
 	  $("#column1box").fadeOut('slow');
-	  $(".documentbox").slideUp('fast');
-    Documents.render(id);
+	  $(".documentbody").slideUp('fast',function() {
+	  });
+    Documents.render(id);// body...
+    
   },
 
   defaultAction: function(page) {

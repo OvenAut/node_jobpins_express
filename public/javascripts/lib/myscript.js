@@ -1,3 +1,9 @@
+console = console || { log : function() {
+// place your logging code here, if firebug is closed
+}, debug : function() {
+// place your debug code here, if firebug is closed
+} /*, [ and so on .. ] */ };
+
 $(document).ready(function() {
 	
   //initialSocket();
@@ -8,7 +14,7 @@ $(document).ready(function() {
 **/	
 
   //initializeMap(); //map	
-  //window.Map = new MapView;
+  window.Map = new MapView;
 	window.App = new AppView;
 	window.Controller = new restfulApp;
 		//Initiate a new history and controller class
