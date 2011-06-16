@@ -32,7 +32,15 @@ html
             //-#suggestColumn.stackContent
             ul#suggest-list
           #content
-            != body
+            div#column1.stack3of4
+              div.documentbox.stackContent
+              != body
+            div#column2.stack1of4
+              div#jobs.stackContent
+                ul#search-list 
+                 //- for (var key in jobs)
+                 //-  li= jobs[key]
+              div#search-stats.stackContent
         #footer
           .wrapper
             .stackAuto

@@ -32,11 +32,14 @@ var restfulApp = Backbone.Controller.extend({
 		Document.attributes.docOpen = Document.nextDoc;
 		console.log(Document);
 		
-		
+	  $("#column1box").fadeOut('slow');
+	  $(".documentbox").slideUp('fast');
     Documents.render(id);
   },
 
   defaultAction: function(page) {
+	  $(".documentbox").empty();
+	  $("#column1box").fadeIn('slow');
   	console.log(page);
   },
   

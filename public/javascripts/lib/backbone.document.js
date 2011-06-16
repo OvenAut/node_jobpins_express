@@ -67,8 +67,8 @@
 			//console.log(Document.renderData);
 			var view = new DocumentView({model: Document.renderData});
 			//data[view.model.attributes.id] = view.model.attributes.content;
-			$("#column1box").empty().append(view.render().el) // .render().elappend -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
-			
+			if (Document.renderData.body) $(".documentbox").html(view.render().el).slideDown('fast') // .render().elappend -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
+
 		},
 		
 		
