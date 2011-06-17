@@ -14,7 +14,7 @@ $(document).ready(function() {
 **/	
 
   //initializeMap(); //map	
-  //window.Map = new MapView;
+  window.Map = new MapView;
 	window.App = new AppView;
 	window.Controller = new restfulApp;
 		//Initiate a new history and controller class

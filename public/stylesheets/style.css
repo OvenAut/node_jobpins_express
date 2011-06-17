@@ -76,7 +76,7 @@ span.edition:hover{text-shadow:4px 4px 14px #111}
 #column1box{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:10px;margin:5px 0 5px 5px}
 .documentbox{border:1px solid #ccc;-webkit-border-radius:15px 5px 5px 5px;-moz-border-radius:15px 5px 5px 5px;border-radius:15px 5px 5px 5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:0;margin:5px 0 5px 5px}
 .sidecolor{-webkit-border-radius:15px 5px 5px 5px;-moz-border-radius:15px 5px 5px 5px;border-radius:15px 5px 5px 5px}
-.documentbody{padding:10px}
+.documentbody{padding:10px 5px 0 30px}
 .navigationback{position:absolute;top:5px;width:70px;height:30px;background:#999;border:1px solid #ccc;-webkit-border-radius:15px 0 0 15px;-moz-border-radius:15px 0 0 15px;border-radius:15px 0 0 15px}
 .navigationforward{position:absolute;top:5px;left:70px;width:100px;height:30px;background:#999;border:1px solid #ccc;-webkit-border-radius:0 15px 15px 0;-moz-border-radius:0 15px 15px 0;border-radius:0 15px 15px 0}
 .navigationforward a,.navigationback a{font-size:15px;margin:5px 0 0 15px;text-decoration:none;display:block;color:#333}

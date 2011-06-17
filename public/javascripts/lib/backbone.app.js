@@ -91,7 +91,9 @@
 				//console.log(search.attributes.listId);
 			}
 			//if (this.hm) console.log("hello");
-			
+			Marker.addSearch(search);
+			console.log("Marker_Test");
+			//console.log(search);
 			var view = new SearchView({model: search});
 			//data[view.model.attributes.id] = view.model.attributes.content;
 			this.$("#search-list").append(view.render().el) // .render().elappend -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements

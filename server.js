@@ -36,6 +36,7 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.favicon(__dirname + "/public/favicon.ico"));
   //app.use(express.cookieParser());
   //app.use(express.session({ secret: 'your keyboard cat secret here',store:store }));
   app.use(stylus.middleware({ src: __dirname + '/public', compile: compile }));
@@ -67,7 +68,7 @@ app.get('/', function(req, res){
     pageTitle: 'Jobpins ' + VERSION,
     title: 'Jobpins ',
     slogen: 'Find your job near you',
-		jobs: {job1:'Job1',job2:'Job2',job4:'Job3',job4:'Job4',job5:'Job5',job6:'Job6',job7:'Job7'},
+		//jobs: {job1:'Job1',job2:'Job2',job4:'Job3',job4:'Job4',job5:'Job5',job6:'Job6',job7:'Job7'},
     //sessionID: req.sessionID
   });
   //Datum= " + (new Date()).toString() + "\n
