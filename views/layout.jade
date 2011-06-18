@@ -63,14 +63,14 @@ html
       <span class="search-counter"><%= counter? counter : 'loading' %>
       </div>
     script#document-template(type="text/template")
-      <div class="sidecolor"style="background: -webkit-gradient(linear, 0% 0%, 30 0%, from(<%= color %>), to(#fff));background: -moz-linear-gradient(0deg, <%= color %>, #fff, #fff 50px);">
+      <div class="sidecolor" style="background: -webkit-gradient(linear, 0% 0%, 30 0%, from(<%= color %>), to(#fff));background: -moz-linear-gradient(0deg, <%= color %>, #fff, #fff 50px);">
       <div class="display">
       <div id="navigation">
       <div class="stack1of4">
-      <div class="navigationback stackContent"><%= index!=last? '<a href="' + urlname + '/' + last + '">zur&uuml;ck</a>': ''%></div>
+      <div class="navigationback stackContent" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);"><%= index!=last? '<a href="' + urlname + '/' + last + '">zur&uuml;ck</a>': ''%></div>
       </div>
       <div class="stack1of4">
-      <div class="navigationforward stackContent"><%= index!=next? '<a href="' + urlname + '/' + next + '">vorw&auml;rts</a>': ''%></div>
+      <div class="navigationforward stackContent" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);"><%= index!=next? '<a href="' + urlname + '/' + next + '">vorw&auml;rts</a>': ''%></div>
       </div>
       <div class="companyname">
       <div class="text stackContent"><%= company %></div>
@@ -109,7 +109,7 @@ html
       </span>
       <% } %>
     
-    //-script(src="http://maps.google.com/maps/api/js?sensor=false")
+    script(src="http://maps.google.com/maps/api/js?sensor=false")
     //-script(src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
     /if IE
       script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")

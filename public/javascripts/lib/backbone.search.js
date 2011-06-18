@@ -29,6 +29,7 @@
 		pageNummber: function(page) {
 			//console.log(this);
 			var pages = _.keys(this.attributes.couchids);
+			pages.sort();
 			return _.indexOf(pages,page);
 		},
 		// getColor: function() {
@@ -127,9 +128,16 @@
 		initialize: function() {
 			_.bindAll(this, 'render');
 			this.model.bind('change', this.render);
-			//this.model.bind('add', this.listupdate);
+			//this.model.bind('change:docAcitv', this.renderActiv);
 			this.model.view = this;
 		},
+		
+		// renderActiv: function() {
+		// 	console.log("renderActiv");
+		// 	this.(this.model.id);
+		// 	this.render();
+		// },
+		
 		
 		render: function() {
 			
@@ -146,7 +154,7 @@
 			if (text.length > 24) {
 				altText = text;
 				//var text = data.content.replace(/.{21}(.*)/,"...");
-				text = text.slice(0,22);
+				text = text.slice(0,21);
 			  text = text + "...";
 			}
 			return {

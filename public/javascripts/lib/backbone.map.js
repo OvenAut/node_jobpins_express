@@ -1,3 +1,128 @@
+
+window.MarkerCollection = Backbone.Collection.extend({
+	
+	
+	initialize: function() {
+		
+	  this.bind("add",this.addNew);
+	  Searches.bind('change:couchids',this.addMarkersChange);
+	  Searches.bind('remove',this.addMarkers);
+	  //Searches.bind('change:docOpen', this.gotoMarker);
+	 // Searches.bind('fetch',this.addMarkers);
+	  
+	},
+	map: {},
+	
+	addSearch: function(search) {
+	 // search.model.	get lng l
+	console.log("addSearch");
+	console.log(search);
+	var data = search.attributes;
+	var color = data.color;
+	if (this.markersArray.length>0) this.deleteOverlays();
+	for (id in data.couchids) {
+		var lat = data.couchids[id].lat;
+		var lng = data.couchids[id].lng;
+		this.addMarker(lat,lng,color);
+	}
+	},
+	addNew: function() {
+		console.log("ADDNEW");
+	},
+	
+	addMarkersChange: function() {
+		console.log("addMarkersChange");
+		Marker.addMarkers();
+	},
+	
+	
+	addMarkers: function() {
+		console.log("	addMarker");
+		var counter = 0;
+		Marker.deleteOverlays(function() {
+			Searches.each(function(data) {
+				//Marker.start();
+				
+				var jobs = data.attributes.couchids;
+				var color = data.attributes.color;
+				for (id in jobs) {
+					Marker.addMarker(jobs[id].lat,jobs[id].lng,color);
+					counter++;
+				};
+
+			});
+			console.log("Marker counter " + counter);
+		});
+	},
+	
+	
+	start: function() {
+		 var latlng = new google.maps.LatLng(48.208174,16.373819);
+	   var myOptions = {
+	     zoom: 11,
+	     center: latlng,
+	     mapTypeId: google.maps.MapTypeId.ROADMAP
+	   };
+	   this.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	  
+	},
+	
+  markersArray: [],
+
+  addMarker: function(lat,lng,color) {
+  var location = new google.maps.LatLng(lat, lng);
+  color = color.replace('#','');
+  var image = 'http://dev.oszko.net/images/' + color + 'marker.png';
+  //console.log(image);
+  marker = new google.maps.Marker({
+    position: location,
+    map: this.map,
+    icon: image
+  });
+  this.markersArray.push(marker);
+ },
+ gotoMarker: function(couchid) {
+ 	//console.log("gotoMarker");
+  //console.log(couchid.lat);
+  var latlng = new google.maps.LatLng(couchid.lat,couchid.lng);
+	this.map.panTo(latlng);
+	this.map.setZoom(16);
+ },
+ 
+// Removes the overlays from the map, but keeps them in the array
+  clearOverlays:function() {
+    if (this.markersArray) {
+		  for (i in this.markersArray) {
+		    this.markersArray[i].setMap(null);
+		  }
+		}
+  },
+
+// Shows any overlays currently in the array
+  showOverlays:function() {
+	  if (this.markersArray) {
+	    for (i in this.markersArray) {
+	      this.markersArray[i].setMap(map);
+	    }
+	  }
+	},
+
+// Deletes all markers in the array by removing references to them
+  deleteOverlays:function (cb) {
+	  if (this.markersArray && this.markersArray.length>0) {
+	    for (i in this.markersArray) {
+	      this.markersArray[i].setMap(null);
+	    }
+	    this.markersArray.length = 0;
+	    return cb();
+	  }
+	cb();
+	},
+});
+window.Marker = new MarkerCollection;
+
+
+
 window.MapView = Backbone.View.extend({
   el: $("#map_canvas"),
 	events: {
@@ -15,7 +140,7 @@ window.MapView = Backbone.View.extend({
 	// window.blabla = ({
 	
 	initialize: function() {
-		
+		Marker.start();
 		// _.bindAll(this, 'addOne', 'addAll', 'renderSuggestList','enterVal');
 		// 
 		// this.input = this.$("#new-search");
@@ -34,15 +159,6 @@ window.MapView = Backbone.View.extend({
 		// window.DocumentList = new DocumentListCollection;
 		// this.showDoc();
 		// //this.render();
-
-	   var latlng = new google.maps.LatLng(48.208174,16.373819);
-	   var myOptions = {
-	     zoom: 11,
-	     center: latlng,
-	     mapTypeId: google.maps.MapTypeId.ROADMAP
-	   };
-	   var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
 		
 	},
 			
@@ -121,6 +237,59 @@ function setMarkers(map, locations) {
         title: beach[0],
         zIndex: beach[3]
     });
+  }
+}
+
+var map;
+var markersArray = [];
+
+function initialize() {
+  var haightAshbury = new google.maps.LatLng(37.7699298, -122.4469157);
+  var mapOptions = {
+    zoom: 12,
+    center: haightAshbury,
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  };
+  map =  new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+  google.maps.event.addListener(map, 'click', function(event) {
+    addMarker(event.latLng);
+  });
+}
+  
+function addMarker(location) {
+  marker = new google.maps.Marker({
+    position: location,
+    map: map
+  });
+  markersArray.push(marker);
+}
+
+// Removes the overlays from the map, but keeps them in the array
+function clearOverlays() {
+  if (markersArray) {
+    for (i in markersArray) {
+      markersArray[i].setMap(null);
+    }
+  }
+}
+
+// Shows any overlays currently in the array
+function showOverlays() {
+  if (markersArray) {
+    for (i in markersArray) {
+      markersArray[i].setMap(map);
+    }
+  }
+}
+
+// Deletes all markers in the array by removing references to them
+function deleteOverlays() {
+  if (markersArray) {
+    for (i in markersArray) {
+      markersArray[i].setMap(null);
+    }
+    markersArray.length = 0;
   }
 }
 */

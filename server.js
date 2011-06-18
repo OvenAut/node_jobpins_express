@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -68,7 +67,7 @@ app.get('/', function(req, res){
     pageTitle: 'Jobpins ' + VERSION,
     title: 'Jobpins ',
     slogen: 'Find your job near you',
-		jobs: {job1:'Job1',job2:'Job2',job4:'Job3',job4:'Job4',job5:'Job5',job6:'Job6',job7:'Job7'},
+		//jobs: {job1:'Job1',job2:'Job2',job4:'Job3',job4:'Job4',job5:'Job5',job6:'Job6',job7:'Job7'},
     //sessionID: req.sessionID
   });
   //Datum= " + (new Date()).toString() + "\n
@@ -100,7 +99,7 @@ app.get('/test', function(req,res) {
 
 
 if (!module.parent) {
-  app.listen(3000);
+  app.listen(80);
   console.log("Express server listening on port %d", app.address().port);
 }
 

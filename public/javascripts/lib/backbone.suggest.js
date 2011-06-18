@@ -20,7 +20,7 @@
 	},
 	
 	clearModel: function() {
-		console.log(this);
+		//console.log(this);
 		this.clear({silent:true});
 		//this.view.remove();
 		this.set({},{silent:true});

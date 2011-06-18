@@ -38,23 +38,28 @@
 		order
 		*/
 		//model:Search,
+		renderBang: function(document) {
+			this.render(document,true);
+		},
 		
-		render: function(document) {
+		render: function(document,bang) {
 			
 			var Document = {}
 			Document.id = document;
 			Document.list = Searches.get(document);
 			
 			Document.keys = _.keys(Document.list.attributes.couchids);			
+			Document.keys.sort();
 			Document.docOpen = Document.list.attributes.docOpen;
 			Document.index = _.indexOf(Document.keys,Document.docOpen);
 			
-			this.prepare(Document);
-			
+			if (!bang) {
+			if (!this.prepare(Document)) return;
+		  };
 			
 			if(!Document.list.attributes.docActiv) Searches.isActiv(document);
 			
-			console.log(Document);
+			//console.log(Document);
 
 
 			Document.renderData = Document.list.attributes.couchids[Document.docOpen];
@@ -99,6 +104,7 @@
 						console.log("data exists");
 						//Documents.renderDoc(documentList.attributes.couchids[page]);
 						//cb(page)
+						
 					} else {
 						console.log("no data");
 						pageGet.push(page);
@@ -109,7 +115,17 @@
 			if (pageGet.length>0) {
 				console.log("sending getDocData " + Document.id + " page:" + pageGet);
 				socket.socketSend({key:pageGet,id:Document.id},"getDocData");
+       if (pageGet.length==3) {
+				console.log("get data return false");
+				return false;
+			} else {
+				console.log("get data return true");
+				return true;
 
+			}
+        
+			} else {
+				return true;
 			}
 		},
 
@@ -179,6 +195,9 @@
 		
 		renderAttributes: function(data) {
 			//console.log(data);
+			var altText = "",
+			    text ="";
+			
 			if(!data.body) {
 				var data = {
 					body:"Loading",
@@ -190,11 +209,19 @@
 					formatted_address:"",
 					color:"#fff",	
 				};
-				}
-				console.log(this);
+				} else { 
+					text = data.company;
+					if (text.length > 37) {
+						altText = text;
+						//var text = data.content.replace(/.{21}(.*)/,"...");
+						text = text.slice(0,33);
+					  text = text + "...";
+					}
+				};
+				//console.log(this);
 			return {
 				body:data.body.replace(/\n/g,"<br>"),
-				company:data.company,
+				company:text,
 				last:data.last,
 				next:data.next,
 				index:data.index,
