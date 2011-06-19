@@ -73,8 +73,8 @@
 			var view = new DocumentView({model: Document.renderData});
 			//data[view.model.attributes.id] = view.model.attributes.content;
 			if (Document.renderData.body) {
-				$(".documentbox").html(view.render().el); // .render().elappend -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
-				$('.documentbody').slideDown('fast');
+				$(".documentdiv").html(view.render().el); // .render().elappend -> Insert contentm specified by the parameters, to the end of each elements in the set of matched elements
+				//$('.documentbody').slideDown('fast');
 			};
 		},
 		

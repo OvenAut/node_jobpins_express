@@ -36,10 +36,10 @@ socket.on('message', function(data){
 			docOpen:firstDoc[0]
 		});
 		tmpData.save();
-		
-		var url = encodeURIComponent(tmpData.attributes.content);
-		//console.log(url);
-		window.location.href = "/#!/categories/" + url + "/0";
+		Searches.changeUrl(tmpData.attributes.content);
+		// var url = encodeURIComponent(tmpData.attributes.content);
+		// //console.log(url);
+		// window.location.href = "/#!/categories/" + url + "/0";
 		//Searches.isActiv(data.searchData.id);
 	}
 	if (data.docData) {

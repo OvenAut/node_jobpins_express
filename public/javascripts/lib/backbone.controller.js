@@ -23,8 +23,10 @@ var restfulApp = Backbone.Controller.extend({
 
 		var id = Searches.getId(content);
   	console.log(id + " " +content + " " + index);
-		if (typeof id=="undefined")  window.location.href = "";
-
+		if (typeof id=="undefined" || _.size(Searches.get(id).attributes.couchids) < index)  {
+			window.location.href = "/#";
+		  return;
+		}
 		//Searches.
 		var Document = {};
 		Document.attributes = Searches.get(id).attributes;
@@ -39,16 +41,17 @@ var restfulApp = Backbone.Controller.extend({
 		//Searches.save({silent:true});
 		//Document.attributes.save();
 		//console.log(Document);
+		
 		Marker.gotoMarker(Document.attributes.couchids[Document.nextDoc]);
 	  $("#column1box").fadeOut('slow');
-	  $(".documentbody").slideUp('fast',function() {
-	  });
+	  //$(".documentbody").slideUp('fast',function() {
+	  //});
     Documents.render(id);// body...
     
   },
 
   defaultAction: function(page) {
-	  $(".documentbox").empty();
+	  $(".documentdiv").empty();
 	  $("#column1box").fadeIn('slow');
   	//console.log(page);
   },

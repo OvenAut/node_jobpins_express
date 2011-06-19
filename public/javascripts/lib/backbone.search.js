@@ -96,6 +96,31 @@
 			if (detected) detected.toggle();
 			this.get(id).toggle();
 		},
+		selectNext: function() {
+			
+			var lastSearch = _.last(Searches.models);
+			var content = "",root;
+			console.log("last model");
+			//console.log(lastSearch.attributes.content);
+			if (lastSearch) {
+				content = lastSearch.attributes.content;
+			  } else {
+				content = "";
+				root = true;
+			}
+			this.changeUrl(content,root);
+		  
+		},
+		changeUrl: function(content,root) {
+			console.log(content +" content root " + root);
+			var url = encodeURIComponent(content);
+			//console.log(url);
+			var href="";
+			root?href="/#":href = "/#!/categories/" + url + "/0";
+			window.location.href = href;
+			//Searches.isActiv(data.searchData.id);
+			
+		},
 		
 		
 	});
@@ -213,6 +238,8 @@
 			// }
 			//console.log(this.model.attributes.listId);
 			this.model.clear();
+			//window.location.reload(true);
+			Searches.selectNext();
 		}
 		
 		

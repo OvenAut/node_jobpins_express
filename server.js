@@ -84,22 +84,22 @@ app.get('/', function(req, res){
 });
 
 
-app.get('/test', function(req,res) {
-	console.time('GET /test');
-	couchdb.checkList(function(data) {
-		res.send(data);
-		console.timeEnd('GET /test');
-	  
-	});
-	
-	//console.log(dataBuffer);
-	//dataBuffer = data;	
-});
+// app.get('/test', function(req,res) {
+// 	console.time('GET /test');
+// 	couchdb.checkList(function(data) {
+// 		res.send(data);
+// 		console.timeEnd('GET /test');
+// 	  
+// 	});
+// 	
+// 	//console.log(dataBuffer);
+// 	//dataBuffer = data;	
+// });
 
 
 
 if (!module.parent) {
-  app.listen(3000);
+  app.listen(80);
   console.log("Express server listening on port %d", app.address().port);
 }
 
