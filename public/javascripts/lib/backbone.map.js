@@ -12,41 +12,55 @@ window.MarkerCollection = Backbone.Collection.extend({
 	  
 	},
 	map: {},
-	
-	addSearch: function(search) {
-	 // search.model.	get lng l
-	console.log("addSearch");
-	console.log(search);
-	var data = search.attributes;
-	var color = data.color;
-	if (this.markersArray.length>0) this.deleteOverlays();
-	for (id in data.couchids) {
-		var lat = data.couchids[id].lat;
-		var lng = data.couchids[id].lng;
-		this.addMarker(lat,lng,color);
-	}
-	},
-	addNew: function() {
-		console.log("ADDNEW");
-	},
+	infowindow:{},
+	// addSearch: function(search) {
+	//  // search.model.	get lng l
+	// //console.log("addSearch");
+	// return;
+	// //console.log(search);
+	// var data = search.attributes;
+	// var color = data.color;
+	// if (this.markersArray.length>0) this.deleteOverlays();
+	// var counter = 0;
+	// var couchids = data.couchids;
+	// var dataKeys = _.keys(jobs);
+	// dataKeys.sort();
+	// 
+	// for (id in couchids) {
+	// 	var index = _.indexOf(dataKeys,id,true);
+	// 	var lat = couchids[id].lat;
+	// 	var lng = couchids[id].lng;
+	// 	this.addMarker(lat,lng,color,couchids[id],index);
+	// 	counter++;
+	// }
+	// },
+	// addNew: function() {
+	// 	console.log("ADDNEW");
+	// },
 	
 	addMarkersChange: function() {
-		console.log("addMarkersChange");
+	//	console.log("addMarkersChange");
 		Marker.addMarkers();
 	},
 	
 	
 	addMarkers: function() {
-		console.log("	addMarker");
+		//console.log("	addMarker");
 		var counter = 0;
 		Marker.deleteOverlays(function() {
 			Searches.each(function(data) {
 				//Marker.start();
-				
 				var jobs = data.attributes.couchids;
+				var dataKeys = _.keys(jobs);
+				dataKeys.sort();
+					var categories = encodeURIComponent(data.attributes.content);
 				var color = data.attributes.color;
 				for (id in jobs) {
-					Marker.addMarker(jobs[id].lat,jobs[id].lng,color);
+				
+					//console.log("index");
+					//console.log(dataKeys);// + " " +jobs[id] + " " + id)
+					var index = _.indexOf(dataKeys,id,true);
+					Marker.addMarker(jobs[id].lat,jobs[id].lng,color,jobs[id],index,categories);
 					counter++;
 				};
 
@@ -64,12 +78,11 @@ window.MarkerCollection = Backbone.Collection.extend({
 	     mapTypeId: google.maps.MapTypeId.ROADMAP
 	   };
 	   this.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-	  
+		 this.infowindow = new google.maps.InfoWindow();
 	},
-	
   markersArray: [],
 
-  addMarker: function(lat,lng,color) {
+  addMarker: function(lat,lng,color,model,counter,categories) {
   var location = new google.maps.LatLng(lat, lng);
   color = color.replace('#','');
   var image = 'http://dev.oszko.net/images/' + color + 'marker.png';
@@ -79,8 +92,45 @@ window.MarkerCollection = Backbone.Collection.extend({
     map: this.map,
     icon: image
   });
+  marker = this.addListener(marker,model,counter,this,categories);
   this.markersArray.push(marker);
  },
+
+ addListener: function(marker,model,counter,self,categories) {
+	//console.log("model");
+	//console.log(model);
+  //console.log(categories);
+	if (model.company) {
+	google.maps.event.addListener(marker, 'mouseover', function() {
+	    //window.location.href("/#");
+	    //window.location.href = "/#";
+			var content = model.company;
+			// console.log("event moueup");
+			// console.log(self.infowindow);
+			// 		  console.log(this);
+			self.infowindow.setContent(content);
+			self.infowindow.open(self.map,marker);
+	  });
+		google.maps.event.addListener(marker, 'mouseout', function() {
+		    //window.location.href("/#");
+		    //window.location.href = "/#";
+				// var content = model.company;
+				// console.log("event moueup");
+				// console.log(self.infowindow);
+				// 			  console.log(this);
+				// self.infowindow.setContent(content);
+				self.infowindow.close();
+		  });
+	};
+	
+	google.maps.event.addListener(marker, 'click', function() {
+	    //window.location.href("/#");
+	    window.location.href = "/#!/categories/" + categories +"/" +counter;
+			
+	  });
+ 	return marker;
+ },
+ 
  gotoMarker: function(couchid) {
  	//console.log("gotoMarker");
   //console.log(couchid.lat);

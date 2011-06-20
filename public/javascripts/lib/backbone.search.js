@@ -100,7 +100,7 @@
 			
 			var lastSearch = _.last(Searches.models);
 			var content = "",root;
-			console.log("last model");
+			//console.log("last model");
 			//console.log(lastSearch.attributes.content);
 			if (lastSearch) {
 				content = lastSearch.attributes.content;
@@ -112,7 +112,7 @@
 		  
 		},
 		changeUrl: function(content,root) {
-			console.log(content +" content root " + root);
+			//console.log(content +" content root " + root);
 			var url = encodeURIComponent(content);
 			//console.log(url);
 			var href="";
@@ -166,7 +166,7 @@
 		
 		render: function() {
 			
-			console.log("render Searches " + this.model.id);
+			//console.log("render Searches " + this.model.id);
 			$(this.el).html(this.template(this.renderAttributes(this.model.attributes)));
 			//this.setContent();
 			

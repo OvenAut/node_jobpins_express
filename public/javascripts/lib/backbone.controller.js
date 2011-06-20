@@ -22,7 +22,7 @@ var restfulApp = Backbone.Controller.extend({
 	  content = decodeURIComponent(content);	
 
 		var id = Searches.getId(content);
-  	console.log(id + " " +content + " " + index);
+  	//console.log(id + " " +content + " " + index);
 		if (typeof id=="undefined" || _.size(Searches.get(id).attributes.couchids) < index)  {
 			window.location.href = "/#";
 		  return;

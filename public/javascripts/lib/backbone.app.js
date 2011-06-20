@@ -63,15 +63,15 @@
 		
 		// Re-rendering the App just means refreshing 
 		// the statistics -- the rest of the app doesn't change.
-		render: function() {
-			//var done = Searches.done().length;
-			// this.$('#search-stats').html(this.statsTemplate({
-			// 	total:      Searches.length,
-			// 	done:       Searches.active().length,
-			// 	remaining:  Searches.deactive().length
-			// }));
-			console.log("render");
-		},
+		// render: function() {
+		// 	//var done = Searches.done().length;
+		// 	// this.$('#search-stats').html(this.statsTemplate({
+		// 	// 	total:      Searches.length,
+		// 	// 	done:       Searches.active().length,
+		// 	// 	remaining:  Searches.deactive().length
+		// 	// }));
+		// 	console.log("render");
+		// },
 		// renderSuggest: function() {
 		// 			//var done = Searches.done().length;
 		// 			this.$('#suggestColumn').html(this.suggestTemplate({
@@ -85,7 +85,7 @@
 		//Add a single todo item to the list by creating a 
 		//view for it, and appending its element to the <ul>.
 		addOne: function(search) {
-			console.log("addOne");
+			//console.log("addOne");
 			if (SuggestList.length>0) {
 				SuggestList.get(search.attributes.listId).toggle();
 				//console.log(search.attributes.listId);
@@ -209,7 +209,7 @@
 			//console.dir(SuggestsFilter);
 			// var testarray = new Array([1,2,3,4,5]);
 			// testarray.forEach(this.renderSuggest);
-			console.log("renderSuggestList");
+			//console.log("renderSuggestList");
 			//console.log(Suggests);
 			Suggests.each(this.renderSuggest);
 			//console.dir(this.renderData);
@@ -332,7 +332,7 @@
 			//this.$("#suggest-list").empty();
 			if (data.noData) return;
 			//log(data);
-			console.log(data);
+			//console.log(data);
 			
 			var datain = [];				
 			if (this.suggestPresent()) this.clearSuggest(function() {

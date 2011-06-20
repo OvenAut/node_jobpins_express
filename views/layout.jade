@@ -12,6 +12,7 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="content-language", content="de")
     link(rel='stylesheet', href='stylesheets/style.css')
+    //-.holmes-debug
   body
     #page
       .stack
@@ -58,7 +59,7 @@ html
       </div>
     script#searchItem-template(type="text/template")
       <div class="display" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);">
-      <div class="search-content <%= activ? ' activ':''%>"><a href="#!/categories/<%= urlname %>/<%= page %>"><%= content %></a></div>
+      <div class="search-content <%= activ? ' activ':''%>"><%= content.link("#!/categories/"+ urlname +"/"+page) %></div>
       <span class="search-destroy"></span>
       <span class="search-counter"><%= counter? counter : 'loading' %>
       </div>
@@ -68,10 +69,14 @@ html
       <div class="display">
       <div id="navigation">
       <div class="stack1of4">
-      <div class="navigationback stackContent" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);"><%= index!=last? '<a href="' + urlname + '/' + last + '">zur&uuml;ck</a>': ''%></div>
+      <div class="navigationback stackContent" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);">
+      <%= index!=last? backText.link(urlname + '/' + last): ''%>
+      </div>
       </div>
       <div class="stack1of4">
-      <div class="navigationforward stackContent" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);"><%= index!=next? '<a href="' + urlname + '/' + next + '">vorw&auml;rts</a>': ''%></div>
+      <div class="navigationforward stackContent" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);">
+      <%= index!=next? forthText.link(urlname + '/' + next): ''%>
+      </div>
       </div>
       <div class="companyname">
       <div class="text stackContent"><%= company %></div>
@@ -127,7 +132,7 @@ html
     script(src='javascripts/lib/backbone.suggest.list.js')
     script(src='javascripts/lib/backbone.search.js')
     script(src='javascripts/lib/backbone.document.js')
-    script(src='javascripts/lib/backbone.document.list.js')
+    //-script(src='javascripts/lib/backbone.document.list.js')
     script(src='javascripts/lib/backbone.app.js')
     script(src='javascripts/lib/backbone.map.js')
     script(src='javascripts/lib/backbone.controller.js')

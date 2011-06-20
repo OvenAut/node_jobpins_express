@@ -68,7 +68,7 @@
 			Document.renderData.last = Document.index>0? (Document.index-1) : 0 ;
 			Document.renderData.urlname = "#!/categories/" + encodeURIComponent(Document.list.attributes.content);
 			Document.renderData.color = Document.list.attributes.color;
-			console.log("render");
+			//console.log("render");
 			//console.log(Document.renderData);
 			var view = new DocumentView({model: Document.renderData});
 			//data[view.model.attributes.id] = view.model.attributes.content;
@@ -80,7 +80,7 @@
 		
 		
 		prepare: function(Document) {
-			console.log("prepare Docs");
+			//console.log("prepare Docs");
 			//console.log(id);
 
 
@@ -101,25 +101,25 @@
 				if (Document.keys[i]) {
 					var page = Document.keys[i];
 					if (Document.list.attributes.couchids[page].updated_at) {
-						console.log("data exists");
+						//console.log("data exists");
 						//Documents.renderDoc(documentList.attributes.couchids[page]);
 						//cb(page)
 						
 					} else {
-						console.log("no data");
+						//console.log("no data");
 						pageGet.push(page);
 					}
 				}
 			}
 			//console.log(pageGet);
 			if (pageGet.length>0) {
-				console.log("sending getDocData " + Document.id + " page:" + pageGet);
+				//console.log("sending getDocData " + Document.id + " page:" + pageGet);
 				socket.socketSend({key:pageGet,id:Document.id},"getDocData");
        if (pageGet.length==3) {
-				console.log("get data return false");
+				//console.log("get data return false");
 				return false;
 			} else {
-				console.log("get data return true");
+				//console.log("get data return true");
 				return true;
 
 			}
@@ -196,7 +196,9 @@
 		renderAttributes: function(data) {
 			//console.log(data);
 			var altText = "",
-			    text ="";
+			    text ="",
+			    back = "zur&uuml;ck",
+			    forth = "weiter";
 			
 			if(!data.body) {
 				var data = {
@@ -207,7 +209,9 @@
 					index:"",
 					urlname:"",
 					formatted_address:"",
-					color:"#fff",	
+					color:"#fff",
+					backText:back,
+					forthText:forth,	
 				};
 				} else { 
 					text = data.company;
@@ -228,6 +232,8 @@
 				urlname:data.urlname,
 				formatted_address:data.formatted_address,
 				color:data.color,
+				backText:back,
+				forthText:forth,
 			}
 		},
 		

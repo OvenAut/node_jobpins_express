@@ -62,7 +62,7 @@ window.SuggestCollection = Backbone.Collection.extend({
 		//this.remove({});
 		
 		//SuggestView.remove();
-		console.log("clear Suggests.length = " + Suggests.length);
+//		console.log("clear Suggests.length = " + Suggests.length);
 		
 	},
 	// selectDown: function() {
@@ -97,6 +97,12 @@ window.SuggestCollection = Backbone.Collection.extend({
 		if (nextId < 0 || nextId >= (this.models.length)) return
 				
 		var selectedName = selectedSug.attributes.name;
+		if (selectedName.length > 24) {
+			//var text = data.content.replace(/.{21}(.*)/,"...");
+			selectedName = selectedName.slice(0,22);
+		  selectedName = selectedName + "...";
+		}
+		
 		//console.log(selected);
 
 		//console.log($("#suggest-list").children().last().text().trim());
@@ -133,7 +139,7 @@ window.SuggestCollection = Backbone.Collection.extend({
 	},
 	
 	hiddeLast: function(silent) {
-		console.log("next");
+		//console.log("next");
 		//console.log(this);
 		var hiddeId = Suggests.detect(function(data) {
 			return data.get('visible');
@@ -146,7 +152,7 @@ window.SuggestCollection = Backbone.Collection.extend({
 		//this.selectWitheId(current,nextid);
 	},
 	unhiddeLast: function(silent) {
-		console.log("next");
+		//console.log("next");
 		//console.log(this);
 		var hiddeIdar = Suggests.select(function(data) {
 			return !data.get('visible');
@@ -310,15 +316,15 @@ window.SuggestView = Backbone.View.extend({
 	
 	selectThis: function() {
 		Suggests.unselect();
-		console.log("selectThis");
+		//console.log("selectThis");
 		this.model.toggle();
 	},
 	clickUp: function() {
-		console.log("clickUp");
+		//console.log("clickUp");
 		Suggests.unhiddeLast(false);
 	},
 	clickDown: function() {
-		console.log("clickDown");
+		//console.log("clickDown");
 		Suggests.hiddeLast(false);
 	},
 	
@@ -331,11 +337,11 @@ window.SuggestView = Backbone.View.extend({
 	remove: function() {
 		$(this.el).remove();
 		//console.log(this.el);
-		console.log("removed");
+		//console.log("removed");
 	},
 
 	render: function() {
-		console.log("render");
+		//console.log("render");
 		var childrens = $("#suggest-list").children().length;
 		var nodeIndex = (Suggests.indexOf(this.model));
 		// console.log(childrens);
@@ -375,7 +381,7 @@ window.SuggestView = Backbone.View.extend({
 	
 	setContent: function() {
 		
-		console.log("render Suggest");
+		//console.log("render Suggest");
 		
 		var childrens = $("#suggest-list").children().length;
 		var content = this.model.get('name');
