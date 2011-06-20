@@ -85,7 +85,7 @@ app.get('/', function(req, res){
 
 
 // app.get('/test', function(req,res) {
-// 	console.time('GET /test');
+// 	console.time('GET /test')
 // 	couchdb.checkList(function(data) {
 // 		res.send(data);
 // 		console.timeEnd('GET /test');

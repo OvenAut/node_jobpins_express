@@ -175,9 +175,8 @@
 		renderAttributes: function(data) {
 			//console.log(data);
 			var altText = "";
-			var text = data.content;
+			var text = altText = data.content;
 			if (text.length > 24) {
-				altText = text;
 				//var text = data.content.replace(/.{21}(.*)/,"...");
 				text = text.slice(0,21);
 			  text = text + "...";

@@ -1,5 +1,5 @@
 !!! 5
-html
+html(lang="de")
   head
     //-link(rel='stylesheet',href='http://fonts.googleapis.com/css?family=Permanent+Marker',type='text/plain')
     link(rel='stylesheet',href='http://fonts.googleapis.com/css?family=Paytone+One',type='text/plain')
@@ -11,7 +11,7 @@ html
     meta(name="google-site-verification", content="iKN2yZyVCftauq-qUSTebFpjyMIgAllVx2cI6LEYu6E")
     meta(name="author", content="Oliver Oszko")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    meta(http-equiv="content-language", content="DE")
+    //-meta(http-equiv="content-language", content="DE")
     link(rel='stylesheet', href='stylesheets/style.css')
     //-.holmes-debug
   body
@@ -60,7 +60,7 @@ html
       </div>
     script#searchItem-template(type="text/template")
       <div class="display" style="background: -webkit-gradient(linear, left top, left bottom, from(<%= color %>), to(#fff));background: -moz-linear-gradient(top, <%= color %>, #fff);">
-      <div class="search-content <%= activ? ' activ':''%>"><%= content.link("#!/categories/"+ urlname +"/"+page) %></div>
+      <div class="search-content <%= activ? ' activ':''%>"><a href="#!/categories/<%= urlname %>/<%= page %>" title="<%=altText%>"><%= content %></a></div>
       <span class="search-destroy"></span>
       <span class="search-counter"><%= counter? counter : 'loading' %>
       </div>
