@@ -3,7 +3,7 @@ var restfulApp = Backbone.Controller.extend({
 	routes: {
 			"!/categories/:content/:index":          "documentIndexAction",  //This matches app/animals/* and assigns * to a variable called "animal"
 			//"/categories/:content":          "documentAction",  //This matches app/animals/* and assigns * to a variable called "animal"
-			
+			"!/zoomwien":     "mapZoomWien",
 			"*page":                 	"defaultAction", //This simply matches any urls that weren't caught above and assigns it to "page"
 			},
   // documentAction: function(content,index) {
@@ -42,14 +42,18 @@ var restfulApp = Backbone.Controller.extend({
 		//Document.attributes.save();
 		//console.log(Document);
 		
-		Marker.gotoMarker(Document.attributes.couchids[Document.nextDoc]);
+		Marker.gotoMarker(Document.nextDoc);
 	  $("#column1box").fadeOut('slow');
 	  //$(".documentbody").slideUp('fast',function() {
 	  //});
     Documents.render(id);// body...
     
   },
-
+  mapZoomWien: function() {
+  	Marker.zoomWien();
+		this.defaultAction();
+  },
+  
   defaultAction: function(page) {
 	  $(".documentdiv").empty();
 	  $("#column1box").fadeIn('slow');

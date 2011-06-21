@@ -13,6 +13,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 	},
 	map: {},
 	infowindow:{},
+	startPosition:{},
 	// addSearch: function(search) {
 	//  // search.model.	get lng l
 	// //console.log("addSearch");
@@ -60,7 +61,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 					//console.log("index");
 					//console.log(dataKeys);// + " " +jobs[id] + " " + id)
 					var index = _.indexOf(dataKeys,id,true);
-					Marker.addMarker(jobs[id].lat,jobs[id].lng,color,jobs[id],index,categories);
+					Marker.addMarker(jobs[id].lat,jobs[id].lng,color,jobs[id],index,categories,id);
 					counter++;
 				};
 
@@ -69,20 +70,21 @@ window.MarkerCollection = Backbone.Collection.extend({
 		});
 	},
 	
-	
+
 	start: function() {
-		 var latlng = new google.maps.LatLng(48.208174,16.373819);
+		 this.startPosition = new google.maps.LatLng(48.208174,16.373819);
 	   var myOptions = {
 	     zoom: 11,
-	     center: latlng,
+	     center: this.startPosition,
 	     mapTypeId: google.maps.MapTypeId.ROADMAP
 	   };
 	   this.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	
 		 this.infowindow = new google.maps.InfoWindow();
 	},
   markersArray: [],
 
-  addMarker: function(lat,lng,color,model,counter,categories) {
+  addMarker: function(lat,lng,color,model,counter,categories,id) {
   var location = new google.maps.LatLng(lat, lng);
   color = color.replace('#','');
   var image = 'http://dev.oszko.net/images/' + color + 'marker.png';
@@ -90,7 +92,9 @@ window.MarkerCollection = Backbone.Collection.extend({
   marker = new google.maps.Marker({
     position: location,
     map: this.map,
-    icon: image
+    icon: image,
+    title:model.company || "",
+    id:id,
   });
   marker = this.addListener(marker,model,counter,this,categories);
   this.markersArray.push(marker);
@@ -100,7 +104,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 	//console.log("model");
 	//console.log(model);
   //console.log(categories);
-	if (model.company) {
+	if (model.company && false ) {
 	google.maps.event.addListener(marker, 'mouseover', function() {
 	    //window.location.href("/#");
 	    //window.location.href = "/#";
@@ -130,12 +134,23 @@ window.MarkerCollection = Backbone.Collection.extend({
 	  });
  	return marker;
  },
+ zoomWien: function() {
+ 	this.map.setCenter(this.startPosition);
+  this.map.setZoom(11);
+ },
  
  gotoMarker: function(couchid) {
+	selectedMarker = _.detect(this.markersArray,function(marker) {
+		//console.log(marker.id);
+		//console.log(couchid);
+		return marker.id == couchid;
+	});
+	this.map.panTo(selectedMarker.getPosition());
+
  	//console.log("gotoMarker");
   //console.log(couchid.lat);
-  var latlng = new google.maps.LatLng(couchid.lat,couchid.lng);
-	this.map.panTo(latlng);
+  //var latlng = new google.maps.LatLng(couchid.lat,couchid.lng);
+	//this.map.panTo(latlng);
 	this.map.setZoom(16);
  },
  
