@@ -11,9 +11,8 @@ var express    = require('express'),
     //store      = new RedisStore({host:'home.oszko.net',pass:'webcat'}),
     connect    = require('connect'),
     util       = require('util'),
-    io         = require('socket.io'),
     helper     = require('helper'),
-    couchdb    = require('couchdb');
+    couchdb    = require('couchdb-ovenaut');
 
 //var sws = require("./sws.js"); 
 
@@ -125,10 +124,38 @@ function storeSet(message,session) {
 };
 
 
-// SOCKET
-var socket = io.listen(app);
 
-socket.on('connection', function(client){ 
+
+
+var io = require('socket.io').listen(app);
+io.enable('browser client minification');
+io.set('log level',1);
+// SOCKET
+//var socket = io.listen(app);
+
+io.sockets.on('connection', function(client){ 
+		console.log("connection");
+		
+		client.on('getSuggestList' ,function() {
+			console.log("ClientConnect");
+			couchdb.checkList(function(data) {
+					client.emit("suggestList",data);
+			});
+		});
+		
+		client.on('getSearchData',function(data) {
+			console.log(data);
+			couchdb.getSearchData(data.key,function(datadb) {
+				client.emit("searchData",{data:datadb,id:data.id});
+			});	
+		});
+		
+		client.on('getDocData',function(data) {
+			couchdb.getDocData(data.key,function(datadb) {
+				client.emit("docData",{data:datadb,id:data.id});
+			});
+		});
+});
   	// … 
     //console.dir(client);
 		//var cookie_string = client.request.headers.cookie;
@@ -156,73 +183,63 @@ socket.on('connection', function(client){
 		// 
 		// });
 
-		client.on('message', function(message) {
-			var self = this;
-			console.time('on.message');
-		  //console.dir(message)
-			//helper.time.start();
-			function dataSend(name,data,id) {
-						var dataSend = {};
-					//	console.log('sendingdata');
-						dataSend[name] = {data:data,id:id};
-						client.send(dataSend);
-					 //console.dir(dataSend);
-					//console.log(helper.time.stop() + "socket.message");
-				 console.timeEnd('on.message');
-
-				
-			};
-			
-			
-		  if (typeof message.data.suggest !== "undefined" && message.data.suggest !== null) {
-			
-				//console.dir(this);
-				//storeGet(message, function() {
-						//console.dir(this);
-					couchdb.suggest(message.data.suggest, function(data) {
-						//console.dir(data);
-					dataSend("suggest",data);
-					});					
-				
-					  //data.
-				//});
-		  }
-			if (typeof message.data.getSearchData !== "undefined" && message.data.getSearchData !== null) {
-				couchdb.getSearchData(message.data.getSearchData.key,function(data) {
-					dataSend("searchData",data,message.data.getSearchData.id);
-				});
-			}
-			
-			if (typeof message.data.getDocData !== "undefined" && message.data.getDocData !== null) {
-				//console.dir(message.data.getDocData);
-				couchdb.getDocData(message.data.getDocData.key,function(data) {
-					dataSend("docData",data,message.data.getDocData.id);
-				});
-			}
-			
-		});	
-		
-});
+		// client.on('message', function(message) {
+		// 	var self = this;
+		// 	console.time('on.message');
+		//   //console.dir(message)
+		// 	//helper.time.start();
+		// 	function dataSend(name,data,id) {
+		// 				var dataSend = {};
+		// 			//	console.log('sendingdata');
+		// 				dataSend[name] = {data:data,id:id};
+		// 				client.emit(dataSend);
+		// 			 //console.dir(dataSend);
+		// 			//console.log(helper.time.stop() + "socket.message");
+		// 		 console.timeEnd('on.message');
+		// 
+		// 		
+		// 	};
+		// 	
+		// 	
+		//   if (typeof message.data.suggest !== "undefined" && message.data.suggest !== null) {
+		// 	
+		// 		//console.dir(this);
+		// 		//storeGet(message, function() {
+		// 				//console.dir(this);
+		// 			couchdb.suggest(message.data.suggest, function(data) {
+		// 				//console.dir(data);
+		// 			dataSend("suggest",data);
+		// 			});					
+		// 		
+		// 			  //data.
+		// 		//});
+		//   }
+		// 	if (typeof message.data.getSearchData !== "undefined" && message.data.getSearchData !== null) {
+		// 		couchdb.getSearchData(message.data.getSearchData.key,function(data) {
+		// 			dataSend("searchData",data,message.data.getSearchData.id);
+		// 		});
+		// 	}
+		// 	
+		// 	if (typeof message.data.getDocData !== "undefined" && message.data.getDocData !== null) {
+		// 		//console.dir(message.data.getDocData);
+		// 		couchdb.getDocData(message.data.getDocData.key,function(data) {
+		// 			dataSend("docData",data,message.data.getDocData.id);
+		// 		});
+		// 	}
+		// 	
+		// });	
 
 
-socket.on('clientDisconnect',function(client) {
-	
-	// storeGet(client,function(session) {
-	// 	session.disconnect = Date.now();
-	// 	storeSet(client, session);
-	// });
-	
-});
 
-socket.on('clientConnect',function(client) {
-		console.log("ClientConnect");
-		couchdb.checkList(function(data) {
-				client.send({suggestList:data});
-		});
-		
-	// storeGet(client,function(session) {
-	// 	session.disconnect = Date.now();
-	// 	storeSet(client, session);
-	// });
-	
-});
+// io.sockets.on('open',function(client) {
+// 		console.log("ClientConnect");
+// 		couchdb.checkList(function(data) {
+// 				client.send({suggestList:data});
+// 		});
+// 		
+// 	// storeGet(client,function(session) {
+// 	// 	session.disconnect = Date.now();
+// 	// 	storeSet(client, session);
+// 	// });
+// 	
+// });

@@ -47,17 +47,19 @@ var restfulApp = Backbone.Controller.extend({
 	  //$(".documentbody").slideUp('fast',function() {
 	  //});
     Documents.render(id);// body...
-    
+    document.title="Jobpins" + " " + content + " " +  Document.attributes.couchids[Document.nextDoc].company;
   },
   mapZoomWien: function() {
   	Marker.zoomWien();
 		this.defaultAction();
+		document.title="Jobpins Wien"
   },
   
   defaultAction: function(page) {
 	  $(".documentdiv").empty();
 	  $("#column1box").fadeIn('slow');
   	//console.log(page);
+    document.title="Jobpins"
   },
   
   

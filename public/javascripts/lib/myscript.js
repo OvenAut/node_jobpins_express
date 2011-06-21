@@ -7,7 +7,7 @@ console = console || { log : function() {
 $(document).ready(function() {
 	
   //initialSocket();
-	socket.connect();
+	//socket.connect();
 
 /**
 	Google Map

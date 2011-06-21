@@ -14,6 +14,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 	map: {},
 	infowindow:{},
 	startPosition:{},
+	shadow:{},
 	// addSearch: function(search) {
 	//  // search.model.	get lng l
 	// //console.log("addSearch");
@@ -79,8 +80,13 @@ window.MarkerCollection = Backbone.Collection.extend({
 	     mapTypeId: google.maps.MapTypeId.ROADMAP
 	   };
 	   this.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	   this.shadow = new google.maps.MarkerImage('images/shadow.png',
+			new google.maps.Size(22,12),
+			new google.maps.Point(0,0),
+			new google.maps.Point(2,17)
 	
-		 this.infowindow = new google.maps.InfoWindow();
+			);
+		 //this.infowindow = new google.maps.InfoWindow();
 	},
   markersArray: [],
 
@@ -95,6 +101,7 @@ window.MarkerCollection = Backbone.Collection.extend({
     icon: image,
     title:model.company || "",
     id:id,
+    shadow:this.shadow,
   });
   marker = this.addListener(marker,model,counter,this,categories);
   this.markersArray.push(marker);
