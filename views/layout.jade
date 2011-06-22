@@ -81,12 +81,19 @@ html(lang="de")
       <%= index!=next? forthText.link(urlname + '/' + next): ''%>
       </div>
       </div>
-      <div class="companyname">
+      <div class="companyname" style="border: 1px solid <%= color %>">
       <div class="text stackContent"><%= company %></div>
+      </div>
+      <div class="jobdata" style="border: 1px solid <%= color %>">
+      <div class="text stackContent"><%= employment %></div>
+      </div>
+      <div class="jobdata" style="border: 1px solid <%= color %>">
+      <div class="text stackContent"><%= education %></div>
       </div>
       </div>
       <div class="documentbody stackContent"><%= body %></div>
       <div id="location"><%= formatted_address %></div>
+      <div id="location"><%= joblocation %></div>
       </div>
       </div>
     script#searchItemOld-template(type="text/template")

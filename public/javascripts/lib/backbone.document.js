@@ -211,7 +211,10 @@
 					formatted_address:"",
 					color:"#fff",
 					backText:back,
-					forthText:forth,	
+					forthText:forth,
+					employment:"",
+					education:"",
+					joblocation:""	
 				};
 				} else { 
 					text = data.company;
@@ -234,6 +237,9 @@
 				color:data.color,
 				backText:back,
 				forthText:forth,
+				employment:data.employment,
+				education:data.education,
+				joblocation:data.joblocation,
 			}
 		},
 		
