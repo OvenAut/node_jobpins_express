@@ -98,7 +98,7 @@ app.get('/', function(req, res){
 
 
 if (!module.parent) {
-  app.listen(3000);
+  app.listen(80);
   console.log("Express server listening on port %d", app.address().port);
 }
 
@@ -131,7 +131,7 @@ var io = require('socket.io').listen(app);
 
 io.enable('browser client minification');
 
-io.set('log level',3);
+io.set('log level',1);
 // SOCKET
 //var socket = io.listen(app);
 
