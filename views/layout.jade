@@ -68,8 +68,7 @@ html(lang="de")
       <span class="search-counter"><%= counter? counter : 'loading' %>
       </div>
     script#document-template(type="text/template")
-      <div class="documentbox stackContent">
-      <div class="sidecolor" style="background: -webkit-gradient(linear, 0% 0%, 30 0%, from(#fff),color-stop(50%,<%= color %>), to(#fff));background: -moz-linear-gradient(0deg, #fff, <%= color %>, #fff 50px);">
+      <div class="documentbox stackContent" style="-box-shadow: 0 0 7px <%= color %>; -moz-box-shadow: 0 0 7px <%= color %>;-khtml-box-shadow: 0 0 7px <%= color %>;-webkit-box-shadow: 0 0 7px <%= color %>">
       <div class="display">
       <div id="navigation">
       <div class="stack1of4">
@@ -87,9 +86,7 @@ html(lang="de")
       </div>
       </div>
       <div class="documentbody stackContent"><%= body %></div>
-      
       <div id="location"><%= formatted_address %></div>
-      </div>
       </div>
       </div>
     script#searchItemOld-template(type="text/template")

@@ -197,8 +197,8 @@
 			//console.log(data);
 			var altText = "",
 			    text ="",
-			    back = "zur&uuml;ck",
-			    forth = "weiter";
+			    back = "<<",
+			    forth = ">>";
 			
 			if(!data.body) {
 				var data = {
