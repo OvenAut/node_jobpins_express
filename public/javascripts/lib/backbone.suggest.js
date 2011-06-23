@@ -196,7 +196,7 @@ window.SuggestCollection = Backbone.Collection.extend({
 	// <-- app.enterVal
 	getval: function(val) {
 		//Make a virtual group from val
-		if (Suggests.length>0) {
+		if (Suggests.length>=0) {
 			this.clear();
 			this.refresh({},{silent:true});
 		};
