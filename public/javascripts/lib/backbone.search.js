@@ -89,6 +89,13 @@
 		// },
 		//getNameCached: this.getName.cached(),
 		//getName: SearchList.getName.cachedTrac(),
+		searchInactiv: function() {
+			detected = this.detect(function(data) {
+				return data.get("docActiv")==true;
+			});
+			if (detected) detected.toggle();
+		},
+		
 		isActiv: function(id) {
 			detected = this.detect(function(data) {
 				return data.get("docActiv")==true;

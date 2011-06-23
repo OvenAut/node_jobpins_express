@@ -59,6 +59,7 @@ var restfulApp = Backbone.Controller.extend({
 	  $(".documentdiv").empty();
 	  $("#column1box").fadeIn('slow');
   	//console.log(page);
+    Searches.searchInactiv();
     document.title="Jobpins"
   },
   
