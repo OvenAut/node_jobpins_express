@@ -143,6 +143,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 	cb();
 	},
 });
+
 window.Marker = new MarkerCollection;
 
 
@@ -151,8 +152,8 @@ window.MapView = Backbone.View.extend({
   el: $("#map_canvas"),
 
 	events: {	
+	 },
 	initialize: function() {
 		Marker.start();
-	},
-			
+	 },
 });
