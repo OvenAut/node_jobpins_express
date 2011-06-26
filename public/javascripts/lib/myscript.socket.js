@@ -19,12 +19,16 @@ socket.on('connect', function(){
 
 socket.on('suggestList',function(data) {
 	//console.log(data);
-	window.SuggestList.newList(data);
+	window.SuggestList.newList(data,function(count) {
+		var guiText = "Jobpins hat " + count +" Kategorien für Sie";	
+	  //$('#slogen').text(guiText);
+	setSlogen(guiText,true);
+	});
 });
 
 socket.on('searchData',function(data) {
 	//$("#slogen").text("searchData");
-	setSlogen("searchData");
+	setSlogen("Categorien Daten bekommen");
 	
 	var tmpData = Searches.get(data.id);
 	//console.log(_.keys(data.searchData.data.couchid)[0]);
@@ -43,7 +47,7 @@ socket.on('searchData',function(data) {
 socket.on('docData',function(data) {
 	//console.log("GET DOCDATA");
 		//$("#slogen").text("docData");
-		setSlogen("docData");
+
 		
 	var tmpData = Searches.get(data.id);
 	for (var i = 0 ;i<data.data.length;i++) {
@@ -57,27 +61,28 @@ socket.on('docData',function(data) {
 		};
 	}
 	tmpData.save();
-	
+	setSlogen("Documenten daten bekommen");
 });
 
 socket.on('newests',function(data) {
-	$("#slogen").text('New Data @' + data);
+	setSlogen("Neue Data @Server " + data);
 });
 
 socket.once('disconnect', function(){ 
 	//console.log('disconnected');
-	setSlogen("disconnected");
+	setSlogen("Server disconnected");
 	//$("#slogen").text("disconnected");
 });
 
 
-function setSlogen(newText) {
-	//var self = this
-	var oldText = 	oldText || $("#slogen").text();
+function setSlogen(newText,defaultText) {
+	var self = this;
+	//var oldText = oldText;
+	if (defaultText==true) self.oldText = newText;
 	//console.log(oldText);
 	$("#slogen").text(newText);
 	window.setTimeout(function() {
-		//console.log("timer");
+		//console.log(oldText);
 		$("#slogen").text(oldText);
-	},2000,oldText);
+	},2000,self.oldText);
 }

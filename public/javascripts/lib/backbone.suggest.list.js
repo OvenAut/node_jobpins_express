@@ -44,7 +44,7 @@ window.SuggestListCollection = Backbone.Collection.extend({
 		};
 	},
 	
-	newList: function(data) {
+	newList: function(data,cb) {
 		//console.dir(data);
 		
 		var InuseNameList = {};
@@ -56,15 +56,13 @@ window.SuggestListCollection = Backbone.Collection.extend({
 		for (name in data) {
 			this.add(this.Attributes(name,i++,data,InuseNameList));
 		};
-	  this.guiNotice(i);	
+	  this.guiNotice();
+		cb(i)
 	},
 	
 	
-	guiNotice: function(i,j) {
-		var guiText = "Jobpins hat " + i +" Kategorien für Sie";	
+	guiNotice: function() {
 		$('#new-search')[0].placeholder = "What you search for?";
-		$('#slogen').text(guiText);
-		
 	},
 		
 });
