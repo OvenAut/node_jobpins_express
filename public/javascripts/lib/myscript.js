@@ -1,8 +1,9 @@
-console = console || { log : function() {
-// place your logging code here, if firebug is closed
-}, debug : function() {
-// place your debug code here, if firebug is closed
-} /*, [ and so on .. ] */ };
+var console = console || { log : function() {
+	// place your logging code here, if firebug is closed
+	}, debug : function() {
+	// place your debug code here, if firebug is closed
+	} /*, [ and so on .. ] */ 
+};
 
 $(document).ready(function() {
 	

@@ -17,18 +17,19 @@ html(lang="de")
   body
     #page
       .stack
-        #header.titlebox
-          .stack3of4
-            h1#title.stackContent
-             span#text Jobpins allways
-             img(width='61', height='53',src='images/heart.png', alt='heart' ,title='Love love')
-             span#text you
-            span.edition.stackContent
-             | Vienna edition
-          .stack1of4
-            img(width='88', height='88', src='images/sexy.jpeg', alt='Sexy Title')
+        #header.stackContent
+          ///-.stack3of4
+          //-#title.stackContent
+          span#title Jobpins
+          div#slogen
+           //-allways
+             //-img(width='61', height='53',src='images/heart.png', alt='heart' ,title='Love love')
+             //-span#text you
+            //-span.edition.stackContent
+            //- | Vienna edition
+          //-.stack1of4
+           //- img(width='88', height='88', src='images/sexy.jpeg', alt='Sexy Title')
         #map_canvas.stackContent
-          //map
         #searchapp
           #searchColumn.stackContent
             .zoomWien

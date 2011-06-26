@@ -2,7 +2,7 @@ var socket = io.connect(location.hostname);
 
 socket.socketSend = function(data,name) {
 	//var sendData = {};
-	console.log("socketSend");
+	//console.log("socketSend");
 	//sendData[name] = data;
   var sending = socket.emit(name,data);
 };
@@ -23,11 +23,14 @@ socket.on('suggestList',function(data) {
 });
 
 socket.on('searchData',function(data) {
+	//$("#slogen").text("searchData");
+	setSlogen("searchData");
+	
 	var tmpData = Searches.get(data.id);
 	//console.log(_.keys(data.searchData.data.couchid)[0]);
 	var firstDoc = _.keys(data.data.couchid);
 	firstDoc.sort();
-	console.log("firstDoc" + _.first(firstDoc));
+	//console.log("firstDoc" + _.first(firstDoc));
 	tmpData.set({
 		couchids:data.data.couchid,
 		docOpen:firstDoc[0]
@@ -38,7 +41,10 @@ socket.on('searchData',function(data) {
 });
 
 socket.on('docData',function(data) {
-	console.log("GET DOCDATA");
+	//console.log("GET DOCDATA");
+		//$("#slogen").text("docData");
+		setSlogen("docData");
+		
 	var tmpData = Searches.get(data.id);
 	for (var i = 0 ;i<data.data.length;i++) {
 		//console.log(data.docData.data[i].id);
@@ -54,7 +60,24 @@ socket.on('docData',function(data) {
 	
 });
 
-
-socket.on('disconnect', function(){ 
-	console.log('disconnected');
+socket.on('newests',function(data) {
+	$("#slogen").text('New Data @' + data);
 });
+
+socket.once('disconnect', function(){ 
+	//console.log('disconnected');
+	setSlogen("disconnected");
+	//$("#slogen").text("disconnected");
+});
+
+
+function setSlogen(newText) {
+	//var self = this
+	var oldText = 	oldText || $("#slogen").text();
+	//console.log(oldText);
+	$("#slogen").text(newText);
+	window.setTimeout(function() {
+		//console.log("timer");
+		$("#slogen").text(oldText);
+	},2000,oldText);
+}

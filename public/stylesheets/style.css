@@ -64,11 +64,9 @@ body{font-family:sans-serif,"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;m
 div{display:block}
 #page{max-width:1100px;margin:0 auto;width:1100px;position:relative;bottom:-1px}
 #searchapp{padding-bottom:0}
-#header{background:#333;text-align:left;border:1px solid;-webkit-border-radius:50px 5px 5px 5px;-moz-border-radius:50px 5px 5px 5px;border-radius:50px 5px 5px 5px;width:1100px;height:88px;background:-webkit-gradient(linear,left top,left bottom,from(#555),to(#333));background:-moz-linear-gradient(top,#555,#333)}
-#title{color:#fff;font-size:4em;font-family:"Paytone One","Permanent Marker";text-shadow:1px 1px 1px #000,1px 1px 6px #999;padding-left:20px;padding-top:10px}
-#title span{float:left}
-#title img{float:left;padding-top:11px}
-#header div.stack1of4{width:88px;margin-left:170px}
+#header{background:#333;border:1px solid;-webkit-border-radius:60px 5px 5px 5px;-moz-border-radius:60px 5px 5px 5px;border-radius:60px 5px 5px 5px;width:1100px;height:60px;background:-webkit-gradient(linear,left top,left bottom,from(#555),to(#333));background:-moz-linear-gradient(top,#555,#333)}
+#title{color:#fff;font-size:50px;font-family:"Paytone One","Permanent Marker";text-shadow:1px 1px 1px #000,1px 1px 6px #999;padding-left:30px;line-height:48px;float:left}
+#slogen{background:#ffa500;border:1px solid #000;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:2px;margin:12px 0 5px 580px;font-family:"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;font-weight:bold;font-variant:small-caps;text-align:center;height:28px;width:500px;line-height:26px}
 span.edition{-webkit-transform:rotate(10deg);-moz-transform:rotate(10deg);-o-transform:rotate(10deg);transform:rotate(10deg);right:auto;position:relative;color:#800000;left:600px;font:bold 30px Geneva,sans-serif;top:-50px;text-shadow:4px 4px 4px #111;border:1px dashed #ff221b;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;width:230px;float:none}
 span.edition:hover{text-shadow:4px 4px 14px #111}
 .titlebox{-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;z-index:999}
@@ -99,7 +97,6 @@ span.search-counter{position:absolute;font-size:15px;background-color:#ff221b;co
 #search-list .search-destroy{position:absolute;right:5px;display:none;cursor:pointer;width:20px;height:20px;background:url("../images/destroy.png") no-repeat 0 0;top:8px}
 #search-list .display:hover .search-destroy{display:block;z-index:23}
 #search-list .search-destroy:hover{background-position:0 -20px}
-#slogen{background:#ffa500;border:1px solid #000;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:5px;margin:5px 0 5px 5px;font-family:"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;font-weight:bold;font-variant:small-caps;text-align:center}
 input#new-search{color:#ff2545;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;width:330px;padding:0;margin:12px 0 0 330px}
 #searchColumn{background:#333;border:1px solid #333;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;font-size:2em}
 .zoomWien{float:left;padding:5px;margin:0}

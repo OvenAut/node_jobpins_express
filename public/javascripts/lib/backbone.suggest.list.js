@@ -52,20 +52,18 @@ window.SuggestListCollection = Backbone.Collection.extend({
 				InuseNameList[search.attributes.content] = true;
 		});
 
-		var i = 0,j;
+		var i = 0;
 		for (name in data) {
 			this.add(this.Attributes(name,i++,data,InuseNameList));
 		};
-	  this.guiNotice(i,j);	
+	  this.guiNotice(i);	
 	},
 	
 	
 	guiNotice: function(i,j) {
-		var guiText = "Jobpins have " + i +" categories for you. Lastupdate(couchDB): " + j;	
+		var guiText = "Jobpins hat " + i +" Kategorien für Sie";	
 		$('#new-search')[0].placeholder = "What you search for?";
-	  $('div#slogen').animate({opacity:0.2},2000,function() {
-				$('#slogen').text(guiText).animate({opacity:1},2000);
-			});
+		$('#slogen').text(guiText);
 		
 	},
 		

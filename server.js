@@ -13,7 +13,6 @@ var express    = require('express'),
     util       = require('util'),
     helper     = require('helper'),
     couchdb    = require('couchdb-ovenaut');
-
 //var sws = require("./sws.js"); 
 
 
@@ -98,7 +97,7 @@ app.get('/', function(req, res){
 
 
 if (!module.parent) {
-  app.listen(80);
+  app.listen(3000);
   console.log("Express server listening on port %d", app.address().port);
 }
 
@@ -123,17 +122,14 @@ function storeSet(message,session) {
 	});			
 };
 
-
-
-
+//mySocket   = require('./mysocket.js');
 
 var io = require('socket.io').listen(app);
-
+// mySocket.io = mySocket.io.listen(app);
 io.enable('browser client minification');
 
-io.set('log level',1);
-// SOCKET
-//var socket = io.listen(app);
+io.set('log level',2);
+
 
 io.sockets.on('connection', function(client){ 
 		//console.log("connection");
@@ -157,7 +153,25 @@ io.sockets.on('connection', function(client){
 			client.emit("docData",{data:datadb,id:data.id});
 		});
 	});
+
+  couchdb.events.on("change",function (change) {
+  	client.broadcast.emit('newests',change);
+	    console.log("broadNewest");
+  });
+
+//exports.broadNewest = function broadNewest(data) {
+	  
+
+
 });
+
+//couchdb.events.emit('change',{bla:"bla"});
+
+//exports.broadNewest = broadNewest;
+
+//var io = require('socket.io').listen(app);
+
+
   	// … 
     //console.dir(client);
 		//var cookie_string = client.request.headers.cookie;

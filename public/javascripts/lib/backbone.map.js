@@ -67,7 +67,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 				};
 
 			});
-			console.log("Marker counter " + counter);
+			//console.log("Marker counter " + counter);
 		});
 	},
 	
