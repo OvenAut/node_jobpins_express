@@ -19,10 +19,7 @@ var express    = require('express'),
 
 function compile(str, path) {
       return stylus(str)
-        //.import(__dirname + '/public/stylesheets/import/media_boilerplatte.css')
-        //.import(__dirname + '/css/mixins/css3')
         .set('filename', path)
-        //.set('warn', true)
         .set('compress', true);
     }
 
@@ -68,31 +65,9 @@ app.get('/', function(req, res){
 		//jobs: {job1:'Job1',job2:'Job2',job4:'Job3',job4:'Job4',job5:'Job5',job6:'Job6',job7:'Job7'},
     //sessionID: req.sessionID
   });
-  //Datum= " + (new Date()).toString() + "\n
 	helper.showAgent(req);
-  //console.log(req.session.user)
-  // if ( typeof req.session.start == "undefined") {
-  //    req.session.start = Date.now();
-  // 		 req.session.counter = 0;
-  //  		req.session.save();
-  // }
-	
-  //else
   console.timeEnd("GET /");
 });
-
-
-// app.get('/test', function(req,res) {
-// 	console.time('GET /test')
-// 	couchdb.checkList(function(data) {
-// 		res.send(data);
-// 		console.timeEnd('GET /test');
-// 	  
-// 	});
-// 	
-// 	//console.log(dataBuffer);
-// 	//dataBuffer = data;	
-// });
 
 
 
@@ -159,103 +134,13 @@ io.sockets.on('connection', function(client){
 	    console.log(change);
   });
 
-//exports.broadNewest = function broadNewest(data) {
+	client.on("getServerInfo",function() {
+		couchdb.getServerInfo(function(datadb) {
+			client.emit("ServerInfo",datadb);
+		});
+	});
+
 	  
 
 
 });
-
-//couchdb.events.emit('change',{bla:"bla"});
-
-//exports.broadNewest = broadNewest;
-
-//var io = require('socket.io').listen(app);
-
-
-  	// … 
-    //console.dir(client);
-		//var cookie_string = client.request.headers.cookie;
-		//var parsed_cookies = connect.utils.parseCookie(cookie_string);
-		// client.once('message', function(message) {
-		// 	console.log('once.message')
-		// 	//console.log(parsed_cookies);
-		// 	//console.log(cookie_string);
-		// 	//console.log(sid);
-		// 	//var sida = {'connect.sid':sid.sid};
-		// 	//var sida = sid.sid;
-		// 	//console.log(sida)    
-		// 	// storeGet(message,function(session) {
-		// 	// 	//console.dir(this);
-		// 	// 	//console.dir(message);
-		// 	// 	session.counter+=1;
-		// 	// 		    session.data = message.data;
-		// 	// 	
-		// 	// 	client.sid = message.sid;
-		// 	// 	//console.dir(session);
-		// 	// 	
-		// 	// 	storeSet(message,session);
-		// 	// 					
-		// 	// });
-		// 
-		// });
-
-		// client.on('message', function(message) {
-		// 	var self = this;
-		// 	console.time('on.message');
-		//   //console.dir(message)
-		// 	//helper.time.start();
-		// 	function dataSend(name,data,id) {
-		// 				var dataSend = {};
-		// 			//	console.log('sendingdata');
-		// 				dataSend[name] = {data:data,id:id};
-		// 				client.emit(dataSend);
-		// 			 //console.dir(dataSend);
-		// 			//console.log(helper.time.stop() + "socket.message");
-		// 		 console.timeEnd('on.message');
-		// 
-		// 		
-		// 	};
-		// 	
-		// 	
-		//   if (typeof message.data.suggest !== "undefined" && message.data.suggest !== null) {
-		// 	
-		// 		//console.dir(this);
-		// 		//storeGet(message, function() {
-		// 				//console.dir(this);
-		// 			couchdb.suggest(message.data.suggest, function(data) {
-		// 				//console.dir(data);
-		// 			dataSend("suggest",data);
-		// 			});					
-		// 		
-		// 			  //data.
-		// 		//});
-		//   }
-		// 	if (typeof message.data.getSearchData !== "undefined" && message.data.getSearchData !== null) {
-		// 		couchdb.getSearchData(message.data.getSearchData.key,function(data) {
-		// 			dataSend("searchData",data,message.data.getSearchData.id);
-		// 		});
-		// 	}
-		// 	
-		// 	if (typeof message.data.getDocData !== "undefined" && message.data.getDocData !== null) {
-		// 		//console.dir(message.data.getDocData);
-		// 		couchdb.getDocData(message.data.getDocData.key,function(data) {
-		// 			dataSend("docData",data,message.data.getDocData.id);
-		// 		});
-		// 	}
-		// 	
-		// });	
-
-
-
-// io.sockets.on('open',function(client) {
-// 		console.log("ClientConnect");
-// 		couchdb.checkList(function(data) {
-// 				client.send({suggestList:data});
-// 		});
-// 		
-// 	// storeGet(client,function(session) {
-// 	// 	session.disconnect = Date.now();
-// 	// 	storeSet(client, session);
-// 	// });
-// 	
-// });

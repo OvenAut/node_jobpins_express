@@ -22,6 +22,7 @@ html(lang="de")
           //-#title.stackContent
           span#title Jobpins
           div#slogen
+            ul#info-list
            //-allways
              //-img(width='61', height='53',src='images/heart.png', alt='heart' ,title='Love love')
              //-span#text you
@@ -99,6 +100,11 @@ html(lang="de")
       <div id="location"><%= joblocation %></div>
       </div>
       </div>
+    script#info-template(type="text/template")
+      <div class="wapper">
+      <div>name</div>
+      <div>date</div>
+      </div>
     script#searchItemOld-template(type="text/template")
       <div class="search <%= done ? 'done' : '' %>">
       <div class="display">
@@ -133,6 +139,7 @@ html(lang="de")
       script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
       script
         window.attachEvent("onload", function() {CFInstall.check({ mode: "overlay"});});
+    script(src='javascripts/vendor/google.analytics.js')  
     script(src='javascripts/vendor/jquery-1.5.1.min.js')
     //-script(src='javascripts/jquery.couch.js')
     script(src='javascripts/vendor/json2.min.js')
@@ -140,6 +147,7 @@ html(lang="de")
     script(src='javascripts/vendor/backbone.min.js')
     script(src='javascripts/vendor/backbone.localStorage.js')
     script(src='javascripts/lib/backbone.suggest.js')
+    script(src='javascripts/lib/backbone.info.js')
     script(src='javascripts/lib/backbone.suggest.list.js')
     script(src='javascripts/lib/backbone.search.js')
     script(src='javascripts/lib/backbone.document.js')

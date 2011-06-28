@@ -47,6 +47,11 @@ socket.on('newests',function(data) {
 	setSlogen("Neue Data @Server " + data);
 });
 
+socket.on('ServerInfo',function(data) {
+	//console.log(data);
+	InfoData.newData(data);
+});
+
 socket.once('disconnect', function(){ 
 	setSlogen("Server disconnected");
 });

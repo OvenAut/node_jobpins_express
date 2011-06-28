@@ -136,9 +136,9 @@
 			//console.log(data);
 			var altText = "";
 			var text = altText = data.content;
-			if (text.length > 24) {
+			if (text.length > 23) {
 				//var text = data.content.replace(/.{21}(.*)/,"...");
-				text = text.slice(0,21);
+				text = text.slice(0,20);
 			  text = text + "...";
 			}
 			return {

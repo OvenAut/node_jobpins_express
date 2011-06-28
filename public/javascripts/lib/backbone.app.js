@@ -22,7 +22,7 @@ window.AppView = Backbone.View.extend({
 		Searches.bind('refresh', this.addAll);
 		Suggests.bind('refresh', this.renderSuggestList);
 		Suggests.bind('change', this.renderSuggestList);
-		Searches.fetch();
+		Searches.fetch();	  
 	},
 
 	addOne: function(search) {
@@ -167,6 +167,6 @@ window.AppView = Backbone.View.extend({
 			tooltip.show().fadeIn().text(text);
 		};
 		this.tooltipTimeout = _.delay(show, 1000);
-	},		
+	},
 		
 });
