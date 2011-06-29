@@ -12,7 +12,7 @@ var express    = require('express'),
     connect    = require('connect'),
     util       = require('util'),
     helper     = require('helper'),
-    couchdb    = require('couchdb-ovenaut');
+    couchdb    = require('./lib/couchdb.js');
 //var sws = require("./sws.js"); 
 
 
@@ -138,16 +138,7 @@ io.sockets.on('connection', function(client){
 
 
 	couchdb.events.on("sendChange",function (change) {
-		if (client.disconnected) {
-			console.log("fuc disonnected");
-			couchdb.events.removeListener("sendChanges",function() {});
-			return;
-		}
-	
-		client.broadcast.emit('newests',change.data);
-		console.log(client.id);
-		console.log("send broadcast");
-		console.log(client.disconnected);
+		if (!client.disconnected) client.emit('newests',change.data);
 	});
 	  
 

@@ -5,7 +5,7 @@ window.InfoCollection = Backbone.Collection.extend({
   },
 
   newData: function(data) {
-		console.log(data);
+		//console.log(data);
 		console.log("newData");
 		data.data.forEach(this.newAttributes)
 		//Info.addAll();
