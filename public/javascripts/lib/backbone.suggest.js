@@ -14,11 +14,11 @@
 		this.set({visible: !this.get("visible")},silent);
 	},
 	
-	clearModel: function() {
-		this.clear({silent:true});
-		this.set({},{silent:true});
-		console.log("clear");
-	}
+	// clearModel: function() {
+	// 	this.clear({silent:true});
+	// 	this.set({},{silent:true});
+	// 	//console.log("clear");
+	// }
 	
 	
 });

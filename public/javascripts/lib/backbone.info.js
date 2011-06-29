@@ -5,8 +5,10 @@ window.InfoCollection = Backbone.Collection.extend({
   },
 
   newData: function(data) {
-		//console.log(data);
+		console.log(data);
+		console.log("newData");
 		data.data.forEach(this.newAttributes)
+		//Info.addAll();
   },
 
   newAttributes: function(element,index,array) {
@@ -20,32 +22,77 @@ window.InfoCollection = Backbone.Collection.extend({
 		//console.log(array);
   },
   
+	updateData: function(data) {
+		console.log("updateData");
+		this.clear(function() {
+		  socket.socketSend({},"getServerInfo");			
+		});
 
+		//this.newData(data);
+	},
+	
+
+  clear: function(cb) {
+		this.refresh({},{silent:true});
+		this.each(function(model) {	
+		   model.clear();
+		});
+    this.remove(this.first(),{silent:true});
+		cb()
+	},
+	
 });
 
 window.InfoData = new InfoCollection;
 
 window.InfoView = Backbone.View.extend({
+	el: $("#header"),
+	events: {	
+				//"click #slogen": "showInfo",
+				"mouseenter #slogen": "showInfo",
+				"mouseleave #slogen": "hiddeInfo"
+	 },
+	initialize: function() {
+		//Marker.start();
+		//console.log("initialize InfoView")
+		socket.socketSend({},"getServerInfo");
+	  
+	 },
+	
+	showInfo: function() {
+		console.log("showInfo");
+	  //socket.socketSend({},"getServerInfo");
+	  this.addAll();
+	},
+	hiddeInfo: function() {
+		this.$("#info-list").empty();
+	},
+	
+	
+	addOne: function(data) {
+		var view = new InfoDataView({model: data});
+		this.$("#info-list").append(view.render().el)
+	},
+	
+	addAll: function() {
+		InfoData.each(this.addOne);
+	},
+	
+	
+});
+
+window.InfoDataView = Backbone.View.extend({
 	tagName: "li",
 	
 	template: _.template($('#info-template').html()),
 	
-	
-  el: $("#header"),
+	//el: $("#infoel"),
 
-	events: {	
-				"click #slogen": "showInfo",
-	 },
 	initialize: function() {
 		//Marker.start();
 		//console.log("initialize InfoView")
 	 },
 	
-	showInfo: function() {
-		console.log("showInfo");
-	  socket.socketSend({},"getServerInfo");
-	  
-	},
 	render: function() {
 		
 		//console.log("render Searches " + this.model.id);
@@ -55,26 +102,15 @@ window.InfoView = Backbone.View.extend({
 		return this;
 	},
 	renderAttributes: function(data) {
-		//console.log(data);
-		var altText = "";
-		var text = altText = data.content;
-		if (text.length > 23) {
-			//var text = data.content.replace(/.{21}(.*)/,"...");
-			text = text.slice(0,20);
-		  text = text + "...";
-		}
+		var date = Date.now() - data.date
+		var difdate = new Date(date)
+		var outData = difdate.getUTCHours() + ":" + difdate.getUTCMinutes() + ":" + difdate.getUTCSeconds();
+		
+		
 		return {
-			content:text,
-			color:data.color,
-			counter:_.size(data.couchids),
-			altText:altText,
-			activ:data.docActiv,
-			id:data.id,
-			urlname:encodeURIComponent(data.content),
-			page:this.model.pageNummber(data.docOpen),
+			content:data.name,
+			date:outData
 		}
 	},
-	
-			
 	
 });

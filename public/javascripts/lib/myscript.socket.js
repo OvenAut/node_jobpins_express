@@ -5,7 +5,7 @@ socket.socketSend = function(data,name) {
 };
 
 
-socket.on('connect', function(){ 
+socket.once('connect', function(){ 
 	socket.emit('getSuggestList')
 }); 
 
@@ -44,11 +44,14 @@ socket.on('docData',function(data) {
 });
 
 socket.on('newests',function(data) {
+	console.log("newests");
 	setSlogen("Neue Data @Server " + data);
+	InfoData.updateData();
 });
 
 socket.on('ServerInfo',function(data) {
 	//console.log(data);
+	console.log("new ServerInfo");
 	InfoData.newData(data);
 });
 

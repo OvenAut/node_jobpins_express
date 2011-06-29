@@ -67,9 +67,8 @@ div{display:block}
 #header{border:1px solid;-webkit-border-radius:60px 5px 5px 5px;-moz-border-radius:60px 5px 5px 5px;border-radius:60px 5px 5px 5px;width:1100px;height:60px}
 #title{color:#fff;font-size:50px;font-family:"Paytone One","Permanent Marker";text-shadow:1px 1px 1px #000,1px 1px 6px #999;padding-left:40px;line-height:48px;float:left}
 #slogen{background:#ffa500;border:1px solid #000;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:2px;margin:12px 0 5px 580px;font-family:"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;font-weight:bold;font-variant:small-caps;text-align:center;height:28px;width:500px;line-height:26px}
-span.edition{-webkit-transform:rotate(10deg);-moz-transform:rotate(10deg);-o-transform:rotate(10deg);transform:rotate(10deg);right:auto;position:relative;color:#800000;left:600px;font:bold 30px Geneva,sans-serif;top:-50px;text-shadow:4px 4px 4px #111;border:1px dashed #ff221b;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;width:230px;float:none}
-span.edition:hover{text-shadow:4px 4px 14px #111}
-.titlebox{-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;z-index:999}
+ul#info-list{list-style-type:none;position:absolute;color:#979797;background-color:#333;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;z-index:11;left:715px}
+#info-list li div{float:left;display:block;padding:0 5px;border-bottom:1px solid #000}
 #map_canvas{min-height:400px;height:400px;width:1100px;padding:0;margin:0;white-space:nowrap;z-index:0;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111}
 #column1{position:relative;left:25%}
 #column2{position:relative;left:-75%}

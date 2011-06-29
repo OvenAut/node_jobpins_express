@@ -36,7 +36,6 @@ window.AppView = Backbone.View.extend({
 	
 
 	addAll: function() {
-
 		Searches.each(this.addOne);
 		Marker.addMarkers();
 	},
@@ -67,7 +66,6 @@ window.AppView = Backbone.View.extend({
 				tmpval = val;
 				Suggests.getval(val);					
 			}			
-	  
 	},
 
 	renderSuggest: function(data) {
@@ -135,17 +133,15 @@ window.AppView = Backbone.View.extend({
 		if (Suggests.models.length >= 1) return true;
 	},
 	
-	showSuggest: function(data) {
-		if (data.noData) return;
-		var datain = [];				
-		if (this.suggestPresent()) this.clearSuggest(function() {
-			
-		});
-		var j =0;
-		if (this.suggestPresent()) {
-			this.showTooltip("showSuggest");
-	  }
-	},
+	// showSuggest: function(data) {
+	// 	if (data.noData) return;
+	// 	//var datain = [];				
+	// 	if (this.suggestPresent()) this.clearSuggest(function());
+	// 	//var j =0;
+	// 	// if (this.suggestPresent()) {
+	// 	// 	this.showTooltip("showSuggest");
+	// 	// 	  }
+	// },
 	
 	clearSuggestInpute: function() {
 		tmpval = "";

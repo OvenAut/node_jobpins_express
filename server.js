@@ -103,7 +103,7 @@ var io = require('socket.io').listen(app);
 // mySocket.io = mySocket.io.listen(app);
 io.enable('browser client minification');
 
-io.set('log level',1);
+io.set('log level',2);
 
 
 io.sockets.on('connection', function(client){ 
@@ -129,10 +129,6 @@ io.sockets.on('connection', function(client){
 		});
 	});
 
-  couchdb.events.on("change",function (change) {
-  	client.broadcast.emit('newests',change);
-	    console.log(change);
-  });
 
 	client.on("getServerInfo",function() {
 		couchdb.getServerInfo(function(datadb) {
@@ -140,7 +136,26 @@ io.sockets.on('connection', function(client){
 		});
 	});
 
+
+	couchdb.events.on("sendChange",function (change) {
+		if (client.disconnected) {
+			console.log("fuc disonnected");
+			couchdb.events.removeListener("sendChanges",function() {});
+			return;
+		}
+	
+		client.broadcast.emit('newests',change.data);
+		console.log(client.id);
+		console.log("send broadcast");
+		console.log(client.disconnected);
+	});
 	  
 
 
 });
+
+io.sockets.on('disconnect',function(client) {
+	console.log(client);
+	delete(client);
+});
+
