@@ -6,7 +6,7 @@ window.InfoCollection = Backbone.Collection.extend({
 
   newData: function(data) {
 		//console.log(data);
-		console.log("newData");
+		//console.log("newData");
 		data.data.forEach(this.newAttributes)
 		//Info.addAll();
   },
@@ -23,7 +23,7 @@ window.InfoCollection = Backbone.Collection.extend({
   },
   
 	updateData: function(data) {
-		console.log("updateData");
+		//console.log("updateData");
 		this.clear(function() {
 		  socket.socketSend({},"getServerInfo");			
 		});
@@ -60,7 +60,7 @@ window.InfoView = Backbone.View.extend({
 	 },
 	
 	showInfo: function() {
-		console.log("showInfo");
+		//console.log("showInfo");
 	  //socket.socketSend({},"getServerInfo");
 	  this.addAll();
 	},
@@ -101,10 +101,17 @@ window.InfoDataView = Backbone.View.extend({
 		
 		return this;
 	},
+	
 	renderAttributes: function(data) {
-		var date = Date.now() - data.date
-		var difdate = new Date(date)
-		var outData = difdate.getUTCHours() + ":" + difdate.getUTCMinutes() + ":" + difdate.getUTCSeconds();
+		var date = Date.now() - data.date;
+		var difdate = new Date(date);
+		
+		function addZero (inDate) {
+			if (inDate < 10)
+			return inDate = "0" + inDate;
+			return inDate;
+		}
+		var outData = addZero(difdate.getUTCHours()) + ":" + addZero(difdate.getUTCMinutes()) + ":" + addZero(difdate.getUTCSeconds());
 		
 		
 		return {

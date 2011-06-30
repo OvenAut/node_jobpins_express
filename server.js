@@ -13,8 +13,6 @@ var express    = require('express'),
     util       = require('util'),
     helper     = require('helper'),
     couchdb    = require('./lib/couchdb.js');
-//var sws = require("./sws.js"); 
-
 
 
 function compile(str, path) {
@@ -55,7 +53,6 @@ app.configure('production', function(){
 couchdb.checkList(function() {});
 
 
-
 app.get('/', function(req, res){
 	console.time("GET /");
   res.render('index', {
@@ -70,7 +67,6 @@ app.get('/', function(req, res){
 });
 
 
-
 if (!module.parent) {
   app.listen(80);
   console.log("Express server listening on port %d", app.address().port);
@@ -79,45 +75,35 @@ if (!module.parent) {
 
 function storeGet(message,cb) {
 	var self = this;
-	
 	store.get(message.sid, function(err ,session) {
 		if (err || !session) {
  			throw err;
 		}
-		
 		return cb(session);
   }); 			
 };
 
 function storeSet(message,session) {
-
 	store.set(message.sid, session, function(err) {
 		if (err) throw err;
 		console.log("session saved");	
 	});			
 };
 
-//mySocket   = require('./mysocket.js');
-
 var io = require('socket.io').listen(app);
-// mySocket.io = mySocket.io.listen(app);
-io.enable('browser client minification');
 
+io.enable('browser client minification');
 io.set('log level',1);
 
-
 io.sockets.on('connection', function(client){ 
-		//console.log("connection");
 		
 	client.on('getSuggestList' ,function() {
-		//console.log("ClientConnect");
 		couchdb.checkList(function(data) {
 				client.emit("suggestList",data);
 		});
 	});
 
 	client.on('getSearchData',function(data) {
-		//console.log(data);
 		couchdb.getSearchData(data.key,function(datadb) {
 			client.emit("searchData",{data:datadb,id:data.id});
 		});	
@@ -129,24 +115,14 @@ io.sockets.on('connection', function(client){
 		});
 	});
 
-
 	client.on("getServerInfo",function() {
 		couchdb.getServerInfo(function(datadb) {
 			client.emit("ServerInfo",datadb);
 		});
 	});
 
-
 	couchdb.events.on("sendChange",function (change) {
 		if (!client.disconnected) client.emit('newests',change.data);
 	});
-	  
-
 
 });
-
-io.sockets.on('disconnect',function(client) {
-	console.log(client);
-	delete(client);
-});
-

@@ -33,7 +33,6 @@ window.AppView = Backbone.View.extend({
 		var view = new SearchView({model: search});
 		this.$("#search-list").append(view.render().el)
 	},
-	
 
 	addAll: function() {
 		Searches.each(this.addOne);
@@ -57,7 +56,6 @@ window.AppView = Backbone.View.extend({
 		if (e.keyCode == 37 || e.keyCode == 39) {
 			return
 		};
-
 		if (Suggests.length >0)Suggests.clear();
 		var val = this.input.val();
 			if (val == "" || val == this.input.attr('plaaceholder')) {
@@ -87,7 +85,6 @@ window.AppView = Backbone.View.extend({
 		});
 	},
 	
-
 	newAttributes: function() {
 		var data = Suggests.getSelected();
 		return {
@@ -109,8 +106,8 @@ window.AppView = Backbone.View.extend({
      this.clearSuggestInpute();
 		this.input.val('');
 		this.input.blur();
-		
 	},
+	
 	newColor: function() {
 		function color() {
 			return Math.round((Math.random() * 15)).toString(16);
@@ -128,21 +125,10 @@ window.AppView = Backbone.View.extend({
 		return cb();
 	},
 	
-
 	suggestPresent: function() {
 		if (Suggests.models.length >= 1) return true;
 	},
-	
-	// showSuggest: function(data) {
-	// 	if (data.noData) return;
-	// 	//var datain = [];				
-	// 	if (this.suggestPresent()) this.clearSuggest(function());
-	// 	//var j =0;
-	// 	// if (this.suggestPresent()) {
-	// 	// 	this.showTooltip("showSuggest");
-	// 	// 	  }
-	// },
-	
+		
 	clearSuggestInpute: function() {
 		tmpval = "";
 		var self = this;
@@ -153,7 +139,6 @@ window.AppView = Backbone.View.extend({
 		nodata = false;
 	},
 	
-
 	showTooltip: function(text) {
 		var tooltip = this.$(".ui-tooltip-bottom");
 		tooltip.fadeOut();

@@ -37,7 +37,7 @@ window.DocumentListCollection = Backbone.Collection.extend({
 	},
 	
 	eprepare: function(id) {
-		console.log("prepare Docs");
+		//console.log("prepare Docs");
 		//console.log(id);
 		Searches.isActiv(id);
 		var documentList = Searches.get(id);

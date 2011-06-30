@@ -166,7 +166,7 @@ window.SuggestView = Backbone.View.extend({
 	
 	removeSuggest: function() {
 		this.$('#suggest-list').empty();
-		console.log("removeSuggest 209");
+		//console.log("removeSuggest 209");
 	},
 	
 	selectThis: function() {
