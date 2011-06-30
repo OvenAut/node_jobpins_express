@@ -15,7 +15,8 @@ window.InfoCollection = Backbone.Collection.extend({
 		this.add({
 			id:element.id,
 			name:element.key,
-			date:element.value
+			date:element.value.las,
+			activ:element.value.ac || false
 		});
 		//console.log(element);
 		//console.log(index);
@@ -116,7 +117,8 @@ window.InfoDataView = Backbone.View.extend({
 		
 		return {
 			content:data.name,
-			date:outData
+			date:outData,
+			activ:data.activ
 		}
 	},
 	

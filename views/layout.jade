@@ -77,12 +77,12 @@ html(lang="de")
       <div class="display">
       <div id="navigation">
       <div class="stack1of4">
-      <div class="navigationback stackContent" style="background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(<%= color %>));background: -moz-linear-gradient(top, #fff,<%= color %>);">
+      <div class="navigationback stackContent" style="background:<%= color %>;background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(<%= color %>));background: -moz-linear-gradient(top, #fff,<%= color %>);">
       <%= index!=last? backText.link(urlname + '/' + last): ''%>
       </div>
       </div>
       <div class="stack1of4">
-      <div class="navigationforward stackContent" style="background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(<%= color %>));background: -moz-linear-gradient(top, #fff,<%= color %>);">
+      <div class="navigationforward stackContent" style="background:<%= color %>;background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(<%= color %>));background: -moz-linear-gradient(top, #fff,<%= color %>);">
       <%= index!=next? forthText.link(urlname + '/' + next): ''%>
       </div>
       </div>
@@ -104,6 +104,7 @@ html(lang="de")
     script#info-template(type="text/template")
       <div><%= content %></div>
       <div><%= date %></div>
+      <div class="<%= activ? 'activ':'' %>">&nbsp;</div>
     script(src="http://maps.google.com/maps/api/js?sensor=false")
     //-script(src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
     //if IE
