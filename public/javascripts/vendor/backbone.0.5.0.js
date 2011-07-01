@@ -691,37 +691,7 @@
             Backbone.history.route(route, _.bind(function(fragment) {
                 var args = this._extractParameters(route, fragment);
                 callback.apply(this, args);
-                this.trigger.apply(this, ['route:'
-                oute: ' + name].concat(args));
-      }, this));
-    },
-
-    // Simple proxy to `Backbone.history` to save a fragment into the history.
-    navigate : function(fragment, triggerRoute) {
-      Backbone.history.navigate(fragment, triggerRoute);
-    },
-
-    // Bind all defined routes to `Backbone.history`. We have to reverse the
-    // order of the routes here to support behavior where the most general
-    // routes can be defined at the bottom of the route map.
-    _bindRoutes : function() {
-      if (!this.routes) return;
-      var routes = [];
-      for (var route in this.routes) {
-        routes.unshift([route, this.routes[route]]);
-      }
-      for (var i = 0, l = routes.length; i < l; i++) {
-        this.route(routes[i][0], routes[i][1], this[routes[i][1]]);
-      }
-    },
-
-    // Convert a route string into a regular expression, suitable for matching
-    // against the current location hash.
-    _routeToRegExp : function(route) {
-      route = route.replace(escapeRegExp, "\\$&")
-                   .replace(namedParam, "([^\/]*)")
-                   .replace(splatParam, "(.*?)");
-      return new RegExp(' + name].concat(args));
+                this.trigger.apply(this, ['route:' + name].concat(args));
             }, this));
         },
 
@@ -747,659 +717,441 @@
         // Convert a route string into a regular expression, suitable for matching
         // against the current location hash.
         _routeToRegExp: function(route) {
-            route = route.replace(escapeRegExp, "\\$&"\$ & ")
-                   .replace(namedParam, ".replace(namedParam, "([^\/]*)" [ ^ \ / ] * )")
-                   .replace(splatParam, " (. * ? )");
-      return new RegExp('^' + route + '$');
-    },
+            route = route.replace(escapeRegExp, "\\$&").replace(namedParam, "([^\/]*)").replace(splatParam, "(.*?)");
+            return new RegExp('^' + route + '$');
+        },
 
-    // Given a route, and a URL fragment that it matches, return the array of
-    // extracted parameters.
-    _extractParameters : function(route, fragment) {
-      return route.exec(fragment).slice(1);
-    }
-
-  });
-
-  // Backbone.History
-  // ----------------
-
-  // Handles cross-browser history management, based on URL fragments. If the
-  // browser does not support `onhashchange`, falls back to polling.
-  Backbone.History = function() {
-    this.handlers = [];
-    _.bindAll(this, 'checkUrl');
-  };
-
-  // Cached regex for cleaning hashes.
-  var hashStrip = /^#*!?/;
-
-  // Cached regex for detecting MSIE.
-  var isExplorer = /msie [\w.]+/;
-
-  // Has the history handling already been started?
-  var historyStarted = false;
-
-  // Set up all inheritable **Backbone.History** properties and methods.
-  _.extend(Backbone.History.prototype, {
-
-    // The default interval to poll for hash changes, if necessary, is
-    // twenty times a second.
-    interval: 50,
-
-    // Get the cross-browser normalized URL fragment, either from the URL,
-    // the hash, or the override.
-    getFragment : function(fragment, forcePushState) {
-      if (fragment == null) {
-        if (this._hasPushState || forcePushState) {
-          fragment = window.location.pathname;
-          var search = window.location.search;
-          if (search) fragment += search;
-          if (fragment.indexOf(this.options.root) == 0) fragment = fragment.substr(this.options.root.length);
-        } else {
-          fragment = window.location.hash;
+        // Given a route, and a URL fragment that it matches, return the array of
+        // extracted parameters.
+        _extractParameters: function(route, fragment) {
+            return route.exec(fragment).slice(1);
         }
-      }
-      return fragment.replace(hashStrip, '');
-    },
 
-    // Start the hash change handling, returning `true` if the current URL matches
-    // an existing route, and `false` otherwise.
-    start : function(options) {
+    });
 
-      // Figure out the initial configuration. Do we need an iframe?
-      // Is pushState desired ... is it available?
-      if (historyStarted) throw new Error("
-            Backbone.history has already been started ");
-      this.options          = _.extend({}, {root: '/'}, this.options, options);
-      this._wantsPushState  = !!this.options.pushState;
-      this._hasPushState    = !!(this.options.pushState && window.history && window.history.pushState);
-      var fragment          = this.getFragment();
-      var docMode           = document.documentMode;
-      var oldIE             = (isExplorer.exec(navigator.userAgent.toLowerCase()) && (!docMode || docMode <= 7));
-      if (oldIE) {
-        this.iframe = $('<iframe src="
-            javascript: 0 " tabindex=" - 1 " />').hide().appendTo('body')[0].contentWindow;
-        this.navigate(fragment);
-      }
+    // Backbone.History
+    // ----------------
+    // Handles cross-browser history management, based on URL fragments. If the
+    // browser does not support `onhashchange`, falls back to polling.
+    Backbone.History = function() {
+        this.handlers = [];
+        _.bindAll(this, 'checkUrl');
+    };
 
-      // Depending on whether we're using pushState or hashes, and whether
-      // 'onhashchange' is supported, determine how we check the URL state.
-      if (this._hasPushState) {
-        $(window).bind('popstate', this.checkUrl);
-      } else if ('onhashchange' in window && !oldIE) {
-        $(window).bind('hashchange', this.checkUrl);
-      } else {
-        setInterval(this.checkUrl, this.interval);
-      }
+    // Cached regex for cleaning hashes.
+    var hashStrip = /^#*!?/;
 
-      // Determine if we need to change the base url, for a pushState link
-      // opened by a non-pushState browser.
-      this.fragment = fragment;
-      historyStarted = true;
-      var started = this.loadUrl() || this.loadUrl(window.location.hash);
-      var atRoot  = window.location.pathname == this.options.root;
-      if (this._wantsPushState && !this._hasPushState && !atRoot) {
-        this.fragment = this.getFragment(null, true);
-        window.location = this.options.root + '#' + this.fragment;
-      } else if (this._wantsPushState && this._hasPushState && atRoot && window.location.hash) {
-        this.navigate(window.location.hash);
-      } else {
-        return started;
-      }
-    },
+    // Cached regex for detecting MSIE.
+    var isExplorer = /msie [\w.]+/;
 
-    // Add a route to be tested when the fragment changes. Routes added later may
-    // override previous routes.
-    route : function(route, callback) {
-      this.handlers.unshift({route : route, callback : callback});
-    },
+    // Has the history handling already been started?
+    var historyStarted = false;
 
-    // Checks the current URL to see if it has changed, and if it has,
-    // calls `loadUrl`, normalizing across the hidden iframe.
-    checkUrl : function(e) {
-      var current = this.getFragment();
-      if (current == this.fragment && this.iframe) current = this.getFragment(this.iframe.location.hash);
-      if (current == this.fragment || current == decodeURIComponent(this.fragment)) return false;
-      if (this.iframe) this.navigate(current);
-      this.loadUrl() || this.loadUrl(window.location.hash);
-    },
+    // Set up all inheritable **Backbone.History** properties and methods.
+    _.extend(Backbone.History.prototype, {
 
-    // Attempt to load the current URL fragment. If a route succeeds with a
-    // match, returns `true`. If no defined routes matches the fragment,
-    // returns `false`.
-    loadUrl : function(fragmentOverride) {
-      var fragment = this.fragment = this.getFragment(fragmentOverride);
-      var matched = _.any(this.handlers, function(handler) {
-        if (handler.route.test(fragment)) {
-          handler.callback(fragment);
-          return true;
+        // The default interval to poll for hash changes, if necessary, is
+        // twenty times a second.
+        interval: 50,
+
+        // Get the cross-browser normalized URL fragment, either from the URL,
+        // the hash, or the override.
+        getFragment: function(fragment, forcePushState) {
+            if (fragment == null) {
+                if (this._hasPushState || forcePushState) {
+                    fragment = window.location.pathname;
+                    var search = window.location.search;
+                    if (search) fragment += search;
+                    if (fragment.indexOf(this.options.root) == 0) fragment = fragment.substr(this.options.root.length);
+                } else {
+                    fragment = window.location.hash;
+                }
+            }
+            return fragment.replace(hashStrip, '');
+        },
+
+        // Start the hash change handling, returning `true` if the current URL matches
+        // an existing route, and `false` otherwise.
+        start: function(options) {
+
+            // Figure out the initial configuration. Do we need an iframe?
+            // Is pushState desired ... is it available?
+            if (historyStarted) throw new Error("Backbone.history has already been started");
+            this.options = _.extend({}, {
+                root: '/'
+            }, this.options, options);
+            this._wantsPushState = !! this.options.pushState;
+            this._hasPushState = !! (this.options.pushState && window.history && window.history.pushState);
+            var fragment = this.getFragment();
+            var docMode = document.documentMode;
+            var oldIE = (isExplorer.exec(navigator.userAgent.toLowerCase()) && (!docMode || docMode <= 7));
+            if (oldIE) {
+                this.iframe = $('<iframe src="javascript:0" tabindex="-1" />').hide().appendTo('body')[0].contentWindow;
+                this.navigate(fragment);
+            }
+
+            // Depending on whether we're using pushState or hashes, and whether
+            // 'onhashchange' is supported, determine how we check the URL state.
+            if (this._hasPushState) {
+                $(window).bind('popstate', this.checkUrl);
+            } else if ('onhashchange' in window && !oldIE) {
+                $(window).bind('hashchange', this.checkUrl);
+            } else {
+                setInterval(this.checkUrl, this.interval);
+            }
+
+            // Determine if we need to change the base url, for a pushState link
+            // opened by a non-pushState browser.
+            this.fragment = fragment;
+            historyStarted = true;
+            var started = this.loadUrl() || this.loadUrl(window.location.hash);
+            var atRoot = window.location.pathname == this.options.root;
+            if (this._wantsPushState && !this._hasPushState && !atRoot) {
+                this.fragment = this.getFragment(null, true);
+                window.location = this.options.root + '#' + this.fragment;
+            } else if (this._wantsPushState && this._hasPushState && atRoot && window.location.hash) {
+                this.navigate(window.location.hash);
+            } else {
+                return started;
+            }
+        },
+
+        // Add a route to be tested when the fragment changes. Routes added later may
+        // override previous routes.
+        route: function(route, callback) {
+            this.handlers.unshift({
+                route: route,
+                callback: callback
+            });
+        },
+
+        // Checks the current URL to see if it has changed, and if it has,
+        // calls `loadUrl`, normalizing across the hidden iframe.
+        checkUrl: function(e) {
+            var current = this.getFragment();
+            if (current == this.fragment && this.iframe) current = this.getFragment(this.iframe.location.hash);
+            if (current == this.fragment || current == decodeURIComponent(this.fragment)) return false;
+            if (this.iframe) this.navigate(current);
+            this.loadUrl() || this.loadUrl(window.location.hash);
+        },
+
+        // Attempt to load the current URL fragment. If a route succeeds with a
+        // match, returns `true`. If no defined routes matches the fragment,
+        // returns `false`.
+        loadUrl: function(fragmentOverride) {
+            var fragment = this.fragment = this.getFragment(fragmentOverride);
+            var matched = _.any(this.handlers, function(handler) {
+                if (handler.route.test(fragment)) {
+                    handler.callback(fragment);
+                    return true;
+                }
+            });
+            return matched;
+        },
+
+        // Save a fragment into the hash history. You are responsible for properly
+        // URL-encoding the fragment in advance. This does not trigger
+        // a `hashchange` event.
+        navigate: function(fragment, triggerRoute) {
+            fragment = (fragment || '').replace(hashStrip, '');
+            if (this.fragment == fragment || this.fragment == decodeURIComponent(fragment)) return;
+            if (this._hasPushState) {
+                var loc = window.location;
+                if (fragment.indexOf(this.options.root) != 0) fragment = this.options.root + fragment;
+                this.fragment = fragment;
+                window.history.pushState({}, document.title, loc.protocol + '//' + loc.host + fragment);
+            } else {
+                window.location.hash = this.fragment = fragment;
+                if (this.iframe && (fragment != this.getFragment(this.iframe.location.hash))) {
+                    this.iframe.document.open().close();
+                    this.iframe.location.hash = fragment;
+                }
+            }
+            if (triggerRoute) this.loadUrl(fragment);
         }
-      });
-      return matched;
-    },
 
-    // Save a fragment into the hash history. You are responsible for properly
-    // URL-encoding the fragment in advance. This does not trigger
-    // a `hashchange` event.
-    navigate : function(fragment, triggerRoute) {
-      fragment = (fragment || '').replace(hashStrip, '');
-      if (this.fragment == fragment || this.fragment == decodeURIComponent(fragment)) return;
-      if (this._hasPushState) {
-        var loc = window.location;
-        if (fragment.indexOf(this.options.root) != 0) fragment = this.options.root + fragment;
-        this.fragment = fragment;
-        window.history.pushState({}, document.title, loc.protocol + '//' + loc.host + fragment);
-      } else {
-        window.location.hash = this.fragment = fragment;
-        if (this.iframe && (fragment != this.getFragment(this.iframe.location.hash))) {
-          this.iframe.document.open().close();
-          this.iframe.location.hash = fragment;
+    });
+
+    // Backbone.View
+    // -------------
+    // Creating a Backbone.View creates its initial element outside of the DOM,
+    // if an existing element is not provided...
+    Backbone.View = function(options) {
+        this.cid = _.uniqueId('view');
+        this._configure(options || {});
+        this._ensureElement();
+        this.delegateEvents();
+        this.initialize.apply(this, arguments);
+    };
+
+    // Element lookup, scoped to DOM elements within the current view.
+    // This should be prefered to global lookups, if you're dealing with
+    // a specific view.
+    var selectorDelegate = function(selector) {
+        return $(selector, this.el);
+    };
+
+    // Cached regex to split keys for `delegate`.
+    var eventSplitter = /^(\S+)\s*(.*)$/;
+
+    // List of view options to be merged as properties.
+    var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName'];
+
+    // Set up all inheritable **Backbone.View** properties and methods.
+    _.extend(Backbone.View.prototype, Backbone.Events, {
+
+        // The default `tagName` of a View's element is `"div"`.
+        tagName: 'div',
+
+        // Attach the `selectorDelegate` function as the `$` property.
+        $: selectorDelegate,
+
+        // Initialize is an empty function by default. Override it with your own
+        // initialization logic.
+        initialize: function() {},
+
+        // **render** is the core function that your view should override, in order
+        // to populate its element (`this.el`), with the appropriate HTML. The
+        // convention is for **render** to always return `this`.
+        render: function() {
+            return this;
+        },
+
+        // Remove this view from the DOM. Note that the view isn't present in the
+        // DOM by default, so calling this method may be a no-op.
+        remove: function() {
+            $(this.el).remove();
+            return this;
+        },
+
+        // For small amounts of DOM Elements, where a full-blown template isn't
+        // needed, use **make** to manufacture elements, one at a time.
+        //
+        //     var el = this.make('li', {'class': 'row'}, this.model.escape('title'));
+        //
+        make: function(tagName, attributes, content) {
+            var el = document.createElement(tagName);
+            if (attributes) $(el).attr(attributes);
+            if (content) $(el).html(content);
+            return el;
+        },
+
+        // Set callbacks, where `this.callbacks` is a hash of
+        //
+        // *{"event selector": "callback"}*
+        //
+        //     {
+        //       'mousedown .title':  'edit',
+        //       'click .button':     'save'
+        //     }
+        //
+        // pairs. Callbacks will be bound to the view, with `this` set properly.
+        // Uses event delegation for efficiency.
+        // Omitting the selector binds the event to `this.el`.
+        // This only works for delegate-able events: not `focus`, `blur`, and
+        // not `change`, `submit`, and `reset` in Internet Explorer.
+        delegateEvents: function(events) {
+            if (!(events || (events = this.events))) return;
+            $(this.el).unbind('.delegateEvents' + this.cid);
+            for (var key in events) {
+                var method = this[events[key]];
+                if (!method) throw new Error('Event "' + events[key] + '" does not exist');
+                var match = key.match(eventSplitter);
+                var eventName = match[1],
+                    selector = match[2];
+                method = _.bind(method, this);
+                eventName += '.delegateEvents' + this.cid;
+                if (selector === '') {
+                    $(this.el).bind(eventName, method);
+                } else {
+                    $(this.el).delegate(selector, eventName, method);
+                }
+            }
+        },
+
+        // Performs the initial configuration of a View with a set of options.
+        // Keys with special meaning *(model, collection, id, className)*, are
+        // attached directly to the view.
+        _configure: function(options) {
+            if (this.options) options = _.extend({}, this.options, options);
+            for (var i = 0, l = viewOptions.length; i < l; i++) {
+                var attr = viewOptions[i];
+                if (options[attr]) this[attr] = options[attr];
+            }
+            this.options = options;
+        },
+
+        // Ensure that the View has a DOM element to render into.
+        // If `this.el` is a string, pass it through `$()`, take the first
+        // matching element, and re-assign it to `el`. Otherwise, create
+        // an element from the `id`, `className` and `tagName` proeprties.
+        _ensureElement: function() {
+            if (!this.el) {
+                var attrs = this.attributes || {};
+                if (this.id) attrs.id = this.id;
+                if (this.className) attrs['class'] = this.className;
+                this.el = this.make(this.tagName, attrs);
+            } else if (_.isString(this.el)) {
+                this.el = $(this.el).get(0);
+            }
         }
-      }
-      if (triggerRoute) this.loadUrl(fragment);
-    }
 
-  });
+    });
 
-  // Backbone.View
-  // -------------
+    // The self-propagating extend function that Backbone classes use.
+    var extend = function(protoProps, classProps) {
+        var child = inherits(this, protoProps, classProps);
+        child.extend = this.extend;
+        return child;
+    };
 
-  // Creating a Backbone.View creates its initial element outside of the DOM,
-  // if an existing element is not provided...
-  Backbone.View = function(options) {
-    this.cid = _.uniqueId('view');
-    this._configure(options || {});
-    this._ensureElement();
-    this.delegateEvents();
-    this.initialize.apply(this, arguments);
-  };
-
-  // Element lookup, scoped to DOM elements within the current view.
-  // This should be prefered to global lookups, if you're dealing with
-  // a specific view.
-  var selectorDelegate = function(selector) {
-    return $(selector, this.el);
-  };
-
-  // Cached regex to split keys for `delegate`.
-  var eventSplitter = /^(\S+)\s*(.*)$/;
-
-  // List of view options to be merged as properties.
-  var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName'];
-
-  // Set up all inheritable **Backbone.View** properties and methods.
-  _.extend(Backbone.View.prototype, Backbone.Events, {
-
-    // The default `tagName` of a View's element is `"
-            div "`.
-    tagName : 'div',
-
-    // Attach the `selectorDelegate` function as the `$` property.
-    $       : selectorDelegate,
-
-    // Initialize is an empty function by default. Override it with your own
-    // initialization logic.
-    initialize : function(){},
-
-    // **render** is the core function that your view should override, in order
-    // to populate its element (`this.el`), with the appropriate HTML. The
-    // convention is for **render** to always return `this`.
-    render : function() {
-      return this;
-    },
-
-    // Remove this view from the DOM. Note that the view isn't present in the
-    // DOM by default, so calling this method may be a no-op.
-    remove : function() {
-      $(this.el).remove();
-      return this;
-    },
-
-    // For small amounts of DOM Elements, where a full-blown template isn't
-    // needed, use **make** to manufacture elements, one at a time.
-    //
-    //     var el = this.make('li', {'class': 'row'}, this.model.escape('title'));
-    //
-    make : function(tagName, attributes, content) {
-      var el = document.createElement(tagName);
-      if (attributes) $(el).attr(attributes);
-      if (content) $(el).html(content);
-      return el;
-    },
-
-    // Set callbacks, where `this.callbacks` is a hash of
-    //
-    // *{".
-            tagName: 'div'
-            iv ',
-
-    // Attach the `selectorDelegate` function as the `$` property.
-    $       : selectorDelegate,
-
-    // Initialize is an empty function by default. Override it with your own
-    // initialization logic.
-    initialize : function(){},
-
-    // **render** is the core function that your view should override, in order
-    // to populate its element (`this.el`), with the appropriate HTML. The
-    // convention is for **render** to always return `this`.
-    render : function() {
-      return this;
-    },
-
-    // Remove this view from the DOM. Note that the view isn'
-
-            // Attach the `selectorDelegate` function as the `$` property.
-            $: selectorDelegate,
-
-            // Initialize is an empty function by default. Override it with your own
-            // initialization logic.
-            initialize: function() {},
-
-            // **render** is the core function that your view should override, in order
-            // to populate its element (`this.el`), with the appropriate HTML. The
-            // convention is for **render** to always return `this`.
-            render: function() {
-                return this;
-            },
-
-            // Remove this view from the DOM. Note that the view isn't present in the
-            // DOM by default, so calling this method may be a no-op.
-            remove: function() {
-                $(this.el).remove();
-                return this;
-            },
-
-            // For small amounts of DOM Elements, where a full-blown template isn't
-            // needed, use **make** to manufacture elements, one at a time.
-            //
-            //     var el = this.make('li', {'class': 'row'}, this.model.escape('title'));
-            //
-            make: function(tagName, attributes, content) {
-                var el = document.createElement(tagName);
-                if (attributes) $(el).attr(attributes);
-                if (content) $(el).html(content);
-                return el;
-            },
-
-            // Set callbacks, where `this.callbacks` is a hash of
-            //
-            // *{"event selector": "callback"}*
-            //
-            //     {
-            //       'mousedown .title':  'edit',
-            //       'click .button':     'save'
-            //     }
-            //
-            // pairs. Callbacks will be bound to the view, with `this` set properly.
-            // Uses event delegation for efficiency.
-            // Omitting the selector binds the event to `this.el`.
-            // This only works for delegate-able events: not `focus`, `blur`, and
-            // not `change`, `submit`, and `reset` in Internet Explorer.
-            delegateEvents: function(events) {
-                if (!(events || (events = this.events))) return;
-                $(this.el).unbind('.delegateEvents'
-                delegateEvents ' + this.cid);
-      for (var key in events) {
-        var method = this[events[key]];
-        if (!method) throw new Error(' + this.cid);
-                for (var key in events) {
-                    var method = this[events[key]];
-                    if (!method) throw new Error('Event "'
-                    vent "' + events[key] + '" + events[key] + '" does not exist'
-                    does not exist ');
-        var match = key.match(eventSplitter);
-        var eventName = match[1], selector = match[2];
-        method = _.bind(method, this);
-        eventName += ';
-                    var match = key.match(eventSplitter);
-                    var eventName = match[1], selector = match[2];
-                    method = _.bind(method, this);
-                    eventName += '.delegateEvents'
-                    delegateEvents ' + this.cid;
-        if (selector === ' + this.cid;
-                    if (selector === '') {
-                        $(this.el).bind(eventName, method);
-                    } else {
-                        $(this.el).delegate(selector, eventName, method);
-                    }
-                    }
-                },
-
-                // Performs the initial configuration of a View with a set of options.
-                // Keys with special meaning *(model, collection, id, className)*, are
-                // attached directly to the view.
-                _configure: function(options) {
-                    if (this.options) options = _.extend({}, this.options, options);
-                    for (var i = 0, l = viewOptions.length; i < l; i++) {
-                        var attr = viewOptions[i];
-                        if (options[attr]) this[attr] = options[attr];
-                    }
-                    this.options = options;
-                },
-
-                // Ensure that the View has a DOM element to render into.
-                // If `this.el` is a string, pass it through `$()`, take the first
-                // matching element, and re-assign it to `el`. Otherwise, create
-                // an element from the `id`, `className` and `tagName` proeprties.
-                _ensureElement: function() {
-                    if (!this.el) {
-                        var attrs = this.attributes || {};
-                        if (this.id) attrs.id = this.id;
-                        if (this.className) attrs['class'
-                        lass '] = this.className;
-        this.el = this.make(this.tagName, attrs);
-      } else if (_.isString(this.el)) {
-        this.el = $(this.el).get(0);
-      }
-    }
-
-  });
-
-  // The self-propagating extend function that Backbone classes use.
-  var extend = function (protoProps, classProps) {
-    var child = inherits(this, protoProps, classProps);
-    child.extend = this.extend;
-    return child;
-  };
-
-  // Set up inheritance for the model, collection, and view.
-  Backbone.Model.extend = Backbone.Collection.extend =
+    // Set up inheritance for the model, collection, and view.
+    Backbone.Model.extend = Backbone.Collection.extend =
     Backbone.Router.extend = Backbone.View.extend = extend;
 
-  // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
-  var methodMap = {
-    ' = this.className;
-                        this.el = this.make(this.tagName, attrs);
-                        } else if (_.isString(this.el)) {
-                            this.el = $(this.el).get(0);
-                        }
-                    }
+    // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
+    var methodMap = {
+        'create': 'POST',
+        'update': 'PUT',
+        'delete': 'DELETE',
+        'read': 'GET'
+    };
 
-                });
+    // Backbone.sync
+    // -------------
+    // Override this function to change the manner in which Backbone persists
+    // models to the server. You will be passed the type of request, and the
+    // model in question. By default, uses makes a RESTful Ajax request
+    // to the model's `url()`. Some possible customizations could be:
+    //
+    // * Use `setTimeout` to batch rapid-fire updates into a single request.
+    // * Send up the models as XML instead of JSON.
+    // * Persist models via WebSockets instead of Ajax.
+    //
+    // Turn on `Backbone.emulateHTTP` in order to send `PUT` and `DELETE` requests
+    // as `POST`, with a `_method` parameter containing the true HTTP method,
+    // as well as all requests with the body as `application/x-www-form-urlencoded` instead of
+    // `application/json` with the model in a param named `model`.
+    // Useful when interfacing with server-side languages like **PHP** that make
+    // it difficult to read the body of `PUT` requests.
+    Backbone.sync = function(method, model, options) {
+        var type = methodMap[method];
 
-            // The self-propagating extend function that Backbone classes use.
-            var extend = function(protoProps, classProps) {
-                var child = inherits(this, protoProps, classProps);
-                child.extend = this.extend;
-                return child;
-            };
+        // Default JSON-request options.
+        var params = _.extend({
+            type: type,
+            dataType: 'json',
+            processData: false
+        }, options);
 
-            // Set up inheritance for the model, collection, and view.
-            Backbone.Model.extend = Backbone.Collection.extend =
-            Backbone.Router.extend = Backbone.View.extend = extend;
+        // Ensure that we have a URL.
+        if (!params.url) {
+            params.url = getUrl(model) || urlError();
+        }
 
-            // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
-            var methodMap = {
-                'create'
-                reate ': ''POST'
-                OST ',
-    ''update'
-                pdate ': ''PUT'
-                UT ',
-    ''delete'
-                elete ': ''DELETE'
-                ELETE ',
-    ''read'
-                ead '  : ': 'GET'
-                ET '
-  };
+        // Ensure that we have the appropriate request data.
+        if (!params.data && model && (method == 'create' || method == 'update')) {
+            params.contentType = 'application/json';
+            params.data = JSON.stringify(model.toJSON());
+        }
 
-  // Backbone.sync
-  // -------------
+        // For older servers, emulate JSON by encoding the request into an HTML-form.
+        if (Backbone.emulateJSON) {
+            params.contentType = 'application/x-www-form-urlencoded';
+            params.processData = true;
+            params.data = params.data ? {
+                model: params.data
+            } : {};
+        }
 
-  // Override this function to change the manner in which Backbone persists
-  // models to the server. You will be passed the type of request, and the
-  // model in question. By default, uses makes a RESTful Ajax request
-  // to the model'
-            };
-
-            // Backbone.sync
-            // -------------
-            // Override this function to change the manner in which Backbone persists
-            // models to the server. You will be passed the type of request, and the
-            // model in question. By default, uses makes a RESTful Ajax request
-            // to the model's `url()`. Some possible customizations could be:
-            //
-            // * Use `setTimeout` to batch rapid-fire updates into a single request.
-            // * Send up the models as XML instead of JSON.
-            // * Persist models via WebSockets instead of Ajax.
-            //
-            // Turn on `Backbone.emulateHTTP` in order to send `PUT` and `DELETE` requests
-            // as `POST`, with a `_method` parameter containing the true HTTP method,
-            // as well as all requests with the body as `application/x-www-form-urlencoded` instead of
-            // `application/json` with the model in a param named `model`.
-            // Useful when interfacing with server-side languages like **PHP** that make
-            // it difficult to read the body of `PUT` requests.
-            Backbone.sync = function(method, model, options) {
-                var type = methodMap[method];
-
-                // Default JSON-request options.
-                var params = _.extend({
-                    type: type,
-                    dataType: 'json'
-                    son ',
-      processData:  false
-    }, options);
-
-    // Ensure that we have a URL.
-    if (!params.url) {
-      params.url = getUrl(model) || urlError();
-    }
-
-    // Ensure that we have the appropriate request data.
-    if (!params.data && model && (method == '
-                    processData: false
-                }, options);
-
-                // Ensure that we have a URL.
-                if (!params.url) {
-                    params.url = getUrl(model) || urlError();
-                }
-
-                // Ensure that we have the appropriate request data.
-                if (!params.data && model && (method == 'create'
-                reate ' || method == ' || method == 'update'
-                pdate ')) {
-      params.contentType = ') {
-                    params.contentType = 'application/json'
-                    pplication / json ';
-      params.data = JSON.stringify(model.toJSON());
-    }
-
-    // For older servers, emulate JSON by encoding the request into an HTML-form.
-    if (Backbone.emulateJSON) {
-      params.contentType = '
-                    params.data = JSON.stringify(model.toJSON());
-                }
-
-                // For older servers, emulate JSON by encoding the request into an HTML-form.
-                if (Backbone.emulateJSON) {
-                    params.contentType = 'application/x-www-form-urlencoded'
-                    pplication / x - www - form - urlencoded ';
-      params.processData = true;
-      params.data        = params.data ? {model : params.data} : {};
-    }
-
-    // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
-    // And an `X-HTTP-Method-Override` header.
-    if (Backbone.emulateHTTP) {
-      if (type === '
-                    params.processData = true;
-                    params.data = params.data ? {
-                        model: params.data
-                    } : {};
-                }
-
-                // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
-                // And an `X-HTTP-Method-Override` header.
-                if (Backbone.emulateHTTP) {
-                    if (type === 'PUT'
-                    UT ' || type === ' || type === 'DELETE'
-                    ELETE ') {
-        if (Backbone.emulateJSON) params.data._method = type;
-        params.type = ' {
-                        if (Backbone.emulateJSON) params.data._method = type;
-                        params.type = 'POST'
-                        OST ';
-        params.beforeSend = function(xhr) {
-          xhr.setRequestHeader('
-                        params.beforeSend = function(xhr) {
-                            xhr.setRequestHeader('X-HTTP-Method-Override' - HTTP - Method - Override ', type);
-        };
-      }
-    }
-
-    // Make the request.
-    return $.ajax(params);
-  };
-
-  // Helpers
-  // -------
-
-  // Shared empty constructor function to aid in prototype-chain creation.
-  var ctor = function(){};
-
-  // Helper function to correctly set up the prototype chain, for subclasses.
-  // Similar to `goog.inherits`, but uses a hash of prototype properties and
-  // class properties to be extended.
-  var inherits = function(parent, protoProps, staticProps) {
-    var child;
-
-    // The constructor function for the new subclass is either defined by you
-    // (the "constructor" property in your `extend` definition), or defaulted
-    // by us to simply call `super()`.
-    if (protoProps && protoProps.hasOwnProperty('
-                            type);
-                        };
-                    }
-                    }
-
-                    // Make the request.
-                    return $.ajax(params);
+        // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
+        // And an `X-HTTP-Method-Override` header.
+        if (Backbone.emulateHTTP) {
+            if (type === 'PUT' || type === 'DELETE') {
+                if (Backbone.emulateJSON) params.data._method = type;
+                params.type = 'POST';
+                params.beforeSend = function(xhr) {
+                    xhr.setRequestHeader('X-HTTP-Method-Override', type);
                 };
+            }
+        }
 
-                // Helpers
-                // -------
-                // Shared empty constructor function to aid in prototype-chain creation.
-                var ctor = function() {};
-
-                // Helper function to correctly set up the prototype chain, for subclasses.
-                // Similar to `goog.inherits`, but uses a hash of prototype properties and
-                // class properties to be extended.
-                var inherits = function(parent, protoProps, staticProps) {
-                    var child;
-
-                    // The constructor function for the new subclass is either defined by you
-                    // (the "constructor" property in your `extend` definition), or defaulted
-                    // by us to simply call `super()`.
-                    if (protoProps && protoProps.hasOwnProperty('constructor'
-                    onstructor ')) {
-      child = protoProps.constructor;
-    } else {
-      child = function(){ return parent.apply(this, arguments); };
-    }
-
-    // Inherit class (static) properties from parent.
-    _.extend(child, parent);
-
-    // Set the prototype chain to inherit from `parent`, without calling
-    // `parent`') {
-                        child = protoProps.constructor;
-                    } else {
-                        child = function() {
-                            return parent.apply(this, arguments);
-                        };
-                    }
-
-                    // Inherit class (static) properties from parent.
-                    _.extend(child, parent);
-
-                    // Set the prototype chain to inherit from `parent`, without calling
-                    // `parent`'s constructor function.
-                    ctor.prototype = parent.prototype;
-                    child.prototype = new ctor();
-
-                    // Add prototype properties (instance properties) to the subclass,
-                    // if supplied.
-                    if (protoProps) _.extend(child.prototype, protoProps);
-
-                    // Add static properties to the constructor function, if supplied.
-                    if (staticProps) _.extend(child, staticProps);
-
-                    // Correctly set child's `prototype.constructor`.
-                    child.prototype.constructor = child;
-
-                    // Set a convenience property in case the parent's prototype is needed later.
-                    child.__super__ = parent.prototype;
-
-                    return child;
-                    };
-
-                    // Helper function to get a URL from a Model or Collection as a property
-                    // or as a function.
-                    var getUrl = function(object) {
-                        if (!(object && object.url)) return null;
-                        return _.isFunction(object.url) ? object.url() : object.url;
-                    };
-
-                    // Throw an error when a URL is needed, and none is supplied.
-                    var urlError = function() {
-                        throw new Error('A "url" property or function must be specified'"url"
-                        rl " property or function must be specified');
-  };
-
-  // Wrap an optional error callback with a fallback error event.
-  var wrapError = function(onError, model, options) {
-    return function(resp) {
-      if (onError) {
-        onError(model, resp, options);
-      } else {
-        model.trigger('error', model, resp, options);
-      }
+        // Make the request.
+        return $.ajax(params);
     };
-  };
 
-  // Helper function to escape a string for HTML rendering.
-  var escapeHTML = function(string) {
-    return string.replace(/&(?!\w+;|#\d+;|#x[\da-f]+;)/gi, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"
-                        property or
-                        function must be specified ');
-  };
+    // Helpers
+    // -------
+    // Shared empty constructor function to aid in prototype-chain creation.
+    var ctor = function() {};
 
-  // Wrap an optional error callback with a fallback error event.
-  var wrapError = function(onError, model, options) {
-    return function(resp) {
-      if (onError) {
-        onError(model, resp, options);
-      } else {
-        model.trigger(';
-                        };
+    // Helper function to correctly set up the prototype chain, for subclasses.
+    // Similar to `goog.inherits`, but uses a hash of prototype properties and
+    // class properties to be extended.
+    var inherits = function(parent, protoProps, staticProps) {
+        var child;
 
-                        // Wrap an optional error callback with a fallback error event.
-                        var wrapError = function(onError, model, options) {
-                            return function(resp) {
-                                if (onError) {
-                                    onError(model, resp, options);
-                                } else {
-                                    model.trigger('error'
-                                    rror ', model, resp, options);
-      }
+        // The constructor function for the new subclass is either defined by you
+        // (the "constructor" property in your `extend` definition), or defaulted
+        // by us to simply call `super()`.
+        if (protoProps && protoProps.hasOwnProperty('constructor')) {
+            child = protoProps.constructor;
+        } else {
+            child = function() {
+                return parent.apply(this, arguments);
+            };
+        }
+
+        // Inherit class (static) properties from parent.
+        _.extend(child, parent);
+
+        // Set the prototype chain to inherit from `parent`, without calling
+        // `parent`'s constructor function.
+        ctor.prototype = parent.prototype;
+        child.prototype = new ctor();
+
+        // Add prototype properties (instance properties) to the subclass,
+        // if supplied.
+        if (protoProps) _.extend(child.prototype, protoProps);
+
+        // Add static properties to the constructor function, if supplied.
+        if (staticProps) _.extend(child, staticProps);
+
+        // Correctly set child's `prototype.constructor`.
+        child.prototype.constructor = child;
+
+        // Set a convenience property in case the parent's prototype is needed later.
+        child.__super__ = parent.prototype;
+
+        return child;
     };
-  };
 
-  // Helper function to escape a string for HTML rendering.
-  var escapeHTML = function(string) {
-    return string.replace(/&(?!\w+;|#\d+;|#x[\da-f]+;)/gi, '
-                                    model, resp, options);
-                                }
-                            };
-                        };
+    // Helper function to get a URL from a Model or Collection as a property
+    // or as a function.
+    var getUrl = function(object) {
+        if (!(object && object.url)) return null;
+        return _.isFunction(object.url) ? object.url() : object.url;
+    };
 
-                        // Helper function to escape a string for HTML rendering.
-                        var escapeHTML = function(string) {
-                            return string.replace(/&(?!\w+;|#\d+;|#x[\da-f]+;)/ ( ? !\w + ; | #\d + ; | #x[\da - f] + ;) / gi, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27').replace(/\//g, '&#x2F;');
-                        };
+    // Throw an error when a URL is needed, and none is supplied.
+    var urlError = function() {
+        throw new Error('A "url" property or function must be specified');
+    };
 
-                    }).call(this);
+    // Wrap an optional error callback with a fallback error event.
+    var wrapError = function(onError, model, options) {
+        return function(resp) {
+            if (onError) {
+                onError(model, resp, options);
+            } else {
+                model.trigger('error', model, resp, options);
+            }
+        };
+    };
+
+    // Helper function to escape a string for HTML rendering.
+    var escapeHTML = function(string) {
+        return string.replace(/&(?!\w+;|#\d+;|#x[\da-f]+;)/gi, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27').replace(/\//g, '&#x2F;');
+    };
+
+}).call(this);

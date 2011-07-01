@@ -1,9 +1,9 @@
-var restfulApp = Backbone.Controller.extend({
+var restfulApp = Backbone.Router.extend({
 
 	routes: {
-			"!/categories/:content/:index":          "documentIndexAction",  //This matches app/animals/* and assigns * to a variable called "animal"
+			"/categories/:content/:index":          "documentIndexAction",  //This matches app/animals/* and assigns * to a variable called "animal"
 			//"/categories/:content":          "documentAction",  //This matches app/animals/* and assigns * to a variable called "animal"
-			"!/zoomwien":     "mapZoomWien",
+			"/zoomwien":     "mapZoomWien",
 			"*page":                 	"defaultAction", //This simply matches any urls that weren't caught above and assigns it to "page"
 			},
 
@@ -36,9 +36,11 @@ var restfulApp = Backbone.Controller.extend({
   	Marker.zoomWien();
 		this.defaultAction();
 		document.title="Jobpins Wien"
+		window.location.href= "/#";
   },
   
   defaultAction: function(page) {
+	console.log("default");
 	  $(".documentdiv").empty();
 	  $("#column1box").fadeIn('slow');
     Searches.searchInactiv();

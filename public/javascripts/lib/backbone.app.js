@@ -19,8 +19,8 @@ window.AppView = Backbone.View.extend({
 		this.input = this.$("#new-search");
 		
 		Searches.bind('add',     this.addOne);
-		Searches.bind('refresh', this.addAll);
-		Suggests.bind('refresh', this.renderSuggestList);
+		Searches.bind('reset', this.addAll);
+		Suggests.bind('reset', this.renderSuggestList);
 		Suggests.bind('change', this.renderSuggestList);
 		Searches.fetch();	  
 	},

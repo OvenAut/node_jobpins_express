@@ -7,7 +7,7 @@ var express    = require('express'),
     app        = module.exports = express.createServer(),
     stylus     = require('stylus'),
     fs         = require('fs'),
-    VERSION    = "0.3.4",
+    VERSION    = "0.3.5",
     //store      = new RedisStore({host:'home.oszko.net',pass:'webcat'}),
     connect    = require('connect'),
     util       = require('util'),
@@ -68,7 +68,7 @@ app.get('/', function(req, res){
 
 
 if (!module.parent) {
-  app.listen(3000);
+  app.listen(80);
   console.log("Express server listening on port %d", app.address().port);
 }
 

@@ -34,7 +34,7 @@ window.InfoCollection = Backbone.Collection.extend({
 	
 
   clear: function(cb) {
-		this.refresh({},{silent:true});
+		this.reset({},{silent:true});
 		this.each(function(model) {	
 		   model.clear();
 		});

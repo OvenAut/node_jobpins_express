@@ -5,7 +5,7 @@ $(document).ready(function() {
 	window.App = new AppView;
 	window.Controller = new restfulApp;
 
-		Backbone.emulateHTTP = true;
-		Backbone.emulateJSON = true 
+		//Backbone.emulateHTTP = true;
+	  //Backbone.emulateJSON = true 
 		Backbone.history.start();
 });

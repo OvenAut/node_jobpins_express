@@ -37,7 +37,7 @@ window.SuggestCollection = Backbone.Collection.extend({
 	model: Suggest,
 	
 	clear: function() {
-		this.refresh({},{silent:true});
+		this.reset({},{silent:true});
 		this.each(function(model) {	
 		   model.clear();
 		});
@@ -105,7 +105,7 @@ window.SuggestCollection = Backbone.Collection.extend({
 	getval: function(val) {
 		if (Suggests.length>=0) {
 			this.clear();
-			this.refresh({},{silent:true});
+			this.reset({},{silent:true});
 		};
 		var rep = new RegExp("\\.*\\**\\+*\\?*");
 		val =  val.replace(rep,"");
@@ -126,7 +126,7 @@ window.SuggestCollection = Backbone.Collection.extend({
 				listId:data[i].attributes.id,
 				});
 		};
-		this.refresh(dataSet);		
+		this.reset(dataSet);		
 	},
 	
 	replaceExp: function(val) {
