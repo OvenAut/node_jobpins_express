@@ -31,6 +31,8 @@ var restfulApp = Backbone.Controller.extend({
     document.title="Jobpins" + " " + content + " " +  Document.attributes.couchids[Document.nextDoc].company;
   },
   mapZoomWien: function() {
+		console.log("zoom Wien");
+	  
   	Marker.zoomWien();
 		this.defaultAction();
 		document.title="Jobpins Wien"
