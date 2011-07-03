@@ -1,0 +1,22 @@
+curl -X PUT -d '{"
+spatial":{
+	"points":"function(doc) {\n    
+		if (doc.loc) {\n
+		        emit({\n
+		            type: \"Point\",\n
+		            coordinates: [doc.loc[0], doc.loc[1]]\n
+		        }, [doc._id, doc.loc]);\n
+		    }};"}}' http://127.0.0.1:5984/places/_design/main
+		
+		
+function(doc) { 
+	if (doc.loc) { 
+	emit({ 
+		type: "Point",
+		coordinates: [doc.loc[0], doc.loc[1]] 
+		}, [doc._id, doc.loc]); 
+	}};
+
+	curl -X GET 'http://web:web@192.168.3.110:5984/jobdata/_design/Jobdata/_view/geobox?bbox=0,0,180,90'
+
+curl -X GET 'http://web:web@192.168.3.110:5984/jobdata/_design/Jobdata/_spatial/points?bbox=46,16,48.2,16.4'

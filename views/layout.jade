@@ -109,6 +109,10 @@ html(lang="de")
       <div><%= content %></div>
       <div><%= date %></div>
       <div class="<%= activ? 'activ':'' %>">&nbsp;</div>
+    script#radmarkerItem-template(type="text/template")
+      <div class='radmarker-email'><%= email %></div>
+      <span class='radmarker-destroy'></span>
+      <input type='text' class='radmarker-input' />
     script(src="http://maps.google.com/maps/api/js?sensor=false")
     //-script(src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
     //if IE
@@ -132,21 +136,16 @@ html(lang="de")
     script(src='javascripts/vendor/underscore.min.js')
     script(src='javascripts/vendor/backbone.0.5.0.min.js')
     script(src='javascripts/vendor/backbone.localStorage.js')
-    script(scr='javascripts/vendor/rapdw.js')
+    script(src='javascripts/vendor/radwidget.js')
     script(src='javascripts/lib/backbone.suggest.js')
     script(src='javascripts/lib/backbone.info.js')
     script(src='javascripts/lib/backbone.suggest.list.js')
     script(src='javascripts/lib/backbone.search.js')
     script(src='javascripts/lib/backbone.document.js')
-    //-script(src='javascripts/lib/backbone.document.list.js')
     script(src='javascripts/lib/backbone.app.js')
     script(src='javascripts/lib/backbone.map.js')
     script(src='javascripts/lib/backbone.router.js')
     script(src='/socket.io/socket.io.js')
     script(src='javascripts/lib/myscript.socket.js')
-        //-script(src='javascripts/sws.js')
-    //-script(src='javascripts/backbone.couchdb.js')
-    //-script
-    //-  var connect = {sid:'#{sessionID}'};    
     script(src='javascripts/lib/myscript.js')
     

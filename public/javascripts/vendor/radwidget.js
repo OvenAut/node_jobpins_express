@@ -1,39 +1,36 @@
 
-function DistanceWidget(map,center, radius, liColor, liWidth, liOpa, fillColor, fillOpa) {
+
+function DistanceWidget(map, center, radius, self,check) {
+	  var liColor =  "#0000FF";
+	  var liWidth = 1;
+	  var fillColor = "#0000FF";
+	  var liOpa = 1;
     this.set('map', map);
     this.set('position',center);
       
-    var image = new google.maps.MarkerImage('images/markers/freemaptools.png',
+    var image = new google.maps.MarkerImage('images/radmarker.png',
     // This marker is 20 pixels wide by 32 pixels tall.
     new google.maps.Size(20, 34),
     // The origin for this image is 0,0.
     new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
     new google.maps.Point(10, 33));
-    var shadow = new google.maps.MarkerImage('images/gmmarkersv3/shadow.png',
-    // The shadow image is larger in the horizontal dimension
-    // while the position and offset are the same as for the main image.
+    var shadow = new google.maps.MarkerImage('images/radmarkershadow.png',
     new google.maps.Size(28, 22),
     new google.maps.Point(0,0),
     new google.maps.Point(1, 22));
     
-    check=document.getElementById("show").checked;
-    if (check)
-    {
-        var marker = new google.maps.Marker({
-          draggable: true,
-          title: 'Drag me!',shadow:shadow,icon:image
-        });
-        routeMarkers.push(marker);
-        
-        // Bind the marker map property to the DistanceWidget map property
-        marker.bindTo('map', this);
-
-        // Bind the marker position property to the DistanceWidget position
-        // property
-        marker.bindTo('position', this);
-    }
-
+		//var check = true;
+		if (check) {
+	    var marker = new google.maps.Marker({
+	      draggable: true,
+	      title: 'Drag me!',shadow:shadow,icon:image
+	    });
+	    // Bind the marker map property to the DistanceWidget map property
+	    marker.bindTo('map', this);
+	    marker.bindTo('position', this);
+		 self.markersArray.push(marker);
+		}
 
 
     // Create a new radius widget
@@ -41,15 +38,7 @@ function DistanceWidget(map,center, radius, liColor, liWidth, liOpa, fillColor, 
     var radiusWidget;
     
     //if the opacity is clear "#0" then use zero
-    if (fillColor=="#0")
-    {
-        radiusWidget= new RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, 0);
-    }
-    else
-    {
-        radiusWidget= new RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOpa);
-    }
-
+    radiusWidget= new RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, 0.1,self,check);
     // Bind the radiusWidget map to the DistanceWidget map
     radiusWidget.bindTo('map', this);
 
@@ -61,17 +50,30 @@ function DistanceWidget(map,center, radius, liColor, liWidth, liOpa, fillColor, 
 
     // Bind to the radiusWidgets' bounds property
     this.bindTo('bounds', radiusWidget);
-    
+
+  
 }
 
 
 DistanceWidget.prototype = new google.maps.MVCObject();
 
-function RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOpa) {
-            
+DistanceWidget.prototype.position_changed = function() {
+    var position = this.get('position');
+//console.log(position);
+		Marker.mapRadiusMarker.center = position;
+}
+
+
+
+function RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOpa,self,check) {
+						//             console.log("RadiusWidget");
+						// console.log(this);
+						// console.log(self);
+						
+		
     var circle = new google.maps.Circle({
           center: center,
-          map: map,
+          map: this.map,
           radius: radius*1000,
           strokeColor: liColor,
           strokeWeight: liWidth,
@@ -81,7 +83,7 @@ function RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOp
           fillOpacity: fillOpa
     });
     
-    routeCircles.push(circle);
+    self.markersArray.push(circle);
      
     // Set the distance property value, default to 50km.  Changed to 402km or ~ 250 miles
     this.set('distance', radius);
@@ -99,21 +101,11 @@ function RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOp
     circle.bindTo('radius', this);
 
     // Add the sizer marker
-    showgrip=document.getElementById("showgrip").checked;
-    if (showgrip)
+    //check=true //document.getElementById("showgrip").checked;
+    if (check)
     {
         this.addSizer_();       
     }
-    getoutputdata(center,radius);
-    
-    findpolyenc(dataforstaticmap);
-    dataforstaticmap="";
-    pathcount=+1;
-    
-    var qs;
-    qs="?clat="+center.lat()+"&clng="+center.lng()+"&r="+radius+"&lc="+liColor+"&lw="+liWidth+"&fc="+fillColor;
-    qs=qs.replace(/#/g, "");
-    document.getElementById("tb_url").value="http://www.freemaptools.com/radius-around-point.htm" + qs;
     
 }
 
@@ -122,6 +114,9 @@ RadiusWidget.prototype = new google.maps.MVCObject();
 
 RadiusWidget.prototype.distance_changed = function() {
     this.set('radius', this.get('distance') * 1000);
+		Marker.mapRadiusMarker.radius = this.get('distance');
+		// console.log(Marker.mapRadiusMarker.radius);
+		//var test = this.bbox_(this.get('distance'),Marker.mapRadiusMarker.center);
 };
 
 
@@ -129,7 +124,7 @@ RadiusWidget.prototype.addSizer_ = function() {
     var sizer = new google.maps.Marker({
         draggable: true,
         title: 'Drag me!',
-        icon: new google.maps.MarkerImage('images/markers/resize.png')
+        icon: new google.maps.MarkerImage('images/resize.png')
     });
 
     sizer.bindTo('map', this);
@@ -139,6 +134,7 @@ RadiusWidget.prototype.addSizer_ = function() {
     google.maps.event.addListener(sizer, 'drag', function() {
       // Set the circle distance (radius)
       me.setDistance();
+     // console.log(me);
     });
 };
 
@@ -153,30 +149,31 @@ RadiusWidget.prototype.center_changed = function() {
       var position = new google.maps.LatLng(this.get('center').lat(), lng);
       this.set('sizer_position', position);
     }
-    // Change - 04/08/2011
-    // After setting the new position, clear the old Markers from the Map
-    if (map.markers)
-    {
-        map.clearMarkers();
-    }
-
 };
+
  
 RadiusWidget.prototype.distanceBetweenPoints_ = function(p1, p2) {
     if (!p1 || !p2) {
       return 0;
     }
 
+		
     var R = 6371; // Radius of the Earth in km
     var dLat = (p2.lat() - p1.lat()) * Math.PI / 180;
+//		console.log(dLat);
     var dLon = (p2.lng() - p1.lng()) * Math.PI / 180;
+//		console.log(dLon);
     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(p1.lat() * Math.PI / 180) * Math.cos(p2.lat() * Math.PI / 180) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
+//console.log("distanceBetweenPoints_ " + d);
     return d;
+   
 };
+
+
 
 RadiusWidget.prototype.setDistance = function() {
     // As the sizer is being dragged, its position changes.  Because the
