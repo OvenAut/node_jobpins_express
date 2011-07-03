@@ -266,7 +266,7 @@ window.RadMarker = Backbone.View.extend({
 		template: _.template($('#radmarkerItem-template').html()),
 		
 		events: {
-			"click span.search-destroy" : "clear",
+			"click span.radmarker-destroy" : "clear",
 		},
 		
 		initialize: function() {

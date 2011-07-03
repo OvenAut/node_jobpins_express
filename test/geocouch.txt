@@ -20,3 +20,4 @@ function(doc) {
 	curl -X GET 'http://web:web@192.168.3.110:5984/jobdata/_design/Jobdata/_view/geobox?bbox=0,0,180,90'
 
 curl -X GET 'http://web:web@192.168.3.110:5984/jobdata/_design/Jobdata/_spatial/points?bbox=46,16,48.2,16.4'
+curl -X GET 'http://web:web@192.168.3.110:5984/jobdata/_design/Jobdata/_spatial/points?bbox=48.2009,16.3574,48.2179,16.3829'

@@ -44,26 +44,19 @@
 		
 		
 		prepare: function(Document) {
-			var pageGet = [];
-			for (var i = Document.index; i< Document.index+3 ;i++) {
-				if (Document.keys[i]) {
-					var page = Document.keys[i];
-					if (Document.list.attributes.couchids[page].updated_at) {
-					} else {
-						pageGet.push(page);
-					}
+			var pageGetIo = [];
+			var pageKey;
+			var pageCounter = Document.index;
+			while (pageGetIo.length<3 && pageCounter < Document.keys.length) {
+				pageKey = Document.keys[pageCounter];
+				if (typeof Document.list.attributes.couchids[pageKey].updated_at == 'undefined') {
+					pageGetIo.push(pageKey);
 				}
+				pageCounter++;
 			}
-			if (pageGet.length>0) {
-				socket.socketSend({key:pageGet,id:Document.id},"getDocData");
-       if (pageGet.length==3) {
-				return false;
-			} else {
-				return true;
-			}
-			} else {
-				return true;
-			}
+			if (!!pageGetIo.length) socket.socketSend({key:pageGetIo,id:Document.id},"getDocData");
+			if (typeof Document.list.attributes.couchids[Document.keys[Document.index]].updated_at == 'undefined') return false
+			return true
 		},
 	});
 	
