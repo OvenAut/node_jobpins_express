@@ -98,11 +98,13 @@ span.search-counter{position:absolute;font-size:15px;background-color:#ff221b;co
 #search-list .search-destroy{position:absolute;right:5px;display:none;cursor:pointer;width:20px;height:20px;background:url("../images/destroy.png") no-repeat 0 0;top:8px}
 #search-list .display:hover .search-destroy{display:block;z-index:23}
 #search-list .search-destroy:hover{background-position:0 -20px}
-input#new-search{color:#ff2545;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;width:330px;padding:0;margin:12px 0 0 330px}
+input#new-search{color:#ff2545;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;width:330px;padding:0;margin:12px 0 0 330px;float:left}
+.circleMap{width:48px;height:48px;float:left;margin:5px 9px}
+.circleMapAc{width:48px;height:48px;float:left;margin:5px 9px;display:none}
 #searchColumn{border:1px solid #333;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;font-size:2em}
 .zoomWien{float:left;padding:5px;margin:0}
 #searchColumn span.ui-tooltip-bottom{position:absolute;z-index:999;width:178px;left:50%;top:460px;margin-left:-85px;background:#333;float:none;clear:none}
-ul#suggest-list{text-align:left;list-style-type:none;display:block;position:absolute;z-index:3;color:#979797;background-color:#fff;width:324px;margin-left:392px;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px}
+ul#suggest-list{text-align:left;list-style-type:none;display:block;position:absolute;z-index:3;color:#979797;background-color:#fff;width:324px;margin-left:392px;margin-top:46px;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px}
 #suggest-list li{border:1px solid #000;border-top-style:none;float:none;clear:none;position:relative;cursor:pointer}
 #suggest-list li .up{position:absolute;display:block;cursor:pointer;height:30px;background:url("../../images/up.gif") no-repeat 0 0;width:30px;clear:left;left:291px;bottom:1px}
 #suggest-list li .down{position:absolute;display:block;cursor:pointer;height:30px;background:url("../../images/down.gif") no-repeat 0 0;width:30px;clear:left;left:291px;bottom:1px}

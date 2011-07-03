@@ -22,7 +22,9 @@ window.AppView = Backbone.View.extend({
 		Searches.bind('reset', this.addAll);
 		Suggests.bind('reset', this.renderSuggestList);
 		Suggests.bind('change', this.renderSuggestList);
-		Searches.fetch();	  
+		Marker.fetch();
+		Searches.fetch();
+	  
 	},
 
 	addOne: function(search) {

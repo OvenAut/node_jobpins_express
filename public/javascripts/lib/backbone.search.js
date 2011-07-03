@@ -85,11 +85,11 @@
 			this.changeUrl(content,root);
 		  
 		},
-		changeUrl: function(content,root) {
+		changeUrl: function(content,root,href) {
 			//console.log(content +" content root " + root);
 			var url = encodeURIComponent(content);
 			//console.log(url);
-			var href="";
+			//var href="";
 			root?href="/#":href = "/#!/categories/" + url + "/0";
 			window.location.href = href;
 			//Searches.isActiv(data.searchData.id);
