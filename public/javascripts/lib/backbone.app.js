@@ -14,7 +14,7 @@ window.AppView = Backbone.View.extend({
 	
 	initialize: function() {
 		
-		_.bindAll(this, 'addOne', 'addAll', 'renderSuggestList','enterVal');
+		_.bindAll(this, 'addOne', 'addAll', 'renderSuggestList','enterVal','addRadMarker');
 		
 		this.input = this.$("#new-search");
 		
@@ -22,6 +22,9 @@ window.AppView = Backbone.View.extend({
 		Searches.bind('reset', this.addAll);
 		Suggests.bind('reset', this.renderSuggestList);
 		Suggests.bind('change', this.renderSuggestList);
+		Marker.bind('reset', this.addRadMarker);
+		Marker.bind('add', this.addRadMarker);
+		
 		Marker.fetch();
 		Searches.fetch();
 	  
@@ -151,5 +154,16 @@ window.AppView = Backbone.View.extend({
 		};
 		this.tooltipTimeout = _.delay(show, 1000);
 	},
+	
+	addRadMarker: function(marker) {
 		
+		if (typeof Marker.first() == 'undefined') return;
+		//console.log("addRadMarker");
+		var view = new RadMarker({model:Marker.first()});
+		this.$("#marker-list").append(view.render().el)
+		
+	},
+	
+	
+	
 });

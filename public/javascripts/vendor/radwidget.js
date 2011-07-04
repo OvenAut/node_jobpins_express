@@ -61,6 +61,7 @@ DistanceWidget.prototype.position_changed = function() {
     var position = this.get('position');
 //console.log(position);
 		Marker.mapRadiusMarker.center = position;
+		Marker.saveMarkerRadius()
 }
 
 
@@ -115,6 +116,7 @@ RadiusWidget.prototype = new google.maps.MVCObject();
 RadiusWidget.prototype.distance_changed = function() {
     this.set('radius', this.get('distance') * 1000);
 		Marker.mapRadiusMarker.radius = this.get('distance');
+		Marker.saveMarkerRadius()
 		// console.log(Marker.mapRadiusMarker.radius);
 		//var test = this.bbox_(this.get('distance'),Marker.mapRadiusMarker.center);
 };

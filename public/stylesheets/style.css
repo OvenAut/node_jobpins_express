@@ -89,15 +89,18 @@ ul#info-list{list-style-type:none;position:absolute;color:#979797;background-col
 .jobdata .text{margin:2px 5px}
 .companyname .text{font-size:20px;margin-top:6px;text-align:center;text-shadow:0 0 2px #fff}
 #location{color:#999;padding:10px 0 5px 30px;font-size:10px;width:300px;float:left}
-#search-list li{list-style-type:none}
-#search-list .display{background:#fff;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;position:relative;font-size:24px;line-height:1.5em;cursor:pointer;margin-bottom:5px;margin-top:5px}
+#search-list li,#marker-list li{list-style-type:none}
+#search-list .display,#marker-list .display{border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111;position:relative;font-size:24px;line-height:1.5em;cursor:pointer;margin-bottom:5px;margin-top:5px}
+#marker-list .display{float:left;width:300px;margin-top:9px}
 .search-content a,.search-content a:active,.search-content a:visited{display:block;color:#666;text-shadow:0 0 5px #666;text-decoration:none;padding-left:5px}
 .search-content a:hover{color:#333;text-shadow:0 0 2px #666;background:rgba(200,200,200,0.3)}
 .search-content.activ a{color:#333;text-shadow:0 0 1px #fff}
+#marker-list li div.display div.radmarker-email{dispay:none;margin-left:6px;padding:1px}
+#marker-list li div.display input.radmarker-input{width:261px;height:26px;margin-bottom:3px;margin-left:3px}
 span.search-counter{position:absolute;font-size:15px;background-color:#ff221b;color:#fffeff;line-height:20px;border:1px solid #212121;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;padding-right:2px;padding-left:2px;bottom:13px;z-index:0;right:1px}
-#search-list .search-destroy{position:absolute;right:5px;display:none;cursor:pointer;width:20px;height:20px;background:url("../images/destroy.png") no-repeat 0 0;top:8px}
-#search-list .display:hover .search-destroy{display:block;z-index:23}
-#search-list .search-destroy:hover{background-position:0 -20px}
+#search-list .search-destroy,#marker-list .radmarker-destroy{position:absolute;right:5px;display:none;cursor:pointer;width:20px;height:20px;background:url("../images/destroy.png") no-repeat 0 0;top:8px}
+#search-list .display:hover .search-destroy,#marker-list .display:hover .radmarker-destroy{display:block;z-index:23}
+#search-list .search-destroy:hover,#marker-list .radmarker-destroy:hover{background-position:0 -20px}
 input#new-search{color:#ff2545;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;width:330px;padding:0;margin:12px 0 0 330px;float:left}
 .circleMap{width:48px;height:48px;float:left;margin:5px 9px}
 .circleMapAc{width:48px;height:48px;float:left;margin:5px 9px;display:none}

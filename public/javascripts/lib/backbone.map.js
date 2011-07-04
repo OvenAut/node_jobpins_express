@@ -1,14 +1,23 @@
+window.Markmodel = Backbone.Model.extend({
+
+	clear: function() {
+		this.destroy();
+		this.view.remove();
+	},
+});
 
 window.MarkerCollection = Backbone.Collection.extend({
 	
 	localStorage: new Store("marker"),
 	
+	model:Markmodel,
 	
 	initialize: function() {
 		_.bindAll(this,'changeCursorMode');
 	  this.bind("add",this.addNew);
 	  Searches.bind('change:couchids',this.addMarkersChange);
 	  Searches.bind('remove',this.addMarkers);
+	  this.bind('remove',this.addMarkers);
 	  $('.circleMap').bind('click' ,this.changeCursorMode);
 		
 	},
@@ -26,7 +35,8 @@ window.MarkerCollection = Backbone.Collection.extend({
 	mapRadiusMarker:{
 		radius:0,
 		center:{},
-		bbox:""},
+		bbox:""
+	},
 	
 	
 	addMarkersChange: function() {
@@ -90,6 +100,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 		
 		if (Marker.models.length <= 0)
 		this.mapEvent = this.googleMaps.event.addListener(self.map, 'click', function(event) {
+			if (!!Marker.models.length) return
 				var check = true;
 				var distanceWidget = new DistanceWidget(self.map,event.latLng,5,self,check);
 		});
@@ -103,7 +114,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 			
 		
 		//console.log(this.mapEvent);
-		this.saveMarkerRadius()
+		//this.saveMarkerRadius()
 		//var savemar = new SaveMarker(this);
 		
 			this.addMarkers(false)
@@ -117,17 +128,18 @@ window.MarkerCollection = Backbone.Collection.extend({
 	},
 	
 	saveMarkerRadius: function() {
-		// console.log("save")
+		//console.log("save")
 		// console.log(self)
 		// console.log(Marker.mapRadiusMarker);
 		var radMarker = Marker.mapRadiusMarker;
 		radMarker.bbox = this.getBboxMarkerRadius(radMarker.radius,radMarker.center)
 		if (Marker.models.length > 0) {
 			var last = Marker.last();
-				last.attributes.center = radMarker.center;
-				last.attributes.radius = radMarker.radius;
-				last.attributes.bbox = radMarker.bbox;
-			last.save();
+				//last.attributes.center = radMarker.center;
+				//last.attributes.radius = radMarker.radius;
+				//last.attributes.bbox = radMarker.bbox;
+				last.set(radMarker,{silent:true});
+			last.save({silent:true});
 
 		} else {
 	  Marker.create(radMarker);
@@ -267,47 +279,88 @@ window.RadMarker = Backbone.View.extend({
 		
 		events: {
 			"click span.radmarker-destroy" : "clear",
+			"keypress .radmarker-input" : "updateOnEnter",
+			"dblclick div.radmarker-email" : "edit"
 		},
 		
 		initialize: function() {
-			_.bindAll(this, 'render');
+			_.bindAll(this, 'render','close');
 			this.model.bind('change', this.render);
 			//this.model.bind('change:docAcitv', this.renderActiv);
+
 			this.model.view = this;
+			// this.input = this.$('.radmarker-input')
 		},		
 		
 		render: function() {
 			
 			//console.log("render Searches " + this.model.id);
 			$(this.el).html(this.template(this.renderAttributes(this.model.attributes)));
-			//this.setContent();
+			this.setContent();
 			
 			return this;
 		},
+		
+		setContent: function() {
+			var content = this.model.get('email');
+			this.$('.radmarker-email').text(content);
+			this.input = this.$('.radmarker-input');
+			this.input.bind('blur',this.close);
+			this.input.val(content);
+			if (!!content) $('.radmarker-input').hide();
+		},
+		
 		renderAttributes: function(data) {
 			//console.log(data);
 			var altText = "";
-			var text = altText = data.content;
+			var text = altText = data.email || "";
 			if (text.length > 23) {
 				//var text = data.content.replace(/.{21}(.*)/,"...");
 				text = text.slice(0,20);
 			  text = text + "...";
 			}
 			return {
-				content:text,
-				color:data.color,
-				counter:_.size(data.couchids),
-				altText:altText,
-				activ:data.docActiv,
-				id:data.id,
-				urlname:encodeURIComponent(data.content),
-				page:this.model.pageNummber(data.docOpen),
+				email:text,
+				// color:data.color,
+				// counter:_.size(data.couchids),
+				// altText:altText,
+				// activ:data.docActiv,
+				// id:data.id,
+				// urlname:encodeURIComponent(data.content),
+				// page:this.model.pageNummber(data.docOpen),
 			}
 		},
-		
+		close: function() {
+			if (!validateEmail(this.input.val())) return;
+			//console.log(this.model);
+			Marker.mapRadiusMarker.email = this.input.val();
+      this.model.save({email: this.input.val()});
+     // $(this.el).addClass('close');
+			$('.radmarker-email').show();
+			$('.radmarker-input').hide();
+			function validateEmail(elementValue) {
+				var emailPlattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+				return emailPlattern.test(elementValue);
+			}
+
+    },
+
+    // If you hit `enter`, we're through editing the item.
+    updateOnEnter: function(e) {
+      if (e.keyCode == 13) this.close();
+    },
+    
+		edit: function() {
+      //$(this.el).removeClass("close");
+			$('.radmarker-email').hide();
+			$('.radmarker-input').show();
+
+      this.input.focus();
+    },
+    
 		clear: function() {
-			SuggestList.get(this.model.attributes.listId).toggle();
+			//SuggestList.get(this.model.attributes.listId).toggle();
 			this.model.clear();
-			Searches.selectNext();
+			//Searches.selectNext();
 		}
 })
