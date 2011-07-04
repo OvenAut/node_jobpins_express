@@ -154,11 +154,16 @@ window.SuggestView = Backbone.View.extend({
 	template: _.template($('#suggest-template').html()),
 
 	events: {
+		//"dblclick div.suggest-content" : "test",
 		"click div.suggest-content"    : "selectThis",
 		"click span.gui.up"           : "clickUp",
 		"click span.gui.down"         : "clickDown",
 	},
-
+	
+	// test: function(e) {
+	// 	console.log(e);
+	// },
+	
 	initialize: function() {
 		_.bindAll(this, 'render');
 		this.model.view = this;

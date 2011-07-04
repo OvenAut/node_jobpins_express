@@ -57,7 +57,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 		Marker.deleteOverlays(function(self) {
 		if (Marker.models.length >= 1) {
 			var marker = Marker.first().attributes;
-			var location = new google.maps.LatLng(marker.center.Ia, marker.center.Ja);
+			var location = new google.maps.LatLng(marker.center.lat, marker.center.lng);
 			if (typeof check != 'boolean') check = false;
 			var distanceWidget = new DistanceWidget(self.map,location,marker.radius,self,check);
 		}	
@@ -114,7 +114,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 			
 		
 		//console.log(this.mapEvent);
-		//this.saveMarkerRadius()
+		this.saveMarkerRadius()
 		//var savemar = new SaveMarker(this);
 		
 			this.addMarkers(false)
@@ -131,10 +131,12 @@ window.MarkerCollection = Backbone.Collection.extend({
 		//console.log("save")
 		// console.log(self)
 		// console.log(Marker.mapRadiusMarker);
-		var radMarker = Marker.mapRadiusMarker;
+		var radMarker = this.mapRadiusMarker;
+		//console.log(this.mapRadiusMarker);
 		radMarker.bbox = this.getBboxMarkerRadius(radMarker.radius,radMarker.center)
 		if (Marker.models.length > 0) {
 			var last = Marker.last();
+			//console.log(radMarker)
 				//last.attributes.center = radMarker.center;
 				//last.attributes.radius = radMarker.radius;
 				//last.attributes.bbox = radMarker.bbox;
@@ -148,8 +150,8 @@ window.MarkerCollection = Backbone.Collection.extend({
 	},
 	
 	getBboxMarkerRadius: function(distance,center) {
-		var lat = center.Ia;
-		var lon = center.Ja;
+		var lat = center.lat;
+		var lon = center.lng;
 		var rad = distance;
 		var R = 6371;
 

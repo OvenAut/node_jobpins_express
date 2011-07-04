@@ -9,7 +9,8 @@ window.AppView = Backbone.View.extend({
 	events: {
 		"keypress #new-search": "createOnEnter",
 		"keyup #new-search":  "enterVal",
-		"dblclick div.suggest-content": "createOnEnter",
+		"click .suggest-content.selected": "createOnEnter",
+		"dblclick ul.suggest-list": "createOnEnter",
 	},
 	
 	initialize: function() {
@@ -103,7 +104,8 @@ window.AppView = Backbone.View.extend({
 	},
 	
 	createOnEnter: function(e) {
-		if ((e.keyCode != 13 && e.type != "dblclick") || !this.suggestPresent()) return;
+		//console.log(e);
+		if ((e.keyCode != 13 && e.type != "click") || !this.suggestPresent()) return;
 		var contener = this.newAttributes()
 		Searches.create(contener);
 		var lastId = Searches.last().id;

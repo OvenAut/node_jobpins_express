@@ -60,7 +60,16 @@ DistanceWidget.prototype = new google.maps.MVCObject();
 DistanceWidget.prototype.position_changed = function() {
     var position = this.get('position');
 //console.log(position);
-		Marker.mapRadiusMarker.center = position;
+		
+		var objKeys = Object.keys(position)
+		//console.log(Object.keys(position))
+		// console.log(position[objKeys[0]])
+		// console.log(position[objKeys[1]])
+		// 
+		// console.log(Marker.mapRadiusMarker.center)
+		Marker.mapRadiusMarker.center.lat = position[objKeys[0]];
+		Marker.mapRadiusMarker.center.lng = position[objKeys[1]];
+		
 		Marker.saveMarkerRadius()
 }
 
