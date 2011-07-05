@@ -247,6 +247,11 @@ div
 #searchapp
   padding-bottom: 0px
 
+/*@font-face
+   font-family 'Paytone One'
+   font-style normal
+   src url(http://fonts.googleapis.com/css?family=Paytone+One&v1)
+*/
 #header
   //background: #333 url("../images/333background.png") top center
   //text-align: center
@@ -256,6 +261,11 @@ div
   border-radius: 60px 5px 5px 5px
   width: 1100px
   height: 60px
+  cursor: default
+
+@media screen and (-webkit-animation)
+  #title
+    line-height: 1
 
 /*#title
   color: #fff
@@ -266,12 +276,11 @@ div
   padding-top: 0px
 */
 #title
-  color: #fff
+  color: #ddd
   font-size: 50px
-  font-family: 'Paytone One','Permanent Marker'
+  font-family: 'Paytone One',helvetica
   text-shadow:  1px 1px 1px #000, 1px 1px 6px #999
   padding-left: 40px
-  line-height: 48px
   float:left
 
 #slogen
@@ -299,12 +308,22 @@ ul#info-list
   list-style-type: none
   position: absolute
   color: #979797
-  background-color: #333
+  //border:1px solid rgba(33,33,33,0.8)
+  border-left: 1px solid orange
+  border-right: 1px solid orange
+  border-bottom: 1px solid orange
+  background-color: rgba(33,33,33,0.8)
   -webkit-border-radius: 0 0 5px 5px
   -moz-border-radius: 0 0 5px 5px
   border-radius: 0 0 5px 5px
   z-index:11
-  left:715px
+  top:47px
+  left:815px
+  -box-shadow: 0 1px 5px #222
+  -moz-box-shadow: 0 1px 5px #222
+  -khtml-box-shadow: 0 1px 5px #222
+  -webkit-box-shadow: 0 1px 5px #111
+
 
 #info-list li div
   float: left
@@ -569,17 +588,14 @@ input#new-search
   margin:12px 0px 0px 330px
   float:left
 
-.circleMap
+.circleMap , .circleMapAc
   width:48px
   height:48px
   float:left
   margin:5px 9px
+  cursor: pointer
 
 .circleMapAc
-  width:48px
-  height:48px
-  float:left
-  margin:5px 9px
   display:none
 
 #searchColumn

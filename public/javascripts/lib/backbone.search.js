@@ -155,8 +155,10 @@
 		
 		clear: function() {
 			SuggestList.get(this.model.attributes.listId).toggle();
+			Marker.removeNonExistentMarkers(this.model.id);
 			this.model.clear();
-			Searches.selectNext();
+			//Searches.selectNext();
+			Controller.mapZoomWien();
 		}		
 	});
 

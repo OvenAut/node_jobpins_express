@@ -42,7 +42,7 @@ window.AppView = Backbone.View.extend({
 
 	addAll: function() {
 		Searches.each(this.addOne);
-		Marker.addMarkers();
+		Marker.renderAllMarkers();
 	},
 	
 	enterVal: function(e) {

@@ -18,7 +18,7 @@ socket.on('suggestList',function(data) {
 
 socket.on('searchData',function(data) {
 	setSlogen("Categorien Daten bekommen");
-	
+
 	var tmpData = Searches.get(data.id);
 	var firstDoc = _.keys(data.data.couchid);
 	firstDoc.sort();
@@ -27,6 +27,7 @@ socket.on('searchData',function(data) {
 		docOpen:firstDoc[0]
 	});
 	tmpData.save();
+	Marker.addNewMarkers(data.id,data.data.couchid);
 	Searches.changeUrl(tmpData.attributes.content);
 	
 });

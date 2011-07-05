@@ -1,6 +1,7 @@
 
 
 function DistanceWidget(map, center, radius, self,check) {
+	//console.log("DistanceWidget");
 	  var liColor =  "#0000FF";
 	  var liWidth = 1;
 	  var fillColor = "#0000FF";
@@ -21,10 +22,11 @@ function DistanceWidget(map, center, radius, self,check) {
     new google.maps.Point(1, 22));
     
 		//var check = true;
-		if (check) {
+		if (check  || true) {
 	    var marker = new google.maps.Marker({
 	      draggable: true,
-	      title: 'Drag me!',shadow:shadow,icon:image
+	      title: 'Drag me!',shadow:shadow,icon:image,
+	      id: 1
 	    });
 	    // Bind the marker map property to the DistanceWidget map property
 	    marker.bindTo('map', this);
@@ -83,14 +85,15 @@ function RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOp
 		
     var circle = new google.maps.Circle({
           center: center,
-          map: this.map,
+          map: self.map,
           radius: radius*1000,
           strokeColor: liColor,
           strokeWeight: liWidth,
           strokeOpacity: liOpa,
           fillColor: fillColor,
           clickable: false,
-          fillOpacity: fillOpa
+          fillOpacity: fillOpa,
+					id:3
     });
     
     self.markersArray.push(circle);
@@ -105,16 +108,16 @@ function RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOp
     circle.bindTo('center', this);
 
     // Bind the circle map to the RadiusWidget map
-    circle.bindTo('map', this);
+    //circle.bindTo('map', this);
 
     // Bind the circle radius property to the RadiusWidget radius property
     circle.bindTo('radius', this);
 
     // Add the sizer marker
     //check=true //document.getElementById("showgrip").checked;
-    if (check)
+    if (check || true)
     {
-        this.addSizer_();       
+        this.addSizer_(self);       
     }
     
 }
@@ -131,11 +134,12 @@ RadiusWidget.prototype.distance_changed = function() {
 };
 
 
-RadiusWidget.prototype.addSizer_ = function() {
+RadiusWidget.prototype.addSizer_ = function(self) {
     var sizer = new google.maps.Marker({
         draggable: true,
         title: 'Drag me!',
-        icon: new google.maps.MarkerImage('images/resize.png')
+        icon: new google.maps.MarkerImage('images/resize.png'),
+				id:2
     });
 
     sizer.bindTo('map', this);
@@ -147,6 +151,8 @@ RadiusWidget.prototype.addSizer_ = function() {
       me.setDistance();
      // console.log(me);
     });
+  	self.markersArray.push(sizer);
+	
 };
 
 RadiusWidget.prototype.center_changed = function() {

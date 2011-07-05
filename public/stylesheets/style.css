@@ -64,10 +64,11 @@ body{font-family:sans-serif,"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;m
 div{display:block}
 #page{max-width:1100px;margin:0 auto;width:1100px;position:relative;bottom:-1px}
 #searchapp{padding-bottom:0}
-#header{border:1px solid;-webkit-border-radius:60px 5px 5px 5px;-moz-border-radius:60px 5px 5px 5px;border-radius:60px 5px 5px 5px;width:1100px;height:60px}
-#title{color:#fff;font-size:50px;font-family:"Paytone One","Permanent Marker";text-shadow:1px 1px 1px #000,1px 1px 6px #999;padding-left:40px;line-height:48px;float:left}
+#header{border:1px solid;-webkit-border-radius:60px 5px 5px 5px;-moz-border-radius:60px 5px 5px 5px;border-radius:60px 5px 5px 5px;width:1100px;height:60px;cursor:default}
+@media screen and (-webkit-animation){#title{line-height:1}
+}#title{color:#ddd;font-size:50px;font-family:"Paytone One",helvetica;text-shadow:1px 1px 1px #000,1px 1px 6px #999;padding-left:40px;float:left}
 #slogen{background:#ffa500;border:1px solid #000;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;padding:2px;margin:12px 0 5px 580px;font-family:"Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;font-weight:bold;font-variant:small-caps;text-align:center;height:28px;width:500px;line-height:26px}
-ul#info-list{list-style-type:none;position:absolute;color:#979797;background-color:#333;-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;z-index:11;left:715px}
+ul#info-list{list-style-type:none;position:absolute;color:#979797;border-left:1px solid #ffa500;border-right:1px solid #ffa500;border-bottom:1px solid #ffa500;background-color:rgba(33,33,33,0.8);-webkit-border-radius:0 0 5px 5px;-moz-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;z-index:11;top:47px;left:815px;-box-shadow:0 1px 5px #222;-moz-box-shadow:0 1px 5px #222;-khtml-box-shadow:0 1px 5px #222;-webkit-box-shadow:0 1px 5px #111}
 #info-list li div{float:left;display:block;padding:0 5px;border-bottom:1px solid #000}
 #info-list li div.activ{background:#008000}
 #map_canvas{min-height:400px;height:400px;width:1100px;padding:0;margin:0;white-space:nowrap;z-index:0;-box-shadow:0 0 5px #111;-moz-box-shadow:0 0 5px #111;-khtml-box-shadow:0 0 5px #111;-webkit-box-shadow:0 0 5px #111}
@@ -102,8 +103,8 @@ span.search-counter{position:absolute;font-size:15px;background-color:#ff221b;co
 #search-list .display:hover .search-destroy,#marker-list .display:hover .radmarker-destroy{display:block;z-index:23}
 #search-list .search-destroy:hover,#marker-list .radmarker-destroy:hover{background-position:0 -20px}
 input#new-search{color:#ff2545;border:1px solid #ccc;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;width:330px;padding:0;margin:12px 0 0 330px;float:left}
-.circleMap{width:48px;height:48px;float:left;margin:5px 9px}
-.circleMapAc{width:48px;height:48px;float:left;margin:5px 9px;display:none}
+.circleMap,.circleMapAc{width:48px;height:48px;float:left;margin:5px 9px;cursor:pointer}
+.circleMapAc{display:none}
 #searchColumn{border:1px solid #333;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-box-shadow:0 0 5px #999;-moz-box-shadow:0 0 5px #999;-khtml-box-shadow:0 0 5px #999;-webkit-box-shadow:0 0 5px #999;font-size:2em}
 .zoomWien{float:left;padding:5px;margin:0}
 #searchColumn span.ui-tooltip-bottom{position:absolute;z-index:999;width:178px;left:50%;top:460px;margin-left:-85px;background:#333;float:none;clear:none}
