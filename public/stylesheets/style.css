@@ -96,9 +96,11 @@ ul#info-list{list-style-type:none;position:absolute;color:#979797;border-left:1p
 .search-content a,.search-content a:active,.search-content a:visited{display:block;color:#666;text-shadow:0 0 5px #666;text-decoration:none;padding-left:5px}
 .search-content a:hover{color:#333;text-shadow:0 0 2px #666;background:rgba(200,200,200,0.3)}
 .search-content.activ a{color:#333;text-shadow:0 0 1px #fff}
-#marker-list li div.display div.radmarker-email{dispay:none;margin-left:6px;padding:1px;visibility:hidden}
+#marker-list li div.display div.radmarker-email{visibility:hidden;margin-left:6px;padding:1px}
+#marker-list li div.display div.radmarker-email.notsee{display:none;visibility:hidden}
 #marker-list li div.display:hover div.radmarker-email{visibility:visible}
 #marker-list li div.display input.radmarker-input{width:261px;height:27px;margin-bottom:3px;margin-left:3px;padding-top:.9px}
+#marker-list li div.display input.radmarker-input.notsee{display:none}
 #marker-list li div.display:hover div.infoLat,#marker-list li div.display:hover div.infoLng,#marker-list li div.display:hover div.infoRad{display:none}
 .infoLat,.infoLng,.infoRad{position:absolute;color:#668;font-size:18px;width:130px;text-align:right}
 .infoLat{right:10px;top:-7px}

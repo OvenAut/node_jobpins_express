@@ -536,18 +536,25 @@ span.edition:hover
   text-shadow:  0px 0px 1px #fff
 
 #marker-list li div.display div.radmarker-email
-  dispay:none
+  visibility:hidden
   margin-left:6px
   padding:1px
+
+#marker-list li div.display div.radmarker-email.notsee
+  display:none
   visibility:hidden
 #marker-list li div.display:hover div.radmarker-email
   visibility:visible
+
 #marker-list li div.display input.radmarker-input
   width: 261px
   height: 27px
   margin-bottom: 3px
   margin-left: 3px
   padding-top:0.9px
+
+#marker-list li div.display input.radmarker-input.notsee
+  display:none
 
 #marker-list li div.display:hover div.infoLat,#marker-list li div.display:hover div.infoLng,#marker-list li div.display:hover div.infoRad
   display:none

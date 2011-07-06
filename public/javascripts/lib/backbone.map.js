@@ -319,60 +319,52 @@ window.MapView = Backbone.View.extend({
 window.RadMarker = Backbone.View.extend({
 		
 		tagName: "li",
-		
+		openEdit:false,
 		template: _.template($('#radmarkerItem-template').html()),
 		
 		events: {
 			"click span.radmarker-destroy" : "clear",
 			"keypress .radmarker-input" : "updateOnEnter",
-			"dblclick div.radmarker-email" : "edit"
+			"dblclick div.radmarker-email" : "edit",
+		//	"blur .radmarker-input": "close",
 		},
 		
 		initialize: function() {
 			_.bindAll(this, 'render','close');
-			this.model.bind('change', this.render);
+			//this.model.bind('change', this.render);
 			//this.model.bind('change:docAcitv', this.renderActiv);
 			this.model.view = this;
-			// this.input = this.$('.radmarker-input')
+			//this.input = this.$('.radmarker-input');
 		},		
 		
 		render: function() {
 			$(this.el).html(this.template(this.renderAttributes(this.model.attributes)));
+			
 			this.setContent();
+			Marker.renderLatLngInfo();
 			return this;
 			
-		},
-		
+		},		
 		
 		setContent: function() {
-			var content = this.model.get('email');
-			this.$('.radmarker-email').text(content);
 			this.input = this.$('.radmarker-input');
 			this.input.bind('blur',this.close);
-			this.input.val(content);
-			if (!!content) {
-				this.$('.radmarker-input').hide();
-				Marker.renderLatLngInfo();
-			} else {
-				//$('.infoLat,.infoLng,.infoRad').addClass('notsee');
-				
-			}
 		},
 		
 		renderAttributes: function(data) {
 			return {
 				email:data.email || "",
+				openEdit: this.openEdit,
 			}
 		},
 		
 		close: function() {
+
 			var text = this.input.val();
 			if (!validateEmail(text)) return;
-			Marker.mapRadiusMarker.email = text;
+			this.openEdit = false;
       this.model.save({email: text});
-			$('.radmarker-email').show();
-			$('div.infoLat,div.infoLng,div.infoRad').removeClass('notsee');
-			$('.radmarker-input').hide();
+			this.render();
 			function validateEmail(elementValue) {
 				var emailPlattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 				return emailPlattern.test(elementValue);
@@ -385,9 +377,8 @@ window.RadMarker = Backbone.View.extend({
     },
     
 		edit: function() {
-			$('.radmarker-email').hide();
-			$('div.infoLat,div.infoLng,div.infoRad').addClass('notsee');
-			$('.radmarker-input').show();
+			this.openEdit = true;
+			this.render();
       this.input.focus();
     },
     
