@@ -324,11 +324,12 @@ ul#info-list
   -khtml-box-shadow: 0 1px 5px #222
   -webkit-box-shadow: 0 1px 5px #111
 
-
 #info-list li div
   float: left
   display: block
-  padding 0px 5px
+  padding-left 2px
+  padding-right 2px
+  padding-bottom: 1px
   border-bottom: 1px solid #000
 
 #info-list li div.activ
@@ -538,11 +539,38 @@ span.edition:hover
   dispay:none
   margin-left:6px
   padding:1px
+  visibility:hidden
+#marker-list li div.display:hover div.radmarker-email
+  visibility:visible
 #marker-list li div.display input.radmarker-input
   width: 261px
-  height: 26px
+  height: 27px
   margin-bottom: 3px
   margin-left: 3px
+  padding-top:0.9px
+
+#marker-list li div.display:hover div.infoLat,#marker-list li div.display:hover div.infoLng,#marker-list li div.display:hover div.infoRad
+  display:none
+//  visibility:hidden
+.infoLat,.infoLng,.infoRad
+  position absolute
+  color:#668
+  font-size 18px
+  width 130px
+  text-align right
+.infoLat
+  right:10px
+  top -7px
+.infoLng
+  right:5px
+  top 9px
+.infoRad
+  right:185px
+  top 0px
+  width 100px
+
+div.infoLat.notsee,div.infoLng.notsee,div.infoRad.notsee
+  display:none
 
 span.search-counter
   position: absolute
@@ -587,7 +615,7 @@ input#new-search
   padding: 0px
   margin:12px 0px 0px 330px
   float:left
-
+  height:33px
 .circleMap , .circleMapAc
   width:48px
   height:48px
@@ -635,10 +663,10 @@ ul#suggest-list
   position: absolute
   z-index: 3
   color: #979797
-  background-color: #fff
+  background: rgb(240,240,240)
   width: 324px
   margin-left: 392px
-  margin-top:46px
+  margin-top:47px
   -webkit-border-radius: 0 0 5px 5px
   -moz-border-radius: 0 0 5px 5px
   border-radius: 0 0 5px 5px

@@ -5,8 +5,6 @@ window.InfoCollection = Backbone.Collection.extend({
   },
 
   newData: function(data) {
-		//console.log(data);
-		//console.log("newData");
 		data.data.forEach(this.newAttributes)
 		//Info.addAll();
   },
@@ -18,18 +16,12 @@ window.InfoCollection = Backbone.Collection.extend({
 			date:element.value.las,
 			activ:element.value.ac || false
 		});
-		//console.log(element);
-		//console.log(index);
-		//console.log(array);
   },
   
 	updateData: function(data) {
-		//console.log("updateData");
 		this.clear(function() {
 		  socket.socketSend({},"getServerInfo");			
 		});
-
-		//this.newData(data);
 	},
 	
 
@@ -49,20 +41,17 @@ window.InfoData = new InfoCollection;
 window.InfoView = Backbone.View.extend({
 	el: $("#header"),
 	events: {	
-				//"click #slogen": "showInfo",
+				"click #title": "goToRootUrl",
 				"mouseenter #slogen": "showInfo",
 				"mouseleave #slogen": "hiddeInfo"
 	 },
 	initialize: function() {
 		//Marker.start();
-		//console.log("initialize InfoView")
 		socket.socketSend({},"getServerInfo");
 	  
 	 },
 	
 	showInfo: function() {
-		//console.log("showInfo");
-	  //socket.socketSend({},"getServerInfo");
 	  this.addAll();
 	},
 	hiddeInfo: function() {
@@ -79,6 +68,10 @@ window.InfoView = Backbone.View.extend({
 		InfoData.each(this.addOne);
 	},
 	
+	goToRootUrl: function() {
+		window.location.href= "/#!/home";
+	},
+	
 	
 });
 
@@ -89,30 +82,29 @@ window.InfoDataView = Backbone.View.extend({
 	
 	//el: $("#infoel"),
 
-	initialize: function() {
-		//Marker.start();
-		//console.log("initialize InfoView")
-	 },
+	// initialize: function() {
+	// 	//Marker.start();
+
+	//  },
 	
 	render: function() {
 		
-		//console.log("render Searches " + this.model.id);
+
 		$(this.el).html(this.template(this.renderAttributes(this.model.attributes)));
 		//this.setContent();
-		
 		return this;
 	},
 	
 	renderAttributes: function(data) {
 		var date = Date.now() - data.date;
 		var difdate = new Date(date);
-		
+		var houres = date/1000/60/60 | 0;
 		function addZero (inDate) {
 			if (inDate < 10)
 			return inDate = "0" + inDate;
 			return inDate;
 		}
-		var outData = addZero(difdate.getUTCHours()) + ":" + addZero(difdate.getUTCMinutes()) + ":" + addZero(difdate.getUTCSeconds());
+		var outData = addZero(houres) + ":" + addZero(difdate.getUTCMinutes()) + ":" + addZero(difdate.getUTCSeconds());
 		
 		
 		return {

@@ -4,6 +4,7 @@ var restfulApp = Backbone.Router.extend({
 			"/categories/:content/:index":          "documentIndexAction",  //This matches app/animals/* and assigns * to a variable called "animal"
 			//"/categories/:content":          "documentAction",  //This matches app/animals/* and assigns * to a variable called "animal"
 			"/zoomwien":     "mapZoomWien",
+			"/home":  "homeAction",
 			"*page":                 	"defaultAction", //This simply matches any urls that weren't caught above and assigns it to "page"
 			},
 
@@ -30,13 +31,24 @@ var restfulApp = Backbone.Router.extend({
     Documents.render(id);// body...
     document.title="Jobpins" + " " + content + " " +  Document.attributes.couchids[Document.nextDoc].company;
   },
+
+	homeAction: function() {
+		document.title="Jobpins"
+		this.resetView();
+	},
+	
   mapZoomWien: function() {
-  	Marker.zoomWien();
-		this.defaultAction();
 		document.title="Jobpins Wien"
-		window.location.href= "/#";
+		this.resetView();
   },
   
+	resetView: function() {
+  	Marker.zoomWien();
+		this.defaultAction();
+		window.location.href= "/#";
+	},
+	
+
   defaultAction: function(page) {
 	  $(".documentdiv").empty();
 	  $("#column1box").fadeIn('slow');

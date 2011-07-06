@@ -1,11 +1,6 @@
 
 
-function DistanceWidget(map, center, radius, self,check) {
-	//console.log("DistanceWidget");
-	  var liColor =  "#0000FF";
-	  var liWidth = 1;
-	  var fillColor = "#0000FF";
-	  var liOpa = 1;
+function DistanceWidget(map, center, radius, self) {
     this.set('map', map);
     this.set('position',center);
       
@@ -21,8 +16,8 @@ function DistanceWidget(map, center, radius, self,check) {
     new google.maps.Point(0,0),
     new google.maps.Point(1, 22));
     
-		//var check = true;
-		if (check  || true) {
+
+
 	    var marker = new google.maps.Marker({
 	      draggable: true,
 	      title: 'Drag me!',shadow:shadow,icon:image,
@@ -32,15 +27,20 @@ function DistanceWidget(map, center, radius, self,check) {
 	    marker.bindTo('map', this);
 	    marker.bindTo('position', this);
 		 self.markersArray.push(marker);
-		}
-
-
+				var me = this;
+	 	google.maps.event.addListener(marker, 'dragend', function() {
+			me.setEvent();
+		});
+		
+		
+		
+    
     // Create a new radius widget
     
     var radiusWidget;
     
     //if the opacity is clear "#0" then use zero
-    radiusWidget= new RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, 0.1,self,check);
+    radiusWidget= new RadiusWidget(center, radius, map,self);
     // Bind the radiusWidget map to the DistanceWidget map
     radiusWidget.bindTo('map', this);
 
@@ -52,7 +52,7 @@ function DistanceWidget(map, center, radius, self,check) {
 
     // Bind to the radiusWidgets' bounds property
     this.bindTo('bounds', radiusWidget);
-
+		this.setEvent()
   
 }
 
@@ -60,32 +60,33 @@ function DistanceWidget(map, center, radius, self,check) {
 DistanceWidget.prototype = new google.maps.MVCObject();
 
 DistanceWidget.prototype.position_changed = function() {
-    var position = this.get('position');
-//console.log(position);
-		
-		var objKeys = Object.keys(position)
-		//console.log(Object.keys(position))
-		// console.log(position[objKeys[0]])
-		// console.log(position[objKeys[1]])
-		// 
-		// console.log(Marker.mapRadiusMarker.center)
-		Marker.mapRadiusMarker.center.lat = position[objKeys[0]];
-		Marker.mapRadiusMarker.center.lng = position[objKeys[1]];
-		
-		Marker.saveMarkerRadius()
-}
+	var positions = this.get('position');
+	var data = {};
+	data.position = positions;
+	Marker.liveAction(data);
+};
 
 
 
-function RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOpa,self,check) {
-						//             console.log("RadiusWidget");
-						// console.log(this);
-						// console.log(self);
-						
-		
+DistanceWidget.prototype.setEvent = function() {
+	Marker.mapRadiusMarker.radius = this.get('distance');
+	var position = this.get('position');
+	Marker.mapRadiusMarker.center.lat = position.lat();
+	Marker.mapRadiusMarker.center.lng = position.lng();
+	Marker.saveMarkerRadius()
+};
+
+
+
+function RadiusWidget(center, radius, map,self) {
+	var liColor =  "#0000FF";
+	var liWidth = 1;
+	var fillColor = "#0000FF";
+	var liOpa = 1;
+	var fillOpa = 0.1;						  
     var circle = new google.maps.Circle({
           center: center,
-          map: self.map,
+          map: map,
           radius: radius*1000,
           strokeColor: liColor,
           strokeWeight: liWidth,
@@ -113,12 +114,10 @@ function RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOp
     // Bind the circle radius property to the RadiusWidget radius property
     circle.bindTo('radius', this);
 
-    // Add the sizer marker
-    //check=true //document.getElementById("showgrip").checked;
-    if (check || true)
-    {
-        this.addSizer_(self);       
-    }
+
+
+    this.addSizer_(self);       
+
     
 }
 
@@ -126,11 +125,12 @@ function RadiusWidget(center, radius, liColor, liWidth, liOpa, fillColor, fillOp
 RadiusWidget.prototype = new google.maps.MVCObject();
 
 RadiusWidget.prototype.distance_changed = function() {
-    this.set('radius', this.get('distance') * 1000);
-		Marker.mapRadiusMarker.radius = this.get('distance');
-		Marker.saveMarkerRadius()
-		// console.log(Marker.mapRadiusMarker.radius);
-		//var test = this.bbox_(this.get('distance'),Marker.mapRadiusMarker.center);
+	var distance = this.get('distance')*1000
+    this.set('radius', distance);
+
+		var data = {};
+		data.distance = distance | 0;
+		Marker.liveAction(data);
 };
 
 
@@ -149,9 +149,14 @@ RadiusWidget.prototype.addSizer_ = function(self) {
     google.maps.event.addListener(sizer, 'drag', function() {
       // Set the circle distance (radius)
       me.setDistance();
-     // console.log(me);
     });
   	self.markersArray.push(sizer);
+
+	 	google.maps.event.addListener(sizer, 'dragend', function() {
+			Marker.mapRadiusMarker.radius = me.get('distance');
+			Marker.saveMarkerRadius()
+		});
+
 	
 };
 
@@ -166,6 +171,8 @@ RadiusWidget.prototype.center_changed = function() {
       var position = new google.maps.LatLng(this.get('center').lat(), lng);
       this.set('sizer_position', position);
     }
+
+		
 };
 
  
@@ -177,15 +184,12 @@ RadiusWidget.prototype.distanceBetweenPoints_ = function(p1, p2) {
 		
     var R = 6371; // Radius of the Earth in km
     var dLat = (p2.lat() - p1.lat()) * Math.PI / 180;
-//		console.log(dLat);
     var dLon = (p2.lng() - p1.lng()) * Math.PI / 180;
-//		console.log(dLon);
     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(p1.lat() * Math.PI / 180) * Math.cos(p2.lat() * Math.PI / 180) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
-//console.log("distanceBetweenPoints_ " + d);
     return d;
    
 };

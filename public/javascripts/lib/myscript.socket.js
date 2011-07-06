@@ -27,7 +27,7 @@ socket.on('searchData',function(data) {
 		docOpen:firstDoc[0]
 	});
 	tmpData.save();
-	Marker.addNewMarkers(data.id,data.data.couchid);
+	Marker.setMarkerWidget(data.id,data.data.couchid);
 	Searches.changeUrl(tmpData.attributes.content);
 	
 });
