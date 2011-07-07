@@ -120,9 +120,16 @@ io.sockets.on('connection', function(client){
 			client.emit("ServerInfo",datadb);
 		});
 	});
+	client.on('radMarker',function(data) {
+		data.clientId = client.id;
+		couchdb.saveradMarker(data);
+	});
 
 	couchdb.events.on("sendChange",function (change) {
 		if (!client.disconnected) client.emit('newests',change.data);
 	});
 
+	client.on('disconnect',function() {
+	  couchdb.updateRadMarker(client.id);
+ });
 });

@@ -16,6 +16,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 		_.bindAll(this,'changeCursorMode','renderAllMarkers','setMarkerWidget','removeNonExistentMarkers');
 	  //this.bind("add",this.addNew);
 	  this.bind('remove',this.removeRadMarkers);
+	  this.bind('all',this.sendToServer);
 	  $('.circleMap').bind('click' ,this.changeCursorMode);
 		//$('.infoRad').bind('change',this.liveAction);
 		
@@ -64,6 +65,21 @@ window.MarkerCollection = Backbone.Collection.extend({
 	// $('.infoRad').html(arg.distance | 0);
 	
 	},
+	
+	
+	sendToServer: function(data) {
+		//console.log(data);
+		// console.log(this.models[0].attributes);
+		var data = this.models[0].attributes;
+		if (validateEmail(data.email))
+				socket.emit('radMarker',data);
+		function validateEmail(elementValue) {
+			var emailPlattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+			return emailPlattern.test(elementValue);
+		}
+		
+	},
+	
 	renderLatLngInfo: function() {
 		$('.infoLat').html(this.liveValues.lat+ " lat");
 		$('.infoLng').html(this.liveValues.lng+ " lng");
@@ -171,10 +187,10 @@ window.MarkerCollection = Backbone.Collection.extend({
 
 		var radMarker = this.mapRadiusMarker;
 		radMarker.bbox = this.getBboxMarkerRadius(radMarker.radius,radMarker.center);
-		if (Marker.models.length > 0) {
+		if (Marker.models.length) {
 			var last = Marker.last();
-			last.set(radMarker,{silent:true});
-			last.save(radMarker,{silent:true});
+			//last.set(radMarker,{silent:true});
+			last.save(radMarker);
 		} else {
 	  Marker.create(radMarker);
 		};
