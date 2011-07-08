@@ -67,12 +67,17 @@ window.MarkerCollection = Backbone.Collection.extend({
 	},
 	
 	
-	sendToServer: function(data) {
-		//console.log(data);
+	sendToServer: function(dataAction) {
+		//console.log(dataAction);
 		// console.log(this.models[0].attributes);
+		if (!this.models.length) return;
 		var data = this.models[0].attributes;
-		if (validateEmail(data.email))
+	  data.action = dataAction;
+		if (validateEmail(data.email)&& (data.action == "change:bbox"||data.action == "change:email")) {
 				socket.emit('radMarker',data);
+				//console.log("sending");
+		}
+
 		function validateEmail(elementValue) {
 			var emailPlattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 			return emailPlattern.test(elementValue);
