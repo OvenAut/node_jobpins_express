@@ -55,7 +55,13 @@ window.SuggestListCollection = Backbone.Collection.extend({
 	
 	
 	guiNotice: function() {
-		$('#new-search')[0].placeholder = "What you search for?";
+		var input = $('input#new-search');
+		var text = "Welche Berufung wählt ihr?"
+		input.attr('placeholder',text);
+		if (input.val()=="Loading" || input.val()=="") {
+				input.val(text)	;
+		}
+
 	},
 		
 });

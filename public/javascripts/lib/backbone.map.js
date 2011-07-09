@@ -70,12 +70,18 @@ window.MarkerCollection = Backbone.Collection.extend({
 	sendToServer: function(dataAction) {
 		//console.log(dataAction);
 		// console.log(this.models[0].attributes);
-		if (!this.models.length) return;
-		var data = this.models[0].attributes;
+		//if (!this.models.length && dataAction !="destroy") return;
+		var data = {};
 	  data.action = dataAction;
-		if (validateEmail(data.email)&& (data.action == "change:bbox"||data.action == "change:email")) {
+	
+		if (data.action == "change:bbox"||data.action == "change:email"|| data.action =="destroy") {
+			if (this.models.length) {
+				data = this.models[0].attributes;
+				if (!validateEmail(data.email)) return;
+				}
 				socket.emit('radMarker',data);
-				//console.log("sending");
+				// console.log("sending");
+				// console.log(data);
 		}
 
 		function validateEmail(elementValue) {
@@ -88,7 +94,7 @@ window.MarkerCollection = Backbone.Collection.extend({
 	renderLatLngInfo: function() {
 		$('.infoLat').html(this.liveValues.lat+ " lat");
 		$('.infoLng').html(this.liveValues.lng+ " lng");
-		$('.infoRad').html(this.liveValues.distance + " m");
+		$('.infoRad').html("Radius " + this.liveValues.distance + " m");
 	},
 	
 	
@@ -347,15 +353,22 @@ window.RadMarker = Backbone.View.extend({
 			"click span.radmarker-destroy" : "clear",
 			"keypress .radmarker-input" : "updateOnEnter",
 			"dblclick div.radmarker-email" : "edit",
+			"click input.radmarker-input" : "removPlaceholder",
 		//	"blur .radmarker-input": "close",
 		},
 		
 		initialize: function() {
-			_.bindAll(this, 'render','close');
+			_.bindAll(this, 'render','close','addPlaceholder','updateOnEnter');
 			//this.model.bind('change', this.render);
 			//this.model.bind('change:docAcitv', this.renderActiv);
+			//this.input = this.$('input.radmarker-input');
+			
 			this.model.view = this;
+			//this.input.bind('blur',this.close);
+			
+			//this.input.bind('blur',this.addPlacholder);
 			//this.input = this.$('.radmarker-input');
+			this.addPlaceholder();
 		},		
 		
 		render: function() {
@@ -363,6 +376,7 @@ window.RadMarker = Backbone.View.extend({
 			
 			this.setContent();
 			Marker.renderLatLngInfo();
+			
 			return this;
 			
 		},		
@@ -376,12 +390,40 @@ window.RadMarker = Backbone.View.extend({
 			return {
 				email:data.email || "",
 				openEdit: this.openEdit,
+				placeholder: "Get Email Updates",
 			}
 		},
-		
-		close: function() {
+		removPlaceholder: function() {
+			//		console.log("deletePlaceholder");
+			this.input = this.$('input.radmarker-input');
+			
+					if (this.input.val() === this.input.attr('placeholder')) {
+						this.input.val("");
+						this.input.removeClass("placeholder");
+					}
+			
+		},
+		addPlaceholder: function() {
+			
+			this.input = this.$('input.radmarker-input');
+			//this.input.blur();
+			
+			//console.log(this.input);
+			//if (this.input.val() == "") {
+				this.input.addClass("placeholder");
+				this.input.val(this.input.attr('placeholder'));
+			//}
 
+		},
+		
+		close: function(event,enterKey) {
+			//console.log("hello");
+			this.input = this.$('input.radmarker-input');
 			var text = this.input.val();
+			if (text == "" && !enterKey) {
+					this.addPlaceholder();
+					return;
+				}
 			if (!validateEmail(text)) return;
 			this.openEdit = false;
       this.model.save({email: text});
@@ -394,7 +436,7 @@ window.RadMarker = Backbone.View.extend({
     },
 
     updateOnEnter: function(e) {
-      if (e.keyCode == 13) this.close();
+      if (e.keyCode == 13) this.close(this,true);
     },
     
 		edit: function() {

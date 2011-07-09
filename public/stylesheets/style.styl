@@ -552,7 +552,8 @@ span.edition:hover
   margin-bottom: 3px
   margin-left: 3px
   padding-top:0.9px
-
+#marker-list li div.display input.radmarker-input.placeholder
+  color: #aaa
 #marker-list li div.display input.radmarker-input.notsee
   display:none
 
@@ -565,17 +566,18 @@ span.edition:hover
   font-size 18px
   width 130px
   text-align right
+  text-shadow 1px 1px 1px #777
 .infoLat
   right:10px
-  top -7px
+  top -9px
 .infoLng
   right:5px
-  top 9px
+  top 7px
 .infoRad
-  right:185px
-  top 0px
-  width 100px
-
+  right:132px
+  top 1px
+  width 165px
+  text-align:left
 div.infoLat.notsee,div.infoLng.notsee,div.infoRad.notsee
   display:none
 
@@ -623,6 +625,10 @@ input#new-search
   margin:12px 0px 0px 330px
   float:left
   height:33px
+
+input#new-search.placeholder
+  color: #aaa
+
 .circleMap , .circleMapAc
   width:48px
   height:48px
@@ -771,7 +777,6 @@ ul#suggest-list
   text-decoration: none
   cursor: pointer
   color: #666
-
 
 #footer a:hover,#footer a:focus
   color: #fff

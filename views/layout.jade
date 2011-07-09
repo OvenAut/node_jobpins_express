@@ -114,7 +114,7 @@ html(lang="de")
       <div class="display"style="background:#99A;border-color:#00F">
       <div class='radmarker-email <%= openEdit?"notsee":"" %>'><%= email %></div>
       <span class='radmarker-destroy'></span>
-      <input type="text" class="radmarker-input <%= !!email&&!openEdit?'notsee':' " value="'+ email +'"' %>" placeholder="Get Email Updates"/>
+      <input type="text" class="radmarker-input <%= !!email&&!openEdit?'notsee':''%><%= !!email?'" value="'+ email +'"':' placeholder" value="'+ placeholder +'"' %> placeholder="<%= placeholder %>"/>
       <div class='infoLat <%= !!email&&!openEdit?"":"notsee" %>'></div>
       <div class='infoLng <%= !!email&&!openEdit?"":"notsee" %>'></div>
       <div class='infoRad <%= !!email&&!openEdit?"":"notsee" %>'></div>

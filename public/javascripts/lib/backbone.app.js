@@ -11,11 +11,13 @@ window.AppView = Backbone.View.extend({
 		"keyup #new-search":  "enterVal",
 		"click .suggest-content.selected": "createOnEnter",
 		"dblclick ul.suggest-list": "createOnEnter",
+		"click input#new-search": "deletePlaceholder",
+		"blur inpute#new-search": "insertPlaceholder",
 	},
 	
 	initialize: function() {
 		
-		_.bindAll(this, 'addOne', 'addAll', 'renderSuggestList','enterVal','addRadMarker');
+		_.bindAll(this, 'addOne', 'addAll', 'renderSuggestList','enterVal','addRadMarker','insertPlaceholder');
 		
 		this.input = this.$("#new-search");
 		
@@ -25,9 +27,11 @@ window.AppView = Backbone.View.extend({
 		Suggests.bind('change', this.renderSuggestList);
 		Marker.bind('reset', this.addRadMarker);
 		Marker.bind('add', this.addRadMarker);
-		
+		this.input.bind('blur', this.insertPlaceholder);
 		Marker.fetch();
 		Searches.fetch();
+		this.insertPlaceholder();
+		
 	  
 	},
 
@@ -82,6 +86,23 @@ window.AppView = Backbone.View.extend({
 		this.$('#suggest-list').empty();
 		Suggests.each(this.renderSuggest);	
 	},
+	deletePlaceholder: function() {
+	//	console.log("deletePlaceholder");
+//
+		if (this.input.val() === this.input.attr('placeholder')) {
+			this.input.val("");
+			this.input.removeClass("placeholder");
+		}
+	},
+	insertPlaceholder: function() {
+	//	console.log("insertPlaceholder");
+		//var input = this.$('#input#new-serach');
+		if (this.input.val() == "") {
+			this.input.addClass("placeholder");
+			this.input.val(this.input.attr('placeholder'));
+		}
+	},
+	
 	
 	searchesFindValue: function(value) {
 		return _.detect(Searches.models, function(data) {
