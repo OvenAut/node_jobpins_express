@@ -1,13 +1,22 @@
-div.stackContent#column1box
-  h1 Welcome to #{title}
-  br
-  p.
-    Diese Web-Seite soll das durchsuchen von Stellenangebote vereinfachen.<br>
-    Sie können ihre Persönliche Berufsgruppen zusammen stellen und diese Auf der Karte darstellen<br>
-    Diese Seite ist noch in der Entwicklung , es können wesentliche Ändrungen geben und Fehler sind nicht Auszuschliesen.<br>
-    IE(InternetEcplorer) wird nicht unterstützen. dafür Google Chrome , Safari oder FireFox.<br>
-    <br><br>
-    This web page is to simplify the search of jobs.<br>
-    They can put their personal and professional groups they represent on the map<br>
-    This page is still under development, it can provide significant new changes and errors are not Auszuschliesen.<br>
-    IE (InternetEcplorer) will not support it. for Google Chrome, FireFox or Safari.
+#content
+  div#column1.stack3of4
+    div.documentdiv
+    div.stackContent#column1box
+      h1 Welcome to #{title}
+      br
+      p.
+        Diese Web-Seite soll das durchsuchen von Stellenangebote vereinfachen.<br>
+        Sie können ihre Persönliche Berufsgruppen zusammen stellen und diese Auf der Karte darstellen<br>
+        Diese Seite ist noch in der Entwicklung , es können wesentliche Ändrungen geben und Fehler sind nicht Auszuschliesen.<br>
+        IE(InternetEcplorer) wird nicht unterstützen. dafür Google Chrome , Safari oder FireFox.<br>
+        <br><br>
+        This web page is to simplify the search of jobs.<br>
+        They can put their personal and professional groups they represent on the map<br>
+        This page is still under development, it can provide significant new changes and errors are not Auszuschliesen.<br>
+        IE (InternetEcplorer) will not support it. for Google Chrome, FireFox or Safari.
+  div#column2.stack1of4
+    div#jobs.stackContent
+      ul#search-list 
+       //- for (var key in jobs)
+       //-  li= jobs[key]
+    div#search-stats.stackContent

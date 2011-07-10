@@ -50,11 +50,11 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-couchdb.checkList(function() {});
 
 
 app.get('/', function(req, res){
 	console.time("GET /");
+	couchdb.checkList(function() {});
   res.render('index', {
     pageTitle: 'Jobpins ' + VERSION,
     title: 'Jobpins ',
@@ -64,6 +64,19 @@ app.get('/', function(req, res){
   });
 	helper.showAgent(req);
   console.timeEnd("GET /");
+});
+
+app.get('/impressum', function(req, res){
+	console.time("GET /Impressum");
+  res.render('impressum', {
+    pageTitle: 'Jobpins ' + VERSION,
+    title: 'Jobpins ',
+    slogen: 'Find your job near you',
+		//jobs: {job1:'Job1',job2:'Job2',job4:'Job3',job4:'Job4',job5:'Job5',job6:'Job6',job7:'Job7'},
+    //sessionID: req.sessionID
+  });
+	//helper.showAgent(req);
+  console.timeEnd("GET /Impressum");
 });
 
 
