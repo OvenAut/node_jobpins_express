@@ -31,7 +31,7 @@ html(lang="de")
               a(href="#!/zoomwien")
                 img(width='48', height='48',src='images/Wien_Wappen.png', alt='Wien' ,title='Zoom Wien')
             span.ui-tooltip-bottom Press Enter to save this task
-            input#new-search.placholder(placeholder='Loading', type='text')
+            input#new-search.placeholder(placeholder='Loading', type='text')
             //-#suggestColumn.stackContent
             ul#suggest-list
             .circleMap
@@ -58,8 +58,6 @@ html(lang="de")
                 <input type="image" src="https://www.paypalobjects.com/de_DE/AT/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
                 <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
                 </form>
-                
-    // Templates <%= counter? '<span class="search-counter">' + counter + '</span>' : '' %>
     script#suggest-template(type="text/template")
       <div class="display">
       <div class="suggest-content <%= selected ? 'selected' : '' %>"><%= content %></div>
@@ -108,7 +106,7 @@ html(lang="de")
       <div class="display"style="background:#99A;border-color:#00F">
       <div class='radmarker-email <%= openEdit?"notsee":"" %>'><%= email %></div>
       <span class='radmarker-destroy'></span>
-      <input type="text" class="radmarker-input <%= !!email&&!openEdit?'notsee':''%><%= !!email?'" value="'+ email +'"':' placeholder" value="'+ placeholder +'"' %> placeholder="<%= placeholder %>"/>
+      <input type="email" autocomplete="on" class="radmarker-input <%= !!email&&!openEdit?'notsee':''%><%= !!email?'" value="'+ email +'"':' placeholder" value="'+ placeholder +'"' %> placeholder="<%= placeholder %>"/>
       <div class='infoLat <%= !!email&&!openEdit?"":"notsee" %>'></div>
       <div class='infoLng <%= !!email&&!openEdit?"":"notsee" %>'></div>
       <div class='infoRad <%= !!email&&!openEdit?"":"notsee" %>'></div>
@@ -119,7 +117,6 @@ html(lang="de")
       script(type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
       script
         window.attachEvent("onload", function() {CFInstall.check({ mode: "overlay"});});
-    //-script(src='javascripts/vendor/google.analytics.js')
     script
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-24219236-1']);
@@ -129,9 +126,8 @@ html(lang="de")
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();  
+      });//();  
     script(src='javascripts/vendor/jquery-1.6.min.js')
-    //-script(src='javascripts/jquery.couch.js')
     script(src='javascripts/vendor/json2.min.js')
     script(src='javascripts/vendor/underscore.min.js')
     script(src='javascripts/vendor/backbone.0.5.0.min.js')
