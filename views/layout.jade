@@ -111,6 +111,12 @@ html(lang="de")
       <div class='infoLng <%= !!email&&!openEdit?"":"notsee" %>'></div>
       <div class='infoRad <%= !!email&&!openEdit?"":"notsee" %>'></div>
       </div>
+    script#impressum-template(type="text/template")
+      div.impressum.stackContent
+        p.impname Offenlegung §25 MedienG:
+        p.impdescription Medieninhaber und Herausgeber: Oliver Oszko, Wien
+        p.impname Haftung:
+        p.impdescription Sämtliche Texte auf der Website wurden sorgfältig geprüft. Dessen ungeachtet kann keine Garantie für Richtigkeit, Vollständigkeit und Aktualität der Angaben übernommen werden.    
     script(src="http://maps.google.com/maps/api/js?sensor=false")
     //-script(src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js")
     //if IE

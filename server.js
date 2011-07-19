@@ -68,6 +68,7 @@ app.get('/', function(req, res){
 
 app.get('/impressum', function(req, res){
 	console.time("GET /Impressum");
+	
   res.render('impressum', {
     pageTitle: 'Jobpins ' + VERSION,
     title: 'Jobpins ',
