@@ -63,6 +63,6 @@ function setSlogen(newText,defaultText) {
 	if (defaultText==true) self.oldText = newText;
 	$("#slogen").text(newText);
 	window.setTimeout(function() {
-		$("#slogen").text(oldText);
+		$("#slogen").text(self.oldText);
 	},2000,self.oldText);
 }
