@@ -106,6 +106,10 @@ function storeSet(message,session) {
 };
 
 var io = require('socket.io').listen(app);
+io.configure(function () {
+  io.set('transports', ['flashsocket', 'xhr-polling']);
+});
+
 
 io.enable('browser client minification');
 io.set('log level',1);
